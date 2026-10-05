@@ -1,0 +1,52 @@
+---
+# File metadata used by GitHub to display a "Cite this repository" link.
+# Follows the Citation File Format (CFF) 1.2.0 spec.
+# https://citation-file-format.github.io/
+
+cff-version: 1.2.0
+title: "Noesis: An Operating System for Autonomous Intelligence"
+message: "If you use Noesis in published research, please cite it using the metadata below."
+type: software
+license: MIT
+
+authors:
+  - name: "Noesis Contributors"
+    affiliation: "Open source community"
+    website: "https://github.com/noesis"
+
+repository-code: "https://github.com/noesis/noesis"
+url: "https://noesis.dev"
+
+abstract: >-
+  Noesis is a production-grade platform for orchestrating specialised AI agents
+  with long-term memory, retrieval-augmented generation (RAG), tool-calling,
+  planning, and self-reflection.  It implements a 12-agent hierarchical
+  architecture (Planner, Research, Coding, Memory, RAG, Tool, Reflection,
+  Judge, Critic, Executor, Supervisor, Orchestrator) on top of LangGraph,
+  with first-class support for 5 LLM providers, multi-tier memory, hybrid
+  vector search, and a Hexagonal / Ports-and-Adapters backend suitable for
+  enterprise deployment.
+
+version: 0.1.0
+date-released: 2026-08-02
+
+keywords:
+  - ai
+  - agents
+  - multi-agent
+  - llm
+  - langgraph
+  - rag
+  - autonomous-agents
+  - fastapi
+  - python
+  - open-source
+
+preferred-citation:
+  type: software
+  title: "Noesis: A Hierarchical Multi-Agent AI Operating System"
+  authors:
+    - name: "Noesis Contributors"
+  year: 2026
+  publisher: "GitHub"
+  url: "https://github.com/noesis/noesis"

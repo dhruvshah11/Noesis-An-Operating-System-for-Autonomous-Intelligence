@@ -1,0 +1,28 @@
+{
+  "aggregates": {
+    "avg_duration_ms": 0.0,
+    "avg_length_chars": 57.2,
+    "compile_pass_rate": 1.0,
+    "compile_pass_total": 50,
+    "pass_at_1": 1.0,
+    "pass_at_5": 1.0,
+    "tasks_with_any_pass": 10
+  },
+  "corpus_source": "stub",
+  "csv": "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\w7_harness_smoke\\humaneval\\humaneval_pass1.csv",
+  "generated_at": "2026-08-26T12:27:59Z",
+  "harness": "bench_humaneval",
+  "mode": "seeded",
+  "rows_written": 50,
+  "samples_per_task": 5,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "tasks_total": 10,
+  "temperature": 0.7,
+  "wall_duration_ms": 5183
+}

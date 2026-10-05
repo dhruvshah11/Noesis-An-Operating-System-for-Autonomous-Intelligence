@@ -1,0 +1,110 @@
+# =============================================================================
+# Noesis — Laptop Development Stack
+# Single-command local development on Windows / macOS / Linux laptops.
+# Use this instead of the production docker/docker-compose.yml.
+#
+#   $ docker compose -f docker-compose.laptop.yml up -d
+#   => qdrant   http://localhost:6333   (vector memory)
+#      redis    http://localhost:6379   (cache / sessions)
+#      backend  http://localhost:8000   (noesis kernel + OpenAPI /docs)
+#      studio   http://localhost:3000   (next.js noesis studio — OPTIONAL,
+#                                         uncomment the studio service below)
+# =============================================================================
+
+services:
+  # ----- Vector memory --------------------------------------------------------
+  qdrant:
+    # Platform-aware: picks amd64/arm64 image automatically; works on
+    # Windows x64, Intel/Apple Silicon Macs and Linux laptops.
+    image: qdrant/qdrant:v1.12.0
+    platform: ${DOCKER_PLATFORM:-}
+    container_name: noesis-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"
+    volumes:
+      - noesis_qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:6333/readyz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # ----- Cache / sessions -----------------------------------------------------
+  redis:
+    image: redis:7.4-alpine
+    platform: ${DOCKER_PLATFORM:-}
+    container_name: noesis-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - noesis_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # ----- Backend kernel -------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    platform: ${DOCKER_PLATFORM:-}
+    container_name: noesis-backend
+    restart: unless-stopped
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - ./backend/.env.local
+    environment:
+      - APP_NAME=Noesis
+      - ENVIRONMENT=docker-laptop
+      - DATABASE_URL=sqlite+aiosqlite:///data/noesis.db
+      - QDRANT_URL=http://qdrant:6333
+      - QDRANT_COLLECTION_PREFIX=noesis
+      - REDIS_URL=redis://redis:6379/0
+      # When running in Docker, reach the HOST laptop's Ollama server on port 11434
+      # via `host.docker.internal`.  On Linux you may need --add-host=host.docker
+      # .internal:host-gateway (we already add it below for cross-platform).
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434/v1
+      - OLLAMA_MODEL=qwen2.5-coder:7b-instruct-q4_K_M
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - noesis_backend_data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8000/health/livez"]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+
+  # ----- Frontend Studio (OPTIONAL — uncomment when Studio is ready) ---------
+  # studio:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   platform: ${DOCKER_PLATFORM:-}
+  #   container_name: noesis-studio
+  #   restart: unless-stopped
+  #   depends_on:
+  #     backend:
+  #       condition: service_healthy
+  #   environment:
+  #     - NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+  #     - NEXT_PUBLIC_APP_NAME=Noesis Studio
+  #   ports:
+  #     - "3000:3000"
+
+volumes:
+  noesis_qdrant_data:
+  noesis_redis_data:
+  noesis_backend_data:

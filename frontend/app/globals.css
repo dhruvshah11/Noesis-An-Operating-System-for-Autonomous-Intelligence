@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: ui-sans-serif;
+  --background: 246 247 251;
+  --foreground: 27 31 46;
+  --muted: 97 115 158;
+  --border: 214 220 235;
+  --surface: 255 255 255;
+  --accent: 52 98 255;
+}
+
+.dark {
+  --background: 19 22 37;
+  --foreground: 236 239 246;
+  --muted: 131 147 185;
+  --border: 53 62 89;
+  --surface: 35 40 61;
+  --accent: 89 136 255;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: rgb(var(--foreground) / 1);
+  background: rgb(var(--background) / 1);
+  font-feature-settings: "cv11", "ss01", "ss03";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .card {
+    @apply bg-white dark:bg-[rgb(var(--surface))] border border-ink-200 dark:border-ink-800 rounded-2xl shadow-card;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950/40 px-2.5 py-0.5 text-xs font-medium text-ink-700 dark:text-ink-200;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/70 disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white hover:bg-brand-700 shadow-soft;
+  }
+  .btn-ghost {
+    @apply btn text-ink-700 dark:text-ink-200 hover:bg-ink-100 dark:hover:bg-ink-900/60;
+  }
+  .sidebar-link {
+    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-900/60 transition;
+  }
+  .sidebar-link[data-active="true"] {
+    @apply bg-brand-50 dark:bg-brand-950/40 text-brand-700 dark:text-brand-200;
+  }
+}
+
+/* Scrollbars (subtle) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--border) / 1);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

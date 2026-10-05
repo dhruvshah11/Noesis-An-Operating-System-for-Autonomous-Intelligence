@@ -1,0 +1,755 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AstraOS API",
+    "description": "AstraOS — The Autonomous Multi-Agent AI Operating System.  Multi-agent orchestration with long-term memory, RAG, tool-calling, planning, and self-reflection.  All public routes live under `/v1` for semantic URL versioning.",
+    "termsOfService": "https://github.com/astraos/astraos/blob/main/TERMS.md",
+    "contact": {
+      "name": "AstraOS Maintainers",
+      "url": "https://github.com/astraos/astraos",
+      "email": "maintainers@astraos.dev"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://github.com/astraos/astraos/blob/main/LICENSE"
+    },
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "/v1",
+      "description": "v1 API (current)"
+    },
+    {
+      "url": "/",
+      "description": "Root (legacy redirects to /v1)"
+    }
+  ],
+  "paths": {
+    "/v1/health/livez": {
+      "get": {
+        "tags": [
+          "v1",
+          "health"
+        ],
+        "summary": "Livez",
+        "description": "Liveness probe — always responds 200 while the app is alive.",
+        "operationId": "livez_v1_health_livez_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIEnvelope_dict_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/health/readyz": {
+      "get": {
+        "tags": [
+          "v1",
+          "health"
+        ],
+        "summary": "Readyz",
+        "description": "Readiness probe — fails 503 if any subsystem probe fails.",
+        "operationId": "readyz_v1_health_readyz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIEnvelope_dict_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/health": {
+      "get": {
+        "tags": [
+          "v1",
+          "health"
+        ],
+        "summary": "Health",
+        "description": "Combined health view (convenience alias for /readyz).",
+        "operationId": "health_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIEnvelope_dict_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/kernel/state": {
+      "get": {
+        "tags": [
+          "v1",
+          "kernel"
+        ],
+        "summary": "Kernel State",
+        "description": "Return static + cheap dynamic counters for the running kernel.",
+        "operationId": "kernel_state_v1_kernel_state_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIEnvelope_dict_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/kernel/stats": {
+      "get": {
+        "tags": [
+          "v1",
+          "kernel"
+        ],
+        "summary": "Kernel Stats",
+        "description": "Aggregate scheduler, allocator, and model-router counters.",
+        "operationId": "kernel_stats_v1_kernel_stats_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIEnvelope_dict_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/kernel/traces": {
+      "get": {
+        "tags": [
+          "v1",
+          "kernel"
+        ],
+        "summary": "Kernel Traces",
+        "description": "Return the most-recent N syscall spans captured in the ring buffer.\n\nEach entry is OTel-shaped (``trace_id``, ``span_id``, ``latency_ms``,\n``success``, ``denied``, ``ts``, ``syscall``, ``error``) so a ReactFlow\nor Honeycomb/Grafana frontend can render them without transformation.",
+        "operationId": "kernel_traces_v1_kernel_traces_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 5000,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIEnvelope_dict_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/login": {
+      "post": {
+        "tags": [
+          "v1",
+          "auth"
+        ],
+        "summary": "Login",
+        "operationId": "login_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenPair"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/me": {
+      "get": {
+        "tags": [
+          "v1",
+          "auth"
+        ],
+        "summary": "Me",
+        "operationId": "me_v1_auth_me_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/refresh": {
+      "post": {
+        "tags": [
+          "v1",
+          "auth"
+        ],
+        "summary": "Refresh",
+        "operationId": "refresh_v1_auth_refresh_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenPair"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/observability/summary": {
+      "get": {
+        "tags": [
+          "v1",
+          "observability"
+        ],
+        "summary": "Observability Summary",
+        "operationId": "observability_summary_v1_observability_summary_get",
+        "parameters": [
+          {
+            "name": "window_s",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 600,
+              "title": "Window S"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObservabilitySummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/livez": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Livez",
+        "description": "Liveness probe — always responds 200 while the app is alive.",
+        "operationId": "livez_health_livez_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIEnvelope_dict_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/readyz": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Readyz",
+        "description": "Readiness probe — fails 503 if any subsystem probe fails.",
+        "operationId": "readyz_health_readyz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIEnvelope_dict_"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health",
+        "description": "Combined health view (convenience alias for /readyz).",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIEnvelope_dict_"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "APIEnvelope_dict_": {
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "title": "Ok"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          },
+          "meta": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Meta"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ok"
+        ],
+        "title": "APIEnvelope[dict]"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LoginRequest": {
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 2,
+            "title": "User Id"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 8,
+            "title": "Password"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "user_id",
+          "password"
+        ],
+        "title": "LoginRequest"
+      },
+      "MeResponse": {
+        "properties": {
+          "sub": {
+            "type": "string",
+            "title": "Sub"
+          },
+          "roles": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Roles"
+          },
+          "jti": {
+            "type": "string",
+            "title": "Jti"
+          },
+          "issued_at": {
+            "type": "string",
+            "title": "Issued At"
+          },
+          "expires_at": {
+            "type": "string",
+            "title": "Expires At"
+          },
+          "token_use": {
+            "type": "string",
+            "title": "Token Use",
+            "default": "access"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sub",
+          "roles",
+          "jti",
+          "issued_at",
+          "expires_at"
+        ],
+        "title": "MeResponse"
+      },
+      "ObservabilitySummary": {
+        "properties": {
+          "window_s": {
+            "type": "integer",
+            "title": "Window S"
+          },
+          "total_requests": {
+            "type": "integer",
+            "title": "Total Requests"
+          },
+          "total_token_cost_usd": {
+            "type": "number",
+            "title": "Total Token Cost Usd"
+          },
+          "total_prompt_tokens": {
+            "type": "integer",
+            "title": "Total Prompt Tokens"
+          },
+          "total_completion_tokens": {
+            "type": "integer",
+            "title": "Total Completion Tokens"
+          },
+          "latency_p50_ms": {
+            "type": "integer",
+            "title": "Latency P50 Ms"
+          },
+          "latency_p95_ms": {
+            "type": "integer",
+            "title": "Latency P95 Ms"
+          },
+          "tools": {
+            "items": {
+              "$ref": "#/components/schemas/ToolTraceSummary"
+            },
+            "type": "array",
+            "title": "Tools"
+          },
+          "errors": {
+            "type": "integer",
+            "title": "Errors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "window_s",
+          "total_requests",
+          "total_token_cost_usd",
+          "total_prompt_tokens",
+          "total_completion_tokens",
+          "latency_p50_ms",
+          "latency_p95_ms",
+          "tools",
+          "errors"
+        ],
+        "title": "ObservabilitySummary"
+      },
+      "TokenPair": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "Bearer"
+          },
+          "expires_in_s": {
+            "type": "integer",
+            "title": "Expires In S"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "refresh_token",
+          "expires_in_s"
+        ],
+        "title": "TokenPair"
+      },
+      "ToolTraceSummary": {
+        "properties": {
+          "tool_name": {
+            "type": "string",
+            "title": "Tool Name"
+          },
+          "invocations": {
+            "type": "integer",
+            "title": "Invocations"
+          },
+          "p50_ms": {
+            "type": "integer",
+            "title": "P50 Ms"
+          },
+          "p95_ms": {
+            "type": "integer",
+            "title": "P95 Ms"
+          },
+          "total_ms": {
+            "type": "integer",
+            "title": "Total Ms"
+          },
+          "errors": {
+            "type": "integer",
+            "title": "Errors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tool_name",
+          "invocations",
+          "p50_ms",
+          "p95_ms",
+          "total_ms",
+          "errors"
+        ],
+        "title": "ToolTraceSummary"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

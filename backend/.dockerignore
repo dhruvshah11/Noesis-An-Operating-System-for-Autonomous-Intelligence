@@ -1,0 +1,68 @@
+# =====================================================================
+# Docker build context exclusion list (backend/Dockerfile.laptop)
+# Keeps the build context tiny, avoids leaking secrets or dev artifacts
+# into the image layer.
+# =====================================================================
+
+# --- Python packaging / build artifacts ------------------------------
+dist/
+build/
+*.egg-info/
+*.whl
+*.tar.gz
+.hatch/
+
+# --- Virtual environments (never ship these) -------------------------
+.venv/
+.venv_py/
+venv/
+env/
+ENV/
+
+# --- Python bytecode / caches ---------------------------------------
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# --- Benchmark data (large CSV / JSON corpora not needed in image) ---
+benchmarks/
+**/benchmarks/**
+!noesis/
+
+# --- Local databases / state (leaked if we COPY naively) -------------
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+.coverage
+coverage.xml
+htmlcov/
+
+# --- IDE / editor ----------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- OS junk ---------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Env files (NEVER bake secrets into an image) --------------------
+.env
+.env.local
+.env.*
+!.env.example
+!.env.local.example
+
+# --- Logs / dumps ----------------------------------------------------
+logs/
+*.log
+core.*

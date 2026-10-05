@@ -1,0 +1,6 @@
+bucket_label,difficulty_1_to_5,n_tasks,n_correct,pass_at_1,avg_duration_ms
+difficulty_1,1,2,2,1.0,0.0
+difficulty_2,2,2,2,1.0,0.0
+difficulty_3,3,2,2,1.0,0.0
+difficulty_4,4,2,2,1.0,0.0
+difficulty_5,5,2,2,1.0,0.0

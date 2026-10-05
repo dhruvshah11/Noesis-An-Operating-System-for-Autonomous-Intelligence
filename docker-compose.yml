@@ -1,0 +1,84 @@
+# ======================================================================
+# Noesis — Full-stack development compose
+# ======================================================================
+# Two services:
+#   · backend  :8000 — Noesis FastAPI kernel + v1 routes + SQLite DB volume
+#   · frontend :3000 — Next.js 14 dashboard (talks to backend via service DNS)
+#
+# Frontend → backend traffic goes DIRECTLY via docker-compose service name
+# (`backend:8000`) at SSR build/request time; browser-side traffic is
+# rewritten through Next's /api/backend/:path* proxy → backend:8000.
+#
+# Backend CORS (set in Noesis v1_m3 create_app) already permits:
+#   ["http://localhost:3000"]
+#
+# Usage:
+#   docker compose up --build   # first-time build + launch
+#   docker compose up           # subsequent launches (cached layers)
+#   docker compose down -v      # teardown (also wipe SQLite volume)
+# ======================================================================
+
+services:
+  # ------------------------------------------------------------------
+  # Noesis Backend (uvicorn + FastAPI + SQLite volume)
+  # ------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: astraos-backend:local
+    restart: unless-stopped
+    environment:
+      APP_ENV: production
+      DATABASE_URL: sqlite+aiosqlite:////app/data/noesis.db
+      JWT_SECRET: ${JWT_SECRET:-please-change-this-secret-to-32-bytes-minimum}
+      CORS_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
+      BACKEND_PORT: 8000
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/health/livez || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    ports:
+      - "8000:8000"
+    volumes:
+      - astraos-backend-data:/app/data
+      - astraos-backend-uploads:/app/uploads
+
+  # ------------------------------------------------------------------
+  # Noesis Frontend (Next.js 14 App Router, production build)
+  # ------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: astraos-frontend:local
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      # Server-side (SSR/ISR) backend URL = docker-compose DNS name
+      BACKEND_BASE_URL: http://backend:8000
+      # Client-side (browser) value: absolute URL is optional since we
+      # proxy through /api/backend, but setting explicit is clearer for
+      # direct-fetch integrations or external clients.
+      NEXT_PUBLIC_API_BASE: /api/backend/v1
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "node -e \"require('http').get('http://127.0.0.1:3000',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))\" || exit 1",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    ports:
+      - "3000:3000"
+
+volumes:
+  astraos-backend-data:
+  astraos-backend-uploads:

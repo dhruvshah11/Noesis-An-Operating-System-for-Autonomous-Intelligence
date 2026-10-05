@@ -1,0 +1,16 @@
+task_id,prompt_md5,sample_idx,compile_pass,length_chars,duration_ms
+HumanEval/0,9843491ac1d3921ae638f5b4a8fb7e36,0,1,55,0
+HumanEval/0,9843491ac1d3921ae638f5b4a8fb7e36,1,1,49,0
+HumanEval/0,9843491ac1d3921ae638f5b4a8fb7e36,2,1,91,0
+HumanEval/0,9843491ac1d3921ae638f5b4a8fb7e36,3,1,55,0
+HumanEval/0,9843491ac1d3921ae638f5b4a8fb7e36,4,1,47,0
+HumanEval/1,6ba24fd08aa24abacbc5e8b5aee89365,0,1,50,0
+HumanEval/1,6ba24fd08aa24abacbc5e8b5aee89365,1,1,49,0
+HumanEval/1,6ba24fd08aa24abacbc5e8b5aee89365,2,1,49,0
+HumanEval/1,6ba24fd08aa24abacbc5e8b5aee89365,3,1,55,0
+HumanEval/1,6ba24fd08aa24abacbc5e8b5aee89365,4,1,91,0
+HumanEval/2,1b3db81f57b81da09fc97d799a938b53,0,1,50,0
+HumanEval/2,1b3db81f57b81da09fc97d799a938b53,1,1,47,0
+HumanEval/2,1b3db81f57b81da09fc97d799a938b53,2,1,47,0
+HumanEval/2,1b3db81f57b81da09fc97d799a938b53,3,1,55,0
+HumanEval/2,1b3db81f57b81da09fc97d799a938b53,4,1,91,0

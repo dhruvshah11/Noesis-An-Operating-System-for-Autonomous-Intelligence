@@ -1,0 +1,77 @@
+﻿{
+    "generated_at":  "2026-08-26T19:03:19.2028122+05:30",
+    "params":  {
+                   "Dockerfile":  "./backend/Dockerfile.laptop",
+                   "SkipDockerBuild":  true,
+                   "OutputDir":  "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2",
+                   "ImageTag":  "noesis:0.2.0-rc2-laptop",
+                   "SkipTrivy":  false,
+                   "SkipSyft":  false,
+                   "DryRun":  true
+               },
+    "steps":  [
+                  {
+                      "step":  "Verify syft installed",
+                      "command":  "syft version",
+                      "expected_outputs":  [
+
+                                           ]
+                  },
+                  {
+                      "step":  "Generate SPDX JSON SBOM",
+                      "command":  "syft noesis:0.2.0-rc2-laptop -o spdx-json=\u0027C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\sbom_laptop.spdx.json\u0027",
+                      "expected_outputs":  [
+                                               "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\sbom_laptop.spdx.json"
+                                           ]
+                  },
+                  {
+                      "step":  "Generate CycloneDX JSON SBOM",
+                      "command":  "syft noesis:0.2.0-rc2-laptop -o cyclonedx-json=\u0027C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\sbom_laptop.cyclonedx.json\u0027",
+                      "expected_outputs":  [
+                                               "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\sbom_laptop.cyclonedx.json"
+                                           ]
+                  },
+                  {
+                      "step":  "Generate table SBOM + count packages",
+                      "command":  "syft noesis:0.2.0-rc2-laptop -o table=\u0027C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\sbom_laptop.table.txt\u0027",
+                      "expected_outputs":  [
+                                               "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\sbom_laptop.table.txt"
+                                           ]
+                  },
+                  {
+                      "step":  "Verify trivy installed",
+                      "command":  "trivy --version",
+                      "expected_outputs":  [
+
+                                           ]
+                  },
+                  {
+                      "step":  "Trivy SARIF CVE report",
+                      "command":  "trivy image --format sarif --output \u0027C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\trivy_laptop_image.sarif.json\u0027 noesis:0.2.0-rc2-laptop",
+                      "expected_outputs":  [
+                                               "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\trivy_laptop_image.sarif.json"
+                                           ]
+                  },
+                  {
+                      "step":  "Trivy table full report",
+                      "command":  "trivy image --format table --output \u0027C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\trivy_laptop_image.full.txt\u0027 noesis:0.2.0-rc2-laptop",
+                      "expected_outputs":  [
+                                               "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\trivy_laptop_image.full.txt"
+                                           ]
+                  },
+                  {
+                      "step":  "Parse CVE counts -\u003e cve_summary.json",
+                      "command":  "parse C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\trivy_laptop_image.full.txt + write C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\cve_summary.json",
+                      "expected_outputs":  [
+                                               "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\sbom_rc2\\cve_summary.json"
+                                           ]
+                  },
+                  {
+                      "step":  "Changelog verification",
+                      "command":  "Check CHANGELOG.md for v0.2.0-rc2 section + match RELEASE_CHECKLIST items",
+                      "expected_outputs":  [
+
+                                           ]
+                  }
+              ]
+}

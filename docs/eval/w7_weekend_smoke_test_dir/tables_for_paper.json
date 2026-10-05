@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-08-26T17:52:30.756306",
+  "seed": 42,
+  "se50": {
+    "overall_pass_at_1": 1.0,
+    "overall_ci_low": 1.0,
+    "overall_ci_high": 1.0,
+    "n_total": 9,
+    "n_correct": 9,
+    "per_category": [
+      {
+        "category": "Rust_Systems",
+        "n_total": 9,
+        "n_correct": 9,
+        "pass_at_1": 1.0,
+        "ci_low": 1.0,
+        "ci_high": 1.0
+      }
+    ],
+    "per_difficulty": [
+      {
+        "difficulty": "EASY",
+        "n_total": 6,
+        "n_correct": 6,
+        "pass_at_1": 1.0
+      },
+      {
+        "difficulty": "MEDIUM",
+        "n_total": 3,
+        "n_correct": 3,
+        "pass_at_1": 1.0
+      }
+    ]
+  },
+  "ablation": {
+    "variant_keys": [
+      "baseline_nomem",
+      "baseline_nomac",
+      "full_noesis"
+    ],
+    "rows": [
+      {
+        "metric": "OVERALL pass@1",
+        "baseline_nomem": 0.8200000000000001,
+        "baseline_nomac": 0.91,
+        "full_noesis": 1.0
+      },
+      {
+        "metric": "Rust_Systems",
+        "baseline_nomem": 0.8200000000000001,
+        "baseline_nomac": 0.91,
+        "full_noesis": 1.0
+      }
+    ],
+    "notes": {
+      "c1_gain_full_vs_nomem_pp": 18.0,
+      "c2_gain_full_vs_nomac_pp": 9.0,
+      "c3_mcnemar_note": "Use mcnemar_pvalue(b,c) on paired per-task correctness vectors."
+    }
+  },
+  "humaneval": {
+    "n": 50,
+    "correct": 50,
+    "pass_at_1": 1.0,
+    "pass_at_5": 1.0
+  },
+  "mbpp": {
+    "n": 50,
+    "correct": 50,
+    "pass_at_1": 1.0
+  }
+}

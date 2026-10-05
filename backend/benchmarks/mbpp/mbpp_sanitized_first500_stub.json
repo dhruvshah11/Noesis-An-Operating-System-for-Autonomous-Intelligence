@@ -1,0 +1,2548 @@
+{
+  "corpus_name": "MBPP-Sanitized-First500-Stub",
+  "version": "1.0.0",
+  "description": "Offline stub of first 500 MBPP (Mostly Basic Python Problems) prompts. First 10 entries include id/prompt/3 reference solutions. Entries 11-500 are placeholder prompts so harnesses can iterate all 500 deterministically without network.",
+  "total_tasks": 500,
+  "tasks": [
+    {
+      "task_id": 1,
+      "prompt": "Write a function to find the minimum cost path in a matrix from top-left to bottom-right, moving only right or down.",
+      "reference_solutions": [
+        "def min_cost_path(matrix):\n    m, n = len(matrix), len(matrix[0])\n    dp = [[0]*n for _ in range(m)]\n    dp[0][0] = matrix[0][0]\n    for i in range(1, m):\n        dp[i][0] = dp[i-1][0] + matrix[i][0]\n    for j in range(1, n):\n        dp[0][j] = dp[0][j-1] + matrix[0][j]\n    for i in range(1, m):\n        for j in range(1, n):\n            dp[i][j] = matrix[i][j] + min(dp[i-1][j], dp[i][j-1])\n    return dp[-1][-1]",
+        "def min_cost_path(grid):\n    if not grid or not grid[0]: return 0\n    for r in range(len(grid)):\n        for c in range(len(grid[0])):\n            if r == 0 and c == 0: continue\n            up = grid[r-1][c] if r > 0 else float('inf')\n            left = grid[r][c-1] if c > 0 else float('inf')\n            grid[r][c] += min(up, left)\n    return grid[-1][-1]",
+        "import functools\ndef min_cost_path(m):\n    R, C = len(m), len(m[0])\n    @functools.lru_cache(None)\n    def dp(r, c):\n        if r == R-1 and c == C-1: return m[r][c]\n        if r >= R or c >= C: return float('inf')\n        return m[r][c] + min(dp(r+1, c), dp(r, c+1))\n    return dp(0, 0)"
+      ]
+    },
+    {
+      "task_id": 2,
+      "prompt": "Write a function that checks if a string is a palindrome, ignoring non-alphanumeric characters and case.",
+      "reference_solutions": [
+        "def is_palindrome(s):\n    s = ''.join(c.lower() for c in s if c.isalnum())\n    return s == s[::-1]",
+        "def is_palindrome(s):\n    import re\n    cleaned = re.sub(r'[^a-zA-Z0-9]', '', s).lower()\n    return cleaned == cleaned[::-1]",
+        "def is_palindrome(s):\n    l, r = 0, len(s)-1\n    while l < r:\n        while l < r and not s[l].isalnum(): l += 1\n        while l < r and not s[r].isalnum(): r -= 1\n        if s[l].lower() != s[r].lower(): return False\n        l += 1; r -= 1\n    return True"
+      ]
+    },
+    {
+      "task_id": 3,
+      "prompt": "Write a function to compute the nth Fibonacci number using dynamic programming.",
+      "reference_solutions": [
+        "def fib(n):\n    if n <= 1: return n\n    a, b = 0, 1\n    for _ in range(2, n+1):\n        a, b = b, a + b\n    return b",
+        "def fib(n, memo={}):\n    if n in memo: return memo[n]\n    if n <= 1: return n\n    memo[n] = fib(n-1) + fib(n-2)\n    return memo[n]",
+        "import functools\n@functools.lru_cache(None)\ndef fib(n):\n    return n if n < 2 else fib(n-1) + fib(n-2)"
+      ]
+    },
+    {
+      "task_id": 4,
+      "prompt": "Write a function to find the longest common subsequence between two strings.",
+      "reference_solutions": [
+        "def lcs(a, b):\n    m, n = len(a), len(b)\n    dp = [[0]*(n+1) for _ in range(m+1)]\n    for i in range(1, m+1):\n        for j in range(1, n+1):\n            if a[i-1] == b[j-1]:\n                dp[i][j] = dp[i-1][j-1] + 1\n            else:\n                dp[i][j] = max(dp[i-1][j], dp[i][j-1])\n    return dp[m][n]",
+        "import functools\n@functools.lru_cache(None)\ndef lcs_rec(a, b, i, j):\n    if i == 0 or j == 0: return 0\n    if a[i-1] == b[j-1]: return 1 + lcs_rec(a, b, i-1, j-1)\n    return max(lcs_rec(a, b, i-1, j), lcs_rec(a, b, i, j-1))\ndef lcs(a, b): return lcs_rec(a, b, len(a), len(b))",
+        "def lcs(X, Y):\n    prev = [0]*(len(Y)+1)\n    for i in range(1, len(X)+1):\n        curr = [0]*(len(Y)+1)\n        for j in range(1, len(Y)+1):\n            if X[i-1] == Y[j-1]: curr[j] = prev[j-1] + 1\n            else: curr[j] = max(prev[j], curr[j-1])\n        prev = curr\n    return prev[-1]"
+      ]
+    },
+    {
+      "task_id": 5,
+      "prompt": "Write a function to validate if parentheses in a string are balanced.",
+      "reference_solutions": [
+        "def is_valid(s):\n    stack = []\n    pairs = {')':'(', ']':'[', '}':'{'}\n    for c in s:\n        if c in pairs.values():\n            stack.append(c)\n        elif c in pairs:\n            if not stack or stack.pop() != pairs[c]:\n                return False\n    return not stack",
+        "def balanced_parens(s):\n    depth = 0\n    for c in s:\n        if c == '(': depth += 1\n        elif c == ')':\n            depth -= 1\n            if depth < 0: return False\n    return depth == 0",
+        "def check_balance(st):\n    m = {')':'(', '>':'<', ']':'[', '}':'{'}\n    stk = []\n    for ch in st:\n        if ch in m:\n            if not stk or stk.pop() != m[ch]: return False\n        elif ch in m.values():\n            stk.append(ch)\n    return not stk"
+      ]
+    },
+    {
+      "task_id": 6,
+      "prompt": "Write a function that returns the k most frequent elements in a list.",
+      "reference_solutions": [
+        "import collections\ndef top_k_frequent(nums, k):\n    c = collections.Counter(nums)\n    return [x for x, _ in c.most_common(k)]",
+        "def top_k_frequent(arr, k):\n    freq = {}\n    for n in arr: freq[n] = freq.get(n, 0) + 1\n    buckets = [[] for _ in range(len(arr)+1)]\n    for n, f in freq.items(): buckets[f].append(n)\n    res = []\n    for i in range(len(buckets)-1, 0, -1):\n        res.extend(buckets[i])\n        if len(res) >= k: return res[:k]\n    return res",
+        "import collections\ndef top_k(arr, k):\n    c = collections.Counter(arr)\n    return sorted(c.keys(), key=lambda x: -c[x])[:k]"
+      ]
+    },
+    {
+      "task_id": 7,
+      "prompt": "Write a function to merge two sorted lists into one sorted list.",
+      "reference_solutions": [
+        "def merge_sorted(a, b):\n    i = j = 0\n    res = []\n    while i < len(a) and j < len(b):\n        if a[i] <= b[j]:\n            res.append(a[i]); i += 1\n        else:\n            res.append(b[j]); j += 1\n    res.extend(a[i:])\n    res.extend(b[j:])\n    return res",
+        "def merge_two(a, b):\n    return sorted(a + b)",
+        "from heapq import merge\ndef merge_arrays(a, b):\n    return list(merge(a, b))"
+      ]
+    },
+    {
+      "task_id": 8,
+      "prompt": "Write a function to reverse a linked list in place.",
+      "reference_solutions": [
+        "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\ndef reverse_list(head):\n    prev = None\n    curr = head\n    while curr:\n        nxt = curr.next\n        curr.next = prev\n        prev = curr\n        curr = nxt\n    return prev",
+        "def reverse_rec(head):\n    if not head or not head.next: return head\n    rest = reverse_rec(head.next)\n    head.next.next = head\n    head.next = None\n    return rest",
+        "def reverse(head):\n    out = None\n    while head:\n        head.next, out, head = out, head, head.next\n    return out"
+      ]
+    },
+    {
+      "task_id": 9,
+      "prompt": "Write a function to perform binary search on a sorted list, returning the index or -1.",
+      "reference_solutions": [
+        "def binary_search(arr, target):\n    lo, hi = 0, len(arr)-1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if arr[mid] == target: return mid\n        elif arr[mid] < target: lo = mid + 1\n        else: hi = mid - 1\n    return -1",
+        "import bisect\ndef bsearch(a, x):\n    idx = bisect.bisect_left(a, x)\n    return idx if idx < len(a) and a[idx] == x else -1",
+        "def bs_rec(arr, t, lo=0, hi=None):\n    if hi is None: hi = len(arr)-1\n    if lo > hi: return -1\n    mid = (lo + hi) // 2\n    if arr[mid] == t: return mid\n    if arr[mid] < t: return bs_rec(arr, t, mid+1, hi)\n    return bs_rec(arr, t, lo, mid-1)"
+      ]
+    },
+    {
+      "task_id": 10,
+      "prompt": "Write a function to compute the number of ways to climb n stairs, taking 1 or 2 steps at a time.",
+      "reference_solutions": [
+        "def climb_stairs(n):\n    if n <= 2: return n\n    a, b = 1, 2\n    for _ in range(3, n+1):\n        a, b = b, a + b\n    return b",
+        "import functools\n@functools.lru_cache(None)\ndef climb(n):\n    if n <= 2: return n\n    return climb(n-1) + climb(n-2)",
+        "def climb_dp(n):\n    dp = [0]*(n+1)\n    dp[0] = 1\n    if n >= 1: dp[1] = 1\n    for i in range(2, n+1):\n        dp[i] = dp[i-1] + dp[i-2]\n    return dp[n]"
+      ]
+    },
+    {
+      "task_id": 11,
+      "prompt": "MBPP placeholder prompt for task 11. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 12,
+      "prompt": "MBPP placeholder prompt for task 12. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 13,
+      "prompt": "MBPP placeholder prompt for task 13. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 14,
+      "prompt": "MBPP placeholder prompt for task 14. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 15,
+      "prompt": "MBPP placeholder prompt for task 15. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 16,
+      "prompt": "MBPP placeholder prompt for task 16. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 17,
+      "prompt": "MBPP placeholder prompt for task 17. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 18,
+      "prompt": "MBPP placeholder prompt for task 18. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 19,
+      "prompt": "MBPP placeholder prompt for task 19. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 20,
+      "prompt": "MBPP placeholder prompt for task 20. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 21,
+      "prompt": "MBPP placeholder prompt for task 21. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 22,
+      "prompt": "MBPP placeholder prompt for task 22. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 23,
+      "prompt": "MBPP placeholder prompt for task 23. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 24,
+      "prompt": "MBPP placeholder prompt for task 24. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 25,
+      "prompt": "MBPP placeholder prompt for task 25. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 26,
+      "prompt": "MBPP placeholder prompt for task 26. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 27,
+      "prompt": "MBPP placeholder prompt for task 27. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 28,
+      "prompt": "MBPP placeholder prompt for task 28. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 29,
+      "prompt": "MBPP placeholder prompt for task 29. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 30,
+      "prompt": "MBPP placeholder prompt for task 30. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 31,
+      "prompt": "MBPP placeholder prompt for task 31. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 32,
+      "prompt": "MBPP placeholder prompt for task 32. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 33,
+      "prompt": "MBPP placeholder prompt for task 33. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 34,
+      "prompt": "MBPP placeholder prompt for task 34. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 35,
+      "prompt": "MBPP placeholder prompt for task 35. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 36,
+      "prompt": "MBPP placeholder prompt for task 36. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 37,
+      "prompt": "MBPP placeholder prompt for task 37. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 38,
+      "prompt": "MBPP placeholder prompt for task 38. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 39,
+      "prompt": "MBPP placeholder prompt for task 39. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 40,
+      "prompt": "MBPP placeholder prompt for task 40. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 41,
+      "prompt": "MBPP placeholder prompt for task 41. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 42,
+      "prompt": "MBPP placeholder prompt for task 42. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 43,
+      "prompt": "MBPP placeholder prompt for task 43. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 44,
+      "prompt": "MBPP placeholder prompt for task 44. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 45,
+      "prompt": "MBPP placeholder prompt for task 45. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 46,
+      "prompt": "MBPP placeholder prompt for task 46. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 47,
+      "prompt": "MBPP placeholder prompt for task 47. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 48,
+      "prompt": "MBPP placeholder prompt for task 48. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 49,
+      "prompt": "MBPP placeholder prompt for task 49. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 50,
+      "prompt": "MBPP placeholder prompt for task 50. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 51,
+      "prompt": "MBPP placeholder prompt for task 51. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 52,
+      "prompt": "MBPP placeholder prompt for task 52. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 53,
+      "prompt": "MBPP placeholder prompt for task 53. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 54,
+      "prompt": "MBPP placeholder prompt for task 54. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 55,
+      "prompt": "MBPP placeholder prompt for task 55. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 56,
+      "prompt": "MBPP placeholder prompt for task 56. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 57,
+      "prompt": "MBPP placeholder prompt for task 57. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 58,
+      "prompt": "MBPP placeholder prompt for task 58. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 59,
+      "prompt": "MBPP placeholder prompt for task 59. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 60,
+      "prompt": "MBPP placeholder prompt for task 60. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 61,
+      "prompt": "MBPP placeholder prompt for task 61. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 62,
+      "prompt": "MBPP placeholder prompt for task 62. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 63,
+      "prompt": "MBPP placeholder prompt for task 63. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 64,
+      "prompt": "MBPP placeholder prompt for task 64. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 65,
+      "prompt": "MBPP placeholder prompt for task 65. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 66,
+      "prompt": "MBPP placeholder prompt for task 66. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 67,
+      "prompt": "MBPP placeholder prompt for task 67. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 68,
+      "prompt": "MBPP placeholder prompt for task 68. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 69,
+      "prompt": "MBPP placeholder prompt for task 69. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 70,
+      "prompt": "MBPP placeholder prompt for task 70. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 71,
+      "prompt": "MBPP placeholder prompt for task 71. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 72,
+      "prompt": "MBPP placeholder prompt for task 72. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 73,
+      "prompt": "MBPP placeholder prompt for task 73. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 74,
+      "prompt": "MBPP placeholder prompt for task 74. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 75,
+      "prompt": "MBPP placeholder prompt for task 75. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 76,
+      "prompt": "MBPP placeholder prompt for task 76. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 77,
+      "prompt": "MBPP placeholder prompt for task 77. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 78,
+      "prompt": "MBPP placeholder prompt for task 78. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 79,
+      "prompt": "MBPP placeholder prompt for task 79. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 80,
+      "prompt": "MBPP placeholder prompt for task 80. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 81,
+      "prompt": "MBPP placeholder prompt for task 81. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 82,
+      "prompt": "MBPP placeholder prompt for task 82. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 83,
+      "prompt": "MBPP placeholder prompt for task 83. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 84,
+      "prompt": "MBPP placeholder prompt for task 84. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 85,
+      "prompt": "MBPP placeholder prompt for task 85. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 86,
+      "prompt": "MBPP placeholder prompt for task 86. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 87,
+      "prompt": "MBPP placeholder prompt for task 87. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 88,
+      "prompt": "MBPP placeholder prompt for task 88. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 89,
+      "prompt": "MBPP placeholder prompt for task 89. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 90,
+      "prompt": "MBPP placeholder prompt for task 90. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 91,
+      "prompt": "MBPP placeholder prompt for task 91. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 92,
+      "prompt": "MBPP placeholder prompt for task 92. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 93,
+      "prompt": "MBPP placeholder prompt for task 93. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 94,
+      "prompt": "MBPP placeholder prompt for task 94. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 95,
+      "prompt": "MBPP placeholder prompt for task 95. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 96,
+      "prompt": "MBPP placeholder prompt for task 96. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 97,
+      "prompt": "MBPP placeholder prompt for task 97. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 98,
+      "prompt": "MBPP placeholder prompt for task 98. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 99,
+      "prompt": "MBPP placeholder prompt for task 99. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 100,
+      "prompt": "MBPP placeholder prompt for task 100. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 101,
+      "prompt": "MBPP placeholder prompt for task 101. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 102,
+      "prompt": "MBPP placeholder prompt for task 102. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 103,
+      "prompt": "MBPP placeholder prompt for task 103. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 104,
+      "prompt": "MBPP placeholder prompt for task 104. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 105,
+      "prompt": "MBPP placeholder prompt for task 105. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 106,
+      "prompt": "MBPP placeholder prompt for task 106. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 107,
+      "prompt": "MBPP placeholder prompt for task 107. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 108,
+      "prompt": "MBPP placeholder prompt for task 108. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 109,
+      "prompt": "MBPP placeholder prompt for task 109. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 110,
+      "prompt": "MBPP placeholder prompt for task 110. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 111,
+      "prompt": "MBPP placeholder prompt for task 111. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 112,
+      "prompt": "MBPP placeholder prompt for task 112. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 113,
+      "prompt": "MBPP placeholder prompt for task 113. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 114,
+      "prompt": "MBPP placeholder prompt for task 114. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 115,
+      "prompt": "MBPP placeholder prompt for task 115. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 116,
+      "prompt": "MBPP placeholder prompt for task 116. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 117,
+      "prompt": "MBPP placeholder prompt for task 117. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 118,
+      "prompt": "MBPP placeholder prompt for task 118. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 119,
+      "prompt": "MBPP placeholder prompt for task 119. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 120,
+      "prompt": "MBPP placeholder prompt for task 120. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 121,
+      "prompt": "MBPP placeholder prompt for task 121. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 122,
+      "prompt": "MBPP placeholder prompt for task 122. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 123,
+      "prompt": "MBPP placeholder prompt for task 123. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 124,
+      "prompt": "MBPP placeholder prompt for task 124. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 125,
+      "prompt": "MBPP placeholder prompt for task 125. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 126,
+      "prompt": "MBPP placeholder prompt for task 126. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 127,
+      "prompt": "MBPP placeholder prompt for task 127. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 128,
+      "prompt": "MBPP placeholder prompt for task 128. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 129,
+      "prompt": "MBPP placeholder prompt for task 129. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 130,
+      "prompt": "MBPP placeholder prompt for task 130. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 131,
+      "prompt": "MBPP placeholder prompt for task 131. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 132,
+      "prompt": "MBPP placeholder prompt for task 132. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 133,
+      "prompt": "MBPP placeholder prompt for task 133. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 134,
+      "prompt": "MBPP placeholder prompt for task 134. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 135,
+      "prompt": "MBPP placeholder prompt for task 135. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 136,
+      "prompt": "MBPP placeholder prompt for task 136. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 137,
+      "prompt": "MBPP placeholder prompt for task 137. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 138,
+      "prompt": "MBPP placeholder prompt for task 138. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 139,
+      "prompt": "MBPP placeholder prompt for task 139. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 140,
+      "prompt": "MBPP placeholder prompt for task 140. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 141,
+      "prompt": "MBPP placeholder prompt for task 141. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 142,
+      "prompt": "MBPP placeholder prompt for task 142. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 143,
+      "prompt": "MBPP placeholder prompt for task 143. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 144,
+      "prompt": "MBPP placeholder prompt for task 144. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 145,
+      "prompt": "MBPP placeholder prompt for task 145. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 146,
+      "prompt": "MBPP placeholder prompt for task 146. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 147,
+      "prompt": "MBPP placeholder prompt for task 147. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 148,
+      "prompt": "MBPP placeholder prompt for task 148. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 149,
+      "prompt": "MBPP placeholder prompt for task 149. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 150,
+      "prompt": "MBPP placeholder prompt for task 150. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 151,
+      "prompt": "MBPP placeholder prompt for task 151. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 152,
+      "prompt": "MBPP placeholder prompt for task 152. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 153,
+      "prompt": "MBPP placeholder prompt for task 153. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 154,
+      "prompt": "MBPP placeholder prompt for task 154. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 155,
+      "prompt": "MBPP placeholder prompt for task 155. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 156,
+      "prompt": "MBPP placeholder prompt for task 156. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 157,
+      "prompt": "MBPP placeholder prompt for task 157. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 158,
+      "prompt": "MBPP placeholder prompt for task 158. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 159,
+      "prompt": "MBPP placeholder prompt for task 159. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 160,
+      "prompt": "MBPP placeholder prompt for task 160. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 161,
+      "prompt": "MBPP placeholder prompt for task 161. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 162,
+      "prompt": "MBPP placeholder prompt for task 162. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 163,
+      "prompt": "MBPP placeholder prompt for task 163. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 164,
+      "prompt": "MBPP placeholder prompt for task 164. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 165,
+      "prompt": "MBPP placeholder prompt for task 165. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 166,
+      "prompt": "MBPP placeholder prompt for task 166. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 167,
+      "prompt": "MBPP placeholder prompt for task 167. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 168,
+      "prompt": "MBPP placeholder prompt for task 168. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 169,
+      "prompt": "MBPP placeholder prompt for task 169. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 170,
+      "prompt": "MBPP placeholder prompt for task 170. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 171,
+      "prompt": "MBPP placeholder prompt for task 171. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 172,
+      "prompt": "MBPP placeholder prompt for task 172. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 173,
+      "prompt": "MBPP placeholder prompt for task 173. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 174,
+      "prompt": "MBPP placeholder prompt for task 174. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 175,
+      "prompt": "MBPP placeholder prompt for task 175. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 176,
+      "prompt": "MBPP placeholder prompt for task 176. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 177,
+      "prompt": "MBPP placeholder prompt for task 177. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 178,
+      "prompt": "MBPP placeholder prompt for task 178. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 179,
+      "prompt": "MBPP placeholder prompt for task 179. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 180,
+      "prompt": "MBPP placeholder prompt for task 180. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 181,
+      "prompt": "MBPP placeholder prompt for task 181. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 182,
+      "prompt": "MBPP placeholder prompt for task 182. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 183,
+      "prompt": "MBPP placeholder prompt for task 183. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 184,
+      "prompt": "MBPP placeholder prompt for task 184. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 185,
+      "prompt": "MBPP placeholder prompt for task 185. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 186,
+      "prompt": "MBPP placeholder prompt for task 186. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 187,
+      "prompt": "MBPP placeholder prompt for task 187. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 188,
+      "prompt": "MBPP placeholder prompt for task 188. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 189,
+      "prompt": "MBPP placeholder prompt for task 189. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 190,
+      "prompt": "MBPP placeholder prompt for task 190. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 191,
+      "prompt": "MBPP placeholder prompt for task 191. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 192,
+      "prompt": "MBPP placeholder prompt for task 192. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 193,
+      "prompt": "MBPP placeholder prompt for task 193. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 194,
+      "prompt": "MBPP placeholder prompt for task 194. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 195,
+      "prompt": "MBPP placeholder prompt for task 195. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 196,
+      "prompt": "MBPP placeholder prompt for task 196. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 197,
+      "prompt": "MBPP placeholder prompt for task 197. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 198,
+      "prompt": "MBPP placeholder prompt for task 198. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 199,
+      "prompt": "MBPP placeholder prompt for task 199. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 200,
+      "prompt": "MBPP placeholder prompt for task 200. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 201,
+      "prompt": "MBPP placeholder prompt for task 201. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 202,
+      "prompt": "MBPP placeholder prompt for task 202. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 203,
+      "prompt": "MBPP placeholder prompt for task 203. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 204,
+      "prompt": "MBPP placeholder prompt for task 204. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 205,
+      "prompt": "MBPP placeholder prompt for task 205. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 206,
+      "prompt": "MBPP placeholder prompt for task 206. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 207,
+      "prompt": "MBPP placeholder prompt for task 207. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 208,
+      "prompt": "MBPP placeholder prompt for task 208. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 209,
+      "prompt": "MBPP placeholder prompt for task 209. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 210,
+      "prompt": "MBPP placeholder prompt for task 210. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 211,
+      "prompt": "MBPP placeholder prompt for task 211. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 212,
+      "prompt": "MBPP placeholder prompt for task 212. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 213,
+      "prompt": "MBPP placeholder prompt for task 213. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 214,
+      "prompt": "MBPP placeholder prompt for task 214. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 215,
+      "prompt": "MBPP placeholder prompt for task 215. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 216,
+      "prompt": "MBPP placeholder prompt for task 216. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 217,
+      "prompt": "MBPP placeholder prompt for task 217. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 218,
+      "prompt": "MBPP placeholder prompt for task 218. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 219,
+      "prompt": "MBPP placeholder prompt for task 219. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 220,
+      "prompt": "MBPP placeholder prompt for task 220. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 221,
+      "prompt": "MBPP placeholder prompt for task 221. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 222,
+      "prompt": "MBPP placeholder prompt for task 222. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 223,
+      "prompt": "MBPP placeholder prompt for task 223. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 224,
+      "prompt": "MBPP placeholder prompt for task 224. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 225,
+      "prompt": "MBPP placeholder prompt for task 225. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 226,
+      "prompt": "MBPP placeholder prompt for task 226. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 227,
+      "prompt": "MBPP placeholder prompt for task 227. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 228,
+      "prompt": "MBPP placeholder prompt for task 228. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 229,
+      "prompt": "MBPP placeholder prompt for task 229. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 230,
+      "prompt": "MBPP placeholder prompt for task 230. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 231,
+      "prompt": "MBPP placeholder prompt for task 231. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 232,
+      "prompt": "MBPP placeholder prompt for task 232. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 233,
+      "prompt": "MBPP placeholder prompt for task 233. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 234,
+      "prompt": "MBPP placeholder prompt for task 234. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 235,
+      "prompt": "MBPP placeholder prompt for task 235. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 236,
+      "prompt": "MBPP placeholder prompt for task 236. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 237,
+      "prompt": "MBPP placeholder prompt for task 237. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 238,
+      "prompt": "MBPP placeholder prompt for task 238. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 239,
+      "prompt": "MBPP placeholder prompt for task 239. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 240,
+      "prompt": "MBPP placeholder prompt for task 240. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 241,
+      "prompt": "MBPP placeholder prompt for task 241. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 242,
+      "prompt": "MBPP placeholder prompt for task 242. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 243,
+      "prompt": "MBPP placeholder prompt for task 243. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 244,
+      "prompt": "MBPP placeholder prompt for task 244. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 245,
+      "prompt": "MBPP placeholder prompt for task 245. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 246,
+      "prompt": "MBPP placeholder prompt for task 246. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 247,
+      "prompt": "MBPP placeholder prompt for task 247. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 248,
+      "prompt": "MBPP placeholder prompt for task 248. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 249,
+      "prompt": "MBPP placeholder prompt for task 249. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 250,
+      "prompt": "MBPP placeholder prompt for task 250. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 251,
+      "prompt": "MBPP placeholder prompt for task 251. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 252,
+      "prompt": "MBPP placeholder prompt for task 252. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 253,
+      "prompt": "MBPP placeholder prompt for task 253. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 254,
+      "prompt": "MBPP placeholder prompt for task 254. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 255,
+      "prompt": "MBPP placeholder prompt for task 255. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 256,
+      "prompt": "MBPP placeholder prompt for task 256. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 257,
+      "prompt": "MBPP placeholder prompt for task 257. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 258,
+      "prompt": "MBPP placeholder prompt for task 258. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 259,
+      "prompt": "MBPP placeholder prompt for task 259. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 260,
+      "prompt": "MBPP placeholder prompt for task 260. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 261,
+      "prompt": "MBPP placeholder prompt for task 261. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 262,
+      "prompt": "MBPP placeholder prompt for task 262. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 263,
+      "prompt": "MBPP placeholder prompt for task 263. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 264,
+      "prompt": "MBPP placeholder prompt for task 264. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 265,
+      "prompt": "MBPP placeholder prompt for task 265. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 266,
+      "prompt": "MBPP placeholder prompt for task 266. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 267,
+      "prompt": "MBPP placeholder prompt for task 267. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 268,
+      "prompt": "MBPP placeholder prompt for task 268. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 269,
+      "prompt": "MBPP placeholder prompt for task 269. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 270,
+      "prompt": "MBPP placeholder prompt for task 270. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 271,
+      "prompt": "MBPP placeholder prompt for task 271. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 272,
+      "prompt": "MBPP placeholder prompt for task 272. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 273,
+      "prompt": "MBPP placeholder prompt for task 273. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 274,
+      "prompt": "MBPP placeholder prompt for task 274. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 275,
+      "prompt": "MBPP placeholder prompt for task 275. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 276,
+      "prompt": "MBPP placeholder prompt for task 276. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 277,
+      "prompt": "MBPP placeholder prompt for task 277. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 278,
+      "prompt": "MBPP placeholder prompt for task 278. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 279,
+      "prompt": "MBPP placeholder prompt for task 279. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 280,
+      "prompt": "MBPP placeholder prompt for task 280. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 281,
+      "prompt": "MBPP placeholder prompt for task 281. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 282,
+      "prompt": "MBPP placeholder prompt for task 282. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 283,
+      "prompt": "MBPP placeholder prompt for task 283. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 284,
+      "prompt": "MBPP placeholder prompt for task 284. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 285,
+      "prompt": "MBPP placeholder prompt for task 285. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 286,
+      "prompt": "MBPP placeholder prompt for task 286. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 287,
+      "prompt": "MBPP placeholder prompt for task 287. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 288,
+      "prompt": "MBPP placeholder prompt for task 288. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 289,
+      "prompt": "MBPP placeholder prompt for task 289. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 290,
+      "prompt": "MBPP placeholder prompt for task 290. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 291,
+      "prompt": "MBPP placeholder prompt for task 291. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 292,
+      "prompt": "MBPP placeholder prompt for task 292. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 293,
+      "prompt": "MBPP placeholder prompt for task 293. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 294,
+      "prompt": "MBPP placeholder prompt for task 294. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 295,
+      "prompt": "MBPP placeholder prompt for task 295. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 296,
+      "prompt": "MBPP placeholder prompt for task 296. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 297,
+      "prompt": "MBPP placeholder prompt for task 297. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 298,
+      "prompt": "MBPP placeholder prompt for task 298. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 299,
+      "prompt": "MBPP placeholder prompt for task 299. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 300,
+      "prompt": "MBPP placeholder prompt for task 300. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 301,
+      "prompt": "MBPP placeholder prompt for task 301. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 302,
+      "prompt": "MBPP placeholder prompt for task 302. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 303,
+      "prompt": "MBPP placeholder prompt for task 303. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 304,
+      "prompt": "MBPP placeholder prompt for task 304. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 305,
+      "prompt": "MBPP placeholder prompt for task 305. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 306,
+      "prompt": "MBPP placeholder prompt for task 306. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 307,
+      "prompt": "MBPP placeholder prompt for task 307. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 308,
+      "prompt": "MBPP placeholder prompt for task 308. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 309,
+      "prompt": "MBPP placeholder prompt for task 309. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 310,
+      "prompt": "MBPP placeholder prompt for task 310. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 311,
+      "prompt": "MBPP placeholder prompt for task 311. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 312,
+      "prompt": "MBPP placeholder prompt for task 312. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 313,
+      "prompt": "MBPP placeholder prompt for task 313. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 314,
+      "prompt": "MBPP placeholder prompt for task 314. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 315,
+      "prompt": "MBPP placeholder prompt for task 315. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 316,
+      "prompt": "MBPP placeholder prompt for task 316. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 317,
+      "prompt": "MBPP placeholder prompt for task 317. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 318,
+      "prompt": "MBPP placeholder prompt for task 318. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 319,
+      "prompt": "MBPP placeholder prompt for task 319. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 320,
+      "prompt": "MBPP placeholder prompt for task 320. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 321,
+      "prompt": "MBPP placeholder prompt for task 321. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 322,
+      "prompt": "MBPP placeholder prompt for task 322. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 323,
+      "prompt": "MBPP placeholder prompt for task 323. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 324,
+      "prompt": "MBPP placeholder prompt for task 324. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 325,
+      "prompt": "MBPP placeholder prompt for task 325. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 326,
+      "prompt": "MBPP placeholder prompt for task 326. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 327,
+      "prompt": "MBPP placeholder prompt for task 327. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 328,
+      "prompt": "MBPP placeholder prompt for task 328. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 329,
+      "prompt": "MBPP placeholder prompt for task 329. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 330,
+      "prompt": "MBPP placeholder prompt for task 330. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 331,
+      "prompt": "MBPP placeholder prompt for task 331. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 332,
+      "prompt": "MBPP placeholder prompt for task 332. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 333,
+      "prompt": "MBPP placeholder prompt for task 333. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 334,
+      "prompt": "MBPP placeholder prompt for task 334. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 335,
+      "prompt": "MBPP placeholder prompt for task 335. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 336,
+      "prompt": "MBPP placeholder prompt for task 336. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 337,
+      "prompt": "MBPP placeholder prompt for task 337. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 338,
+      "prompt": "MBPP placeholder prompt for task 338. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 339,
+      "prompt": "MBPP placeholder prompt for task 339. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 340,
+      "prompt": "MBPP placeholder prompt for task 340. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 341,
+      "prompt": "MBPP placeholder prompt for task 341. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 342,
+      "prompt": "MBPP placeholder prompt for task 342. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 343,
+      "prompt": "MBPP placeholder prompt for task 343. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 344,
+      "prompt": "MBPP placeholder prompt for task 344. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 345,
+      "prompt": "MBPP placeholder prompt for task 345. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 346,
+      "prompt": "MBPP placeholder prompt for task 346. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 347,
+      "prompt": "MBPP placeholder prompt for task 347. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 348,
+      "prompt": "MBPP placeholder prompt for task 348. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 349,
+      "prompt": "MBPP placeholder prompt for task 349. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 350,
+      "prompt": "MBPP placeholder prompt for task 350. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 351,
+      "prompt": "MBPP placeholder prompt for task 351. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 352,
+      "prompt": "MBPP placeholder prompt for task 352. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 353,
+      "prompt": "MBPP placeholder prompt for task 353. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 354,
+      "prompt": "MBPP placeholder prompt for task 354. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 355,
+      "prompt": "MBPP placeholder prompt for task 355. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 356,
+      "prompt": "MBPP placeholder prompt for task 356. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 357,
+      "prompt": "MBPP placeholder prompt for task 357. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 358,
+      "prompt": "MBPP placeholder prompt for task 358. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 359,
+      "prompt": "MBPP placeholder prompt for task 359. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 360,
+      "prompt": "MBPP placeholder prompt for task 360. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 361,
+      "prompt": "MBPP placeholder prompt for task 361. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 362,
+      "prompt": "MBPP placeholder prompt for task 362. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 363,
+      "prompt": "MBPP placeholder prompt for task 363. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 364,
+      "prompt": "MBPP placeholder prompt for task 364. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 365,
+      "prompt": "MBPP placeholder prompt for task 365. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 366,
+      "prompt": "MBPP placeholder prompt for task 366. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 367,
+      "prompt": "MBPP placeholder prompt for task 367. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 368,
+      "prompt": "MBPP placeholder prompt for task 368. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 369,
+      "prompt": "MBPP placeholder prompt for task 369. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 370,
+      "prompt": "MBPP placeholder prompt for task 370. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 371,
+      "prompt": "MBPP placeholder prompt for task 371. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 372,
+      "prompt": "MBPP placeholder prompt for task 372. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 373,
+      "prompt": "MBPP placeholder prompt for task 373. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 374,
+      "prompt": "MBPP placeholder prompt for task 374. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 375,
+      "prompt": "MBPP placeholder prompt for task 375. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 376,
+      "prompt": "MBPP placeholder prompt for task 376. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 377,
+      "prompt": "MBPP placeholder prompt for task 377. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 378,
+      "prompt": "MBPP placeholder prompt for task 378. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 379,
+      "prompt": "MBPP placeholder prompt for task 379. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 380,
+      "prompt": "MBPP placeholder prompt for task 380. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 381,
+      "prompt": "MBPP placeholder prompt for task 381. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 382,
+      "prompt": "MBPP placeholder prompt for task 382. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 383,
+      "prompt": "MBPP placeholder prompt for task 383. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 384,
+      "prompt": "MBPP placeholder prompt for task 384. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 385,
+      "prompt": "MBPP placeholder prompt for task 385. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 386,
+      "prompt": "MBPP placeholder prompt for task 386. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 387,
+      "prompt": "MBPP placeholder prompt for task 387. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 388,
+      "prompt": "MBPP placeholder prompt for task 388. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 389,
+      "prompt": "MBPP placeholder prompt for task 389. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 390,
+      "prompt": "MBPP placeholder prompt for task 390. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 391,
+      "prompt": "MBPP placeholder prompt for task 391. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 392,
+      "prompt": "MBPP placeholder prompt for task 392. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 393,
+      "prompt": "MBPP placeholder prompt for task 393. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 394,
+      "prompt": "MBPP placeholder prompt for task 394. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 395,
+      "prompt": "MBPP placeholder prompt for task 395. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 396,
+      "prompt": "MBPP placeholder prompt for task 396. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 397,
+      "prompt": "MBPP placeholder prompt for task 397. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 398,
+      "prompt": "MBPP placeholder prompt for task 398. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 399,
+      "prompt": "MBPP placeholder prompt for task 399. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 400,
+      "prompt": "MBPP placeholder prompt for task 400. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 401,
+      "prompt": "MBPP placeholder prompt for task 401. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 402,
+      "prompt": "MBPP placeholder prompt for task 402. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 403,
+      "prompt": "MBPP placeholder prompt for task 403. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 404,
+      "prompt": "MBPP placeholder prompt for task 404. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 405,
+      "prompt": "MBPP placeholder prompt for task 405. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 406,
+      "prompt": "MBPP placeholder prompt for task 406. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 407,
+      "prompt": "MBPP placeholder prompt for task 407. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 408,
+      "prompt": "MBPP placeholder prompt for task 408. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 409,
+      "prompt": "MBPP placeholder prompt for task 409. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 410,
+      "prompt": "MBPP placeholder prompt for task 410. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 411,
+      "prompt": "MBPP placeholder prompt for task 411. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 412,
+      "prompt": "MBPP placeholder prompt for task 412. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 413,
+      "prompt": "MBPP placeholder prompt for task 413. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 414,
+      "prompt": "MBPP placeholder prompt for task 414. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 415,
+      "prompt": "MBPP placeholder prompt for task 415. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 416,
+      "prompt": "MBPP placeholder prompt for task 416. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 417,
+      "prompt": "MBPP placeholder prompt for task 417. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 418,
+      "prompt": "MBPP placeholder prompt for task 418. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 419,
+      "prompt": "MBPP placeholder prompt for task 419. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 420,
+      "prompt": "MBPP placeholder prompt for task 420. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 421,
+      "prompt": "MBPP placeholder prompt for task 421. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 422,
+      "prompt": "MBPP placeholder prompt for task 422. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 423,
+      "prompt": "MBPP placeholder prompt for task 423. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 424,
+      "prompt": "MBPP placeholder prompt for task 424. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 425,
+      "prompt": "MBPP placeholder prompt for task 425. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 426,
+      "prompt": "MBPP placeholder prompt for task 426. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 427,
+      "prompt": "MBPP placeholder prompt for task 427. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 428,
+      "prompt": "MBPP placeholder prompt for task 428. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 429,
+      "prompt": "MBPP placeholder prompt for task 429. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 430,
+      "prompt": "MBPP placeholder prompt for task 430. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 431,
+      "prompt": "MBPP placeholder prompt for task 431. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 432,
+      "prompt": "MBPP placeholder prompt for task 432. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 433,
+      "prompt": "MBPP placeholder prompt for task 433. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 434,
+      "prompt": "MBPP placeholder prompt for task 434. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 435,
+      "prompt": "MBPP placeholder prompt for task 435. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 436,
+      "prompt": "MBPP placeholder prompt for task 436. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 437,
+      "prompt": "MBPP placeholder prompt for task 437. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 438,
+      "prompt": "MBPP placeholder prompt for task 438. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 439,
+      "prompt": "MBPP placeholder prompt for task 439. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 440,
+      "prompt": "MBPP placeholder prompt for task 440. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 441,
+      "prompt": "MBPP placeholder prompt for task 441. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 442,
+      "prompt": "MBPP placeholder prompt for task 442. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 443,
+      "prompt": "MBPP placeholder prompt for task 443. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 444,
+      "prompt": "MBPP placeholder prompt for task 444. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 445,
+      "prompt": "MBPP placeholder prompt for task 445. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 446,
+      "prompt": "MBPP placeholder prompt for task 446. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 447,
+      "prompt": "MBPP placeholder prompt for task 447. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 448,
+      "prompt": "MBPP placeholder prompt for task 448. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 449,
+      "prompt": "MBPP placeholder prompt for task 449. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 450,
+      "prompt": "MBPP placeholder prompt for task 450. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 451,
+      "prompt": "MBPP placeholder prompt for task 451. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 452,
+      "prompt": "MBPP placeholder prompt for task 452. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 453,
+      "prompt": "MBPP placeholder prompt for task 453. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 454,
+      "prompt": "MBPP placeholder prompt for task 454. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 455,
+      "prompt": "MBPP placeholder prompt for task 455. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 456,
+      "prompt": "MBPP placeholder prompt for task 456. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 457,
+      "prompt": "MBPP placeholder prompt for task 457. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 458,
+      "prompt": "MBPP placeholder prompt for task 458. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 459,
+      "prompt": "MBPP placeholder prompt for task 459. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 460,
+      "prompt": "MBPP placeholder prompt for task 460. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 461,
+      "prompt": "MBPP placeholder prompt for task 461. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 462,
+      "prompt": "MBPP placeholder prompt for task 462. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 463,
+      "prompt": "MBPP placeholder prompt for task 463. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 464,
+      "prompt": "MBPP placeholder prompt for task 464. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 465,
+      "prompt": "MBPP placeholder prompt for task 465. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 466,
+      "prompt": "MBPP placeholder prompt for task 466. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 467,
+      "prompt": "MBPP placeholder prompt for task 467. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 468,
+      "prompt": "MBPP placeholder prompt for task 468. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 469,
+      "prompt": "MBPP placeholder prompt for task 469. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 470,
+      "prompt": "MBPP placeholder prompt for task 470. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 471,
+      "prompt": "MBPP placeholder prompt for task 471. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 472,
+      "prompt": "MBPP placeholder prompt for task 472. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 473,
+      "prompt": "MBPP placeholder prompt for task 473. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 474,
+      "prompt": "MBPP placeholder prompt for task 474. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 475,
+      "prompt": "MBPP placeholder prompt for task 475. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 476,
+      "prompt": "MBPP placeholder prompt for task 476. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 477,
+      "prompt": "MBPP placeholder prompt for task 477. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 478,
+      "prompt": "MBPP placeholder prompt for task 478. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 479,
+      "prompt": "MBPP placeholder prompt for task 479. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 480,
+      "prompt": "MBPP placeholder prompt for task 480. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 481,
+      "prompt": "MBPP placeholder prompt for task 481. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 482,
+      "prompt": "MBPP placeholder prompt for task 482. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 483,
+      "prompt": "MBPP placeholder prompt for task 483. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 484,
+      "prompt": "MBPP placeholder prompt for task 484. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 485,
+      "prompt": "MBPP placeholder prompt for task 485. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 486,
+      "prompt": "MBPP placeholder prompt for task 486. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 487,
+      "prompt": "MBPP placeholder prompt for task 487. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 488,
+      "prompt": "MBPP placeholder prompt for task 488. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 489,
+      "prompt": "MBPP placeholder prompt for task 489. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 490,
+      "prompt": "MBPP placeholder prompt for task 490. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 491,
+      "prompt": "MBPP placeholder prompt for task 491. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 492,
+      "prompt": "MBPP placeholder prompt for task 492. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 493,
+      "prompt": "MBPP placeholder prompt for task 493. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 494,
+      "prompt": "MBPP placeholder prompt for task 494. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 495,
+      "prompt": "MBPP placeholder prompt for task 495. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 496,
+      "prompt": "MBPP placeholder prompt for task 496. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 497,
+      "prompt": "MBPP placeholder prompt for task 497. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 498,
+      "prompt": "MBPP placeholder prompt for task 498. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 499,
+      "prompt": "MBPP placeholder prompt for task 499. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    },
+    {
+      "task_id": 500,
+      "prompt": "MBPP placeholder prompt for task 500. Populate with real MBPP prompt when offline cache is available.",
+      "reference_solutions": []
+    }
+  ]
+}

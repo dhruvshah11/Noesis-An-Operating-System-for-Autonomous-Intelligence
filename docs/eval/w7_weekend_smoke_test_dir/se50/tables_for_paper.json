@@ -1,0 +1,525 @@
+{
+  "generated_at": "2026-08-26T17:54:50.823121",
+  "seed": 42,
+  "se50": {
+    "overall_pass_at_1": 1.0,
+    "overall_ci_low": 1.0,
+    "overall_ci_high": 1.0,
+    "n_total": 9,
+    "n_correct": 9,
+    "per_category": [
+      {
+        "category": "Rust_Systems",
+        "n_total": 9,
+        "n_correct": 9,
+        "pass_at_1": 1.0,
+        "ci_low": 1.0,
+        "ci_high": 1.0
+      }
+    ],
+    "per_difficulty": [
+      {
+        "difficulty": "EASY",
+        "n_total": 6,
+        "n_correct": 6,
+        "pass_at_1": 1.0
+      },
+      {
+        "difficulty": "MEDIUM",
+        "n_total": 3,
+        "n_correct": 3,
+        "pass_at_1": 1.0
+      }
+    ]
+  },
+  "se50_rows": [
+    {
+      "task_id": "R01",
+      "category": "Rust_Systems",
+      "difficulty": "EASY",
+      "tristate": "signoff",
+      "duration_ms": 3,
+      "plan_sha": "sha-placeholder",
+      "kriyakari_conf": 0.5,
+      "samples": null
+    },
+    {
+      "task_id": "R01",
+      "category": "Rust_Systems",
+      "difficulty": "EASY",
+      "tristate": "signoff",
+      "duration_ms": 2,
+      "plan_sha": "sha-placeholder",
+      "kriyakari_conf": 0.5,
+      "samples": null
+    },
+    {
+      "task_id": "R01",
+      "category": "Rust_Systems",
+      "difficulty": "EASY",
+      "tristate": "signoff",
+      "duration_ms": 2,
+      "plan_sha": "sha-placeholder",
+      "kriyakari_conf": 0.5,
+      "samples": null
+    },
+    {
+      "task_id": "R02",
+      "category": "Rust_Systems",
+      "difficulty": "EASY",
+      "tristate": "signoff",
+      "duration_ms": 2,
+      "plan_sha": "sha-placeholder",
+      "kriyakari_conf": 0.5,
+      "samples": null
+    },
+    {
+      "task_id": "R02",
+      "category": "Rust_Systems",
+      "difficulty": "EASY",
+      "tristate": "signoff",
+      "duration_ms": 2,
+      "plan_sha": "sha-placeholder",
+      "kriyakari_conf": 0.5,
+      "samples": null
+    },
+    {
+      "task_id": "R02",
+      "category": "Rust_Systems",
+      "difficulty": "EASY",
+      "tristate": "signoff",
+      "duration_ms": 2,
+      "plan_sha": "sha-placeholder",
+      "kriyakari_conf": 0.5,
+      "samples": null
+    },
+    {
+      "task_id": "R03",
+      "category": "Rust_Systems",
+      "difficulty": "MEDIUM",
+      "tristate": "signoff",
+      "duration_ms": 2,
+      "plan_sha": "sha-placeholder",
+      "kriyakari_conf": 0.5,
+      "samples": null
+    },
+    {
+      "task_id": "R03",
+      "category": "Rust_Systems",
+      "difficulty": "MEDIUM",
+      "tristate": "signoff",
+      "duration_ms": 2,
+      "plan_sha": "sha-placeholder",
+      "kriyakari_conf": 0.5,
+      "samples": null
+    },
+    {
+      "task_id": "R03",
+      "category": "Rust_Systems",
+      "difficulty": "MEDIUM",
+      "tristate": "signoff",
+      "duration_ms": 2,
+      "plan_sha": "sha-placeholder",
+      "kriyakari_conf": 0.5,
+      "samples": null
+    }
+  ],
+  "ablation": {
+    "variant_keys": [
+      "baseline_nomem",
+      "baseline_nomac",
+      "full_noesis"
+    ],
+    "rows": [
+      {
+        "metric": "OVERALL pass@1",
+        "baseline_nomem": 0.8200000000000001,
+        "baseline_nomac": 0.91,
+        "full_noesis": 1.0
+      },
+      {
+        "metric": "Rust_Systems",
+        "baseline_nomem": 0.8200000000000001,
+        "baseline_nomac": 0.91,
+        "full_noesis": 1.0
+      }
+    ],
+    "notes": {
+      "c1_gain_full_vs_nomem_pp": 18.0,
+      "c2_gain_full_vs_nomac_pp": 9.0,
+      "c3_mcnemar_note": "Use mcnemar_pvalue(b,c) on paired per-task correctness vectors."
+    }
+  },
+  "signoff_avg_conf": 0.5,
+  "humaneval": {
+    "n": 50,
+    "correct": 50,
+    "pass_at_1": 1.0,
+    "pass_at_5": 1.0
+  },
+  "humaneval_buckets": [
+    {
+      "task_id": "HumanEval/0",
+      "codename": "HumanEval_0",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/0",
+      "codename": "HumanEval_1",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/0",
+      "codename": "HumanEval_2",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/0",
+      "codename": "HumanEval_3",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/0",
+      "codename": "HumanEval_4",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/1",
+      "codename": "HumanEval_5",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/1",
+      "codename": "HumanEval_6",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/1",
+      "codename": "HumanEval_7",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/1",
+      "codename": "HumanEval_8",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/1",
+      "codename": "HumanEval_9",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/2",
+      "codename": "HumanEval_10",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/2",
+      "codename": "HumanEval_11",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/2",
+      "codename": "HumanEval_12",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/2",
+      "codename": "HumanEval_13",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/2",
+      "codename": "HumanEval_14",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/3",
+      "codename": "HumanEval_15",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/3",
+      "codename": "HumanEval_16",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/3",
+      "codename": "HumanEval_17",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/3",
+      "codename": "HumanEval_18",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/3",
+      "codename": "HumanEval_19",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/4",
+      "codename": "HumanEval_20",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/4",
+      "codename": "HumanEval_21",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/4",
+      "codename": "HumanEval_22",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/4",
+      "codename": "HumanEval_23",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/4",
+      "codename": "HumanEval_24",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/5",
+      "codename": "HumanEval_25",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/5",
+      "codename": "HumanEval_26",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/5",
+      "codename": "HumanEval_27",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/5",
+      "codename": "HumanEval_28",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/5",
+      "codename": "HumanEval_29",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/6",
+      "codename": "HumanEval_30",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/6",
+      "codename": "HumanEval_31",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/6",
+      "codename": "HumanEval_32",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/6",
+      "codename": "HumanEval_33",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/6",
+      "codename": "HumanEval_34",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/7",
+      "codename": "HumanEval_35",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/7",
+      "codename": "HumanEval_36",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/7",
+      "codename": "HumanEval_37",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/7",
+      "codename": "HumanEval_38",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/7",
+      "codename": "HumanEval_39",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/8",
+      "codename": "HumanEval_40",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/8",
+      "codename": "HumanEval_41",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/8",
+      "codename": "HumanEval_42",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/8",
+      "codename": "HumanEval_43",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/8",
+      "codename": "HumanEval_44",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/9",
+      "codename": "HumanEval_45",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/9",
+      "codename": "HumanEval_46",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/9",
+      "codename": "HumanEval_47",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/9",
+      "codename": "HumanEval_48",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    },
+    {
+      "task_id": "HumanEval/9",
+      "codename": "HumanEval_49",
+      "pass_rate": 1.0,
+      "n_samples": 1,
+      "rank": null
+    }
+  ],
+  "mbpp": {
+    "n": 50,
+    "correct": 50,
+    "pass_at_1": 1.0
+  },
+  "mbpp_buckets": [
+    {
+      "bucket": "mbpp_diff_3",
+      "difficulty": 3,
+      "pass_at_1": 1.0,
+      "n_tasks": 50
+    }
+  ]
+}

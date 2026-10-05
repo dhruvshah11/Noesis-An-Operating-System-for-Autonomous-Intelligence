@@ -1,0 +1,30 @@
+{
+  "aggregates": {
+    "avg_duration_ms": 0.0,
+    "avg_length_chars": 68.73,
+    "compile_pass_rate": 1.0,
+    "compile_pass_total": 15,
+    "pass_at_1": 1.0,
+    "pass_at_3": 1.0,
+    "pass_at_5": 1.0,
+    "tasks_with_any_pass": 3,
+    "tasks_with_reference_solutions": 3
+  },
+  "corpus_stub": "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\backend\\benchmarks\\mbpp\\mbpp_sanitized_first500_stub.json",
+  "csv": "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\results_mbpp_smoke\\mbpp_results.csv",
+  "generated_at": "2026-08-24T17:25:24Z",
+  "harness": "bench_mbpp",
+  "mode": "seeded",
+  "rows_written": 15,
+  "samples_per_task": 5,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "tasks_total": 3,
+  "temperature": 0.7,
+  "wall_duration_ms": 896
+}

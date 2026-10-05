@@ -1,0 +1,56 @@
+{
+  "generated_at": "2026-08-24T15:27:23Z",
+  "audit_prompt": "Return only the literal JSON {\"ok\": true} with no markdown, commentary, or extra whitespace.",
+  "passed": 4,
+  "total": 4,
+  "providers": [
+    {
+      "provider": "ollama",
+      "model": "llama3.1:8b",
+      "mocked": true,
+      "parseable": true,
+      "error": "TimeoutError: ",
+      "latency_ms": 3004.15,
+      "content": "{\"ok\":true}",
+      "content_json_parsed": {
+        "ok": true
+      }
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "mocked": true,
+      "parseable": true,
+      "error": null,
+      "latency_ms": 0.03,
+      "content": "{\"ok\":true}",
+      "content_json_parsed": {
+        "ok": true
+      }
+    },
+    {
+      "provider": "openrouter",
+      "model": "openrouter/auto",
+      "mocked": true,
+      "parseable": true,
+      "error": null,
+      "latency_ms": 0.02,
+      "content": "{\"ok\":true}",
+      "content_json_parsed": {
+        "ok": true
+      }
+    },
+    {
+      "provider": "llamacpp",
+      "model": "llama-3",
+      "mocked": true,
+      "parseable": true,
+      "error": "TimeoutError: ",
+      "latency_ms": 3000.55,
+      "content": "{\"ok\":true}",
+      "content_json_parsed": {
+        "ok": true
+      }
+    }
+  ]
+}

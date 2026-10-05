@@ -1,0 +1,46 @@
+{
+  "aggregates": {
+    "avg_duration_ms": 0.11,
+    "pass_at_1": 1.0,
+    "pass_at_3": 1.0,
+    "signoff_rate": 1.0,
+    "signoff_total": 9
+  },
+  "base_seed": 42,
+  "corpus": "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\backend\\benchmarks\\noesis_se50\\corpus.json",
+  "csv": "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\w7_weekend_dryrun_Aug26\\se50\\se50_results.csv",
+  "generated_at": "2026-08-26T15:19:47Z",
+  "harness": "bench_se50_batch",
+  "mode": "seeded",
+  "per_category": {
+    "Rust_Systems": {
+      "avg_duration_ms": 0.11,
+      "n": 9,
+      "pass_at_1": 1.0,
+      "pass_at_3": 1.0,
+      "signoffs": 9
+    }
+  },
+  "per_difficulty": {
+    "EASY": {
+      "avg_duration_ms": 0.17,
+      "n": 6,
+      "pass_at_1": 1.0,
+      "pass_at_3": 1.0,
+      "signoffs": 6
+    },
+    "MEDIUM": {
+      "avg_duration_ms": 0.0,
+      "n": 3,
+      "pass_at_1": 1.0,
+      "pass_at_3": 1.0,
+      "signoffs": 3
+    }
+  },
+  "provider": "MockProvider",
+  "rows_written": 9,
+  "runs_per_task": 3,
+  "tasks_total": 3,
+  "timeout_per_task_s": 300,
+  "wall_duration_ms": 46
+}

@@ -1,0 +1,77 @@
+{
+  "description": "Noesis MS9 Self-Host 10-PR Benchmark Corpus (synthetic stub v0.2.0-rc2)",
+  "corpus_version": "0.2.0-rc2",
+  "created_at": "2026-08-24",
+  "pull_requests": [
+    {
+      "id": 1,
+      "title": "Add user auth login/logout endpoints with JWT refresh tokens",
+      "body": "Implement /v1/auth/login, /v1/auth/refresh, and /v1/auth/logout endpoints. Use python-jose for JWT signing with RS256, store refresh tokens hashed in SQLite with 7-day TTL. Include pydantic request/response models + rate-limiting via slowapi (5 req/min per IP on login).",
+      "expected_files_changed": 4,
+      "repo_path": "repos/pr1_scratch"
+    },
+    {
+      "id": 2,
+      "title": "Rewrite 3-tier memory promotion controller with Qdrant vector indexes",
+      "body": "Refactor noesis/memory/promotion.py from the tiered-list heuristic into the 4-phase controller: (1) TTL scan, (2) cosine-sim deduplication against T4+T5, (3) LLM summarise + criticality score, (4) promote with provenance links. Qdrant collection 'memory:t4' upsert threshold = 0.78 cosine.",
+      "expected_files_changed": 3,
+      "repo_path": "repos/pr2_scratch"
+    },
+    {
+      "id": 3,
+      "title": "LLM provider failover router with 4-provider circuit-breaker",
+      "body": "In noesis/llm/factory.py add FailoverLLMProvider implementing OpenAI-compatible ChatCompletions. Order: openai -> anthropic -> gemini -> openrouter. Trip threshold = 3 consecutive 5xx / timeouts, reset after 60s. Emit Prometheus counter 'noesis_llm_failover_total{from,to}'.",
+      "expected_files_changed": 2,
+      "repo_path": "repos/pr3_scratch"
+    },
+    {
+      "id": 4,
+      "title": "Executor tristate signoff with deterministic acceptance criteria",
+      "body": "Kriyakari (ExecutorAgent) emits a TriStateDecision = SIGNOFF | REJECT | REPLAN for every plan. Each criterion must carry severity + met bool. REPLAN if >=1 high severity unmet, REJECT if any critical unmet, else SIGNOFF. Wire into run_full_seeded_pipeline.py exit code gating.",
+      "expected_files_changed": 3,
+      "repo_path": "repos/pr4_scratch"
+    },
+    {
+      "id": 5,
+      "title": "Frontend Next.js rewrite: conversations page with streaming SSE",
+      "body": "frontend/app/conversations/page.tsx — render the 12-agent Sanskrit pipeline timeline. Server-sent events from GET /v1/kernel/stream/:run_id, each event paints a phase card (Manan -> Nirikshak). Use Tailwind v3 + shadcn/ui Card + Badge. Error state -> AlertDialog with retry button.",
+      "expected_files_changed": 5,
+      "repo_path": "repos/pr5_scratch"
+    },
+    {
+      "id": 6,
+      "title": "MAC audit: 4 Viva Deny spawn scenarios (kernel.capabilities)",
+      "body": "Audit noesis/kernel/capabilities.py + allocators.py for 4 MAC deny scenarios: (a) Rakshak critic trying to write outside /tmp, (b) ToolAgent calling exec with sudo, (c) Planner spawning network socket, (d) Memory agent accessing another agent's workspace. audit_mac_spawn.py should exit 0 when all 4 deny.",
+      "expected_files_changed": 3,
+      "repo_path": "repos/pr6_scratch"
+    },
+    {
+      "id": 7,
+      "title": "Determinism manifest: C3 bit-exact 100-run sha256 identity",
+      "body": "scripts/determinism_manifest.py outputs CSV run_index,duration_ms,sha256_canonical over 5 goals x 1 seed. reproducibility_score = (#identical pairs)/N^2 = 1.0. Strip wall-clock keys before hashing; keep semantic reports only. Unit test guards --smoke 3.",
+      "expected_files_changed": 2,
+      "repo_path": "repos/pr7_scratch"
+    },
+    {
+      "id": 8,
+      "title": "Paper/thesis drafts: chapters 03-05 architecture methodology implementation",
+      "body": "docs/paper/03_architecture_methodology.md and docs/thesis/chapters/{03_system_architecture,04_methodology,05_implementation}.md. Include 6-tier memory model diagram ref, 12-agent pipeline table, threat model (MAC + failover). Word count target per chapter >= 1500.",
+      "expected_files_changed": 4,
+      "repo_path": "repos/pr8_scratch"
+    },
+    {
+      "id": 9,
+      "title": "Kernel promotion controller scheduler integration with backpressure",
+      "body": "Wire MemoryBus promotion_tick() into KernelScheduler every 30s loop tick. If T2->T3 queue > 200 entries, skip promotion cycle and emit noesis_memory_backpressure_total counter. Integration test in tests/integration/test_kernel_e2e.py.",
+      "expected_files_changed": 4,
+      "repo_path": "repos/pr9_scratch"
+    },
+    {
+      "id": 10,
+      "title": "Docker laptop + SBOM: 3-stage build + Trivy 0 HIGH/CRITICAL gate",
+      "body": "Dockerfile.laptop 3-stage (builder -> installer -> runtime slim) with USER noesisapp uid=10001, HEALTHCHECK /health, EXPOSE 8000. sbom/trivyignore kept empty (0 exemptions allowed). audit_sbom.sh + .ps1 scripts: syft -> dist/noesis-sbom.spdx.json, trivy --severity HIGH,CRITICAL --exit-code 1.",
+      "expected_files_changed": 6,
+      "repo_path": "repos/pr10_scratch"
+    }
+  ]
+}

@@ -1,0 +1,523 @@
+
+===== SLIDE 01 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Image 1' type=PICTURE (13) [IMAGE size=13119 bytes ext=png]
+  shape 5 name='Text 1' type=AUTO_SHAPE (1) :: NOESIS
+  shape 6 name='Text 2' type=AUTO_SHAPE (1) :: An Operating System Kernel for Autonomous Multi-Agent Intelligence
+  shape 36 name='TextBox 35' type=TEXT_BOX (17) :: νόησις  ·  νους  ·  μνήμη  —  Intellection · Mind · Memory
+  shape 37 name='TextBox 5' type=TEXT_BOX (17) :: Presented by:
+  shape 37 name='TextBox 5' type=TEXT_BOX (17) :: 500118979  - Dhruv Shah
+  shape 37 name='TextBox 5' type=TEXT_BOX (17) :: 500123471  - Manan Nasa
+  shape 38 name='TextBox 8' type=TEXT_BOX (17) :: Mentored By:
+  shape 38 name='TextBox 8' type=TEXT_BOX (17) :: Dr. Archana Kumari
+
+===== SLIDE 02 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Introduction  —  
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: What is NOESIS?
+  shape 10 name='Text 6' type=AUTO_SHAPE (1) :: What It Is
+  shape 11 name='Text 7' type=AUTO_SHAPE (1) :: An operating-system-inspired orchestration kernel for autonomous multi-agent AI. Provides typed agent lifecycle, hierarchical memory, capability-based security, and deterministic execution within a single substrate.
+  shape 14 name='Text 10' type=AUTO_SHAPE (1) :: How It Works
+  shape 15 name='Text 11' type=AUTO_SHAPE (1) :: A natural-language goal and capability token are submitted. The kernel decomposes the goal into a task DAG, delegates execution to 12 typed specialist agents in deterministic order, enforces security gates at every step, and returns a verified, auditable typed report.
+  shape 18 name='Text 14' type=AUTO_SHAPE (1) :: Target Context
+  shape 19 name='Text 15' type=AUTO_SHAPE (1) :: Software engineering automation · Research synthesis requiring citation provenance · Workflows with auditability requirements · Edge inference on local hardware without recurring cloud API costs.
+  shape 22 name='Text 18' type=AUTO_SHAPE (1) :: Current Status
+  shape 23 name='Text 19' type=AUTO_SHAPE (1) :: M7 implementation completed: 12 typed agents, 256 passing tests, 31 API endpoints, 71.9% test coverage, Next.js dashboard , Benchmark evaluation and Jetson edge deployment are ongoing work.
+  shape 25 name='Picture 24' type=PICTURE (13) [IMAGE size=2055746 bytes ext=png]
+
+===== SLIDE 03 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Motivation  —  
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Why Kernel-Level Multi-Agent AI?
+  shape 5 name='Text 2' type=AUTO_SHAPE (1) :: Three converging observations motivate a kernel-level approach to multi-agent orchestration in 2026.
+  shape 8 name='Text 5' type=AUTO_SHAPE (1) :: ~74%
+  shape 9 name='Text 6' type=AUTO_SHAPE (1) :: of enterprise LLM-agent pilots discontinued due to reliability concerns
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: Reliability, auditability, and reproducibility are reported as primary barriers to enterprise deployment of autonomous AI agents. System-level orchestration guarantees remain an open research challenge. (Gartner, 2025)
+  shape 14 name='Text 11' type=AUTO_SHAPE (1) :: Local
+  shape 15 name='Text 12' type=AUTO_SHAPE (1) :: inference eliminates recurring cloud API token cost
+  shape 17 name='Text 14' type=AUTO_SHAPE (1) :: Quantised models (e.g., Qwen2.5-Coder-7B Q4) run at 10–14 tok/s on low-power edge hardware ($139 Jetson Orin Nano). This removes a significant barrier to agent deployment in resource-constrained or air-gapped environments.
+  shape 20 name='Text 17' type=AUTO_SHAPE (1) :: 50yr
+  shape 21 name='Text 18' type=AUTO_SHAPE (1) :: of OS design provides relevant, proven engineering primitives
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: Unix spawn/join semantics [9], capability-based access control [10], and memory hierarchy are conceptual inspirations for NOESIS. System-level orchestration, security, and reproducibility for AI agents remain important open challenges.
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: "System-level orchestration, security, and reproducibility remain important challenges for autonomous multi-agent AI workflows."
+
+===== SLIDE 04 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Problem Statement  —  Research Gaps in Multi-Agent AI
+  shape 5 name='Text 2' type=AUTO_SHAPE (1) :: Existing multi-agent frameworks do not natively provide the complete set of kernel-level guarantees targeted by NOESIS.
+  shape 9 name='Text 6' type=AUTO_SHAPE (1) :: Memory Management
+  shape 10 name='Text 7' type=AUTO_SHAPE (1) :: Existing limitation:
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: Predominantly retrieval-oriented (flat vector) memory with limited long-term retention management across agent boundaries.
+  shape 12 name='Text 9' type=AUTO_SHAPE (1) :: Research gap:
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: Insufficient hierarchical memory lifecycle management for sustained multi-step agentic workflows.
+  shape 15 name='Text 12' type=AUTO_SHAPE (1) :: NOESIS approach → 6-tier Νόησις memory with structured promotion and SHA-256 provenance  (C3)
+  shape 19 name='Text 16' type=AUTO_SHAPE (1) :: Capability Security
+  shape 20 name='Text 17' type=AUTO_SHAPE (1) :: Existing limitation:
+  shape 21 name='Text 18' type=AUTO_SHAPE (1) :: Framework-level access control; no formal capability inheritance model at the agent spawn boundary.
+  shape 22 name='Text 19' type=AUTO_SHAPE (1) :: Research gap:
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: Limited kernel-level capability isolation and deny-first enforcement for spawned sub-agents.
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: NOESIS approach → AND-mask capability token inheritance with typed PermissionDenied  (C1)
+  shape 29 name='Text 26' type=AUTO_SHAPE (1) :: Deterministic Execution
+  shape 30 name='Text 27' type=AUTO_SHAPE (1) :: Existing limitation:
+  shape 31 name='Text 28' type=AUTO_SHAPE (1) :: Stochastic LLM sampling makes exact replay difficult across identical inputs without explicit seeding.
+  shape 32 name='Text 29' type=AUTO_SHAPE (1) :: Research gap:
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: Cannot guarantee reproducible execution traces, complicating debugging, auditing, and regression testing.
+  shape 35 name='Text 32' type=AUTO_SHAPE (1) :: NOESIS approach → Fixed-seed deterministic orchestration with immutable audit trace  (C2)
+  shape 39 name='Text 36' type=AUTO_SHAPE (1) :: Agent Lifecycle Control
+  shape 40 name='Text 37' type=AUTO_SHAPE (1) :: Existing limitation:
+  shape 41 name='Text 38' type=AUTO_SHAPE (1) :: Workflow-level orchestration without kernel-level spawn, join, checkpoint, or resume primitives.
+  shape 42 name='Text 39' type=AUTO_SHAPE (1) :: Research gap:
+  shape 43 name='Text 40' type=AUTO_SHAPE (1) :: Limited recovery mechanisms for multi-step workflows interrupted by transient failures.
+  shape 45 name='Text 42' type=AUTO_SHAPE (1) :: NOESIS approach → Kernel-level lifecycle hooks: spawn / join / checkpoint / resume  (C2+C3)
+
+===== SLIDE 05 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Research Gap  —  System-Level Analysis
+  shape 5 name='Text 2' type=AUTO_SHAPE (1) :: Four-axis gap analysis motivating the NOESIS kernel research contribution.
+  shape 7 name='Text 4' type=AUTO_SHAPE (1) :: System Aspect
+  shape 9 name='Text 6' type=AUTO_SHAPE (1) :: Existing Approach
+  shape 9 name='Text 6' type=AUTO_SHAPE (1) :: (Conventional Frameworks)
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: Identified Gap
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: NOESIS Contribution
+  shape 15 name='Text 12' type=AUTO_SHAPE (1) :: Memory
+  shape 17 name='Text 14' type=AUTO_SHAPE (1) :: Predominantly retrieval-oriented (flat vector) memory; limited long-term management
+  shape 19 name='Text 16' type=AUTO_SHAPE (1) :: Insufficient hierarchical lifecycle management for extended multi-agent workflows
+  shape 21 name='Text 18' type=AUTO_SHAPE (1) :: 6-tier Νόησις memory with promotion controller and SHA-256 provenance (C3)
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: Capability
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: Security
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: Tool and agent access governed by framework-level policies; no formal capability inheritance
+  shape 27 name='Text 24' type=AUTO_SHAPE (1) :: Limited kernel-level capability isolation at the agent spawn boundary
+  shape 29 name='Text 26' type=AUTO_SHAPE (1) :: AND-mask capability token inheritance with deny-first policy and typed PermissionDenied (C1)
+  shape 31 name='Text 28' type=AUTO_SHAPE (1) :: Reproducibility
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: Stochastic LLM execution; replay across identical inputs not guaranteed without explicit seeding
+  shape 35 name='Text 32' type=AUTO_SHAPE (1) :: Difficult to guarantee deterministic trace for audit, debugging, or regression testing
+  shape 37 name='Text 34' type=AUTO_SHAPE (1) :: Fixed-seed deterministic orchestration producing structured, immutable audit traces (C2)
+  shape 39 name='Text 36' type=AUTO_SHAPE (1) :: Lifecycle
+  shape 39 name='Text 36' type=AUTO_SHAPE (1) :: Control
+  shape 41 name='Text 38' type=AUTO_SHAPE (1) :: Workflow-level orchestration primitives; limited checkpoint and recovery hooks
+  shape 43 name='Text 40' type=AUTO_SHAPE (1) :: Restricted ability to spawn, join, checkpoint, or resume kernel-level agent subtrees
+  shape 45 name='Text 42' type=AUTO_SHAPE (1) :: Kernel-level lifecycle hooks: spawn / join / checkpoint / replan / resume (C2+C3)
+  shape 47 name='Text 44' type=AUTO_SHAPE (1) :: Research question: Does applying operating-system-inspired primitives — capability security, deterministic execution, hierarchical memory, and lifecycle management — improve the reliability, reproducibility, security, and manageability of autonomous multi-agent AI workflows?
+
+===== SLIDE 06 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Target Applications
+  shape 5 name='Text 2' type=AUTO_SHAPE (1) :: Four primary application domains investigated within the NOESIS research scope.
+  shape 8 name='Text 5' type=AUTO_SHAPE (1) :: Autonomous Code Engineering
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: Automated PR generation, test execution, code review, and merge.
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: Deterministic audit replay enables regression testing across agent runs.
+  shape 15 name='Text 12' type=AUTO_SHAPE (1) :: Measurable: pass@1 on HumanEval, MBPP, and SWE-bench benchmarks.
+  shape 18 name='Text 15' type=AUTO_SHAPE (1) ::  Research Knowledge Synthesis
+  shape 21 name='Text 18' type=AUTO_SHAPE (1) :: Multi-source retrieval synthesis with structured citation provenance.
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: 6-tier memory supports cross-session knowledge retention.
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: Supports workflows requiring traceable, citation-grounded outputs.
+  shape 28 name='Text 25' type=AUTO_SHAPE (1) :: DevOps Workflow Automation
+  shape 31 name='Text 28' type=AUTO_SHAPE (1) :: Multi-agent orchestration with All/Any/Majority join policies.
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: Kernel-level checkpoint and resume for multi-step workflow recovery.
+  shape 35 name='Text 32' type=AUTO_SHAPE (1) :: Structured recovery reduces silent workflow failure in long-running tasks.
+  shape 38 name='Text 35' type=AUTO_SHAPE (1) :: Edge AI — Offline Inference
+  shape 41 name='Text 38' type=AUTO_SHAPE (1) :: Full 12-agent pipeline on NVIDIA Jetson Orin Nano (~$600 hardware).
+  shape 43 name='Text 40' type=AUTO_SHAPE (1) :: No recurring cloud API token cost; operates offline in air-gapped environments.
+  shape 45 name='Text 42' type=AUTO_SHAPE (1) :: Target: full pipeline at 10–14 tok/s with 7–15 W power consumption.
+
+===== SLIDE 07 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Input, Processing, Output & Evaluation Framework
+  shape 5 name='Text 2' type=AUTO_SHAPE (1) :: End-to-end pipeline structure and proposed evaluation methodology. Baseline values from literature; target values are experimental goals.
+  shape 7 name='Text 4' type=AUTO_SHAPE (1) :: Goal Specification
+  shape 8 name='Text 5' type=AUTO_SHAPE (1) :: Natural language task description
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: Capability Token
+  shape 12 name='Text 9' type=AUTO_SHAPE (1) :: { SPAWN_AGENT:*, TOOL_INVOKE:files}
+  shape 15 name='Text 12' type=AUTO_SHAPE (1) :: Task DAG Planning
+  shape 16 name='Text 13' type=AUTO_SHAPE (1) :: Kahn-sorted execution graph
+  shape 19 name='Text 16' type=AUTO_SHAPE (1) :: 12-Agent Execution
+  shape 20 name='Text 17' type=AUTO_SHAPE (1) :: Deterministic, seeded, typed
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: Verification & Replan
+  shape 24 name='Text 21' type=AUTO_SHAPE (1) :: CriticAgent + ExecutorAgent gate
+  shape 27 name='Text 24' type=AUTO_SHAPE (1) :: Audited Output
+  shape 28 name='Text 25' type=AUTO_SHAPE (1) :: Typed report + SHA-256 trace
+  shape 54 name='Text 51' type=AUTO_SHAPE (1) :: System-Level Evaluation Metrics
+  shape 56 name='Text 53' type=AUTO_SHAPE (1) :: Replay Consistency
+  shape 58 name='Text 55' type=AUTO_SHAPE (1) :: Proposed
+  shape 59 name='Text 56' type=AUTO_SHAPE (1) :: Percentage of deterministic runs with bit-exact output across identical seeds
+  shape 61 name='Text 58' type=AUTO_SHAPE (1) :: Unauthorised Action Rejection
+  shape 63 name='Text 60' type=AUTO_SHAPE (1) :: Proposed
+  shape 64 name='Text 61' type=AUTO_SHAPE (1) :: Rate of correct PermissionDenied responses to capability-violating requests
+  shape 66 name='Text 63' type=AUTO_SHAPE (1) :: Workflow Completion Rate
+  shape 68 name='Text 65' type=AUTO_SHAPE (1) :: Proposed
+  shape 69 name='Text 66' type=AUTO_SHAPE (1) :: Fraction of multi-step workflows completing without silent failure
+  shape 71 name='Text 68' type=AUTO_SHAPE (1) :: End-to-End Latency
+  shape 73 name='Text 70' type=AUTO_SHAPE (1) :: Proposed
+  shape 74 name='Text 71' type=AUTO_SHAPE (1) :: Wall-clock time from goal submission to audited report, p50/p95
+  shape 76 name='Text 73' type=AUTO_SHAPE (1) :: Power Consumption
+  shape 78 name='Text 75' type=AUTO_SHAPE (1) :: Proposed
+  shape 79 name='Text 76' type=AUTO_SHAPE (1) :: Average GPU power draw during 12-agent pipeline on Jetson hardware
+  shape 81 name='Text 25' type=AUTO_SHAPE (1) :: Evaluation Benchmarks
+  shape 85 name='Text 27' type=AUTO_SHAPE (1) :: HumanEval
+  shape 87 name='Text 28' type=AUTO_SHAPE (1) :: 164 code problems
+  shape 95 name='Text 32' type=AUTO_SHAPE (1) :: Base 62%
+  shape 97 name='Text 33' type=AUTO_SHAPE (1) :: Target 70%  +8% pass@1
+  shape 101 name='Text 35' type=AUTO_SHAPE (1) :: MBPP
+  shape 103 name='Text 36' type=AUTO_SHAPE (1) :: 1,000 programs
+  shape 111 name='Text 40' type=AUTO_SHAPE (1) :: Base 51%
+  shape 113 name='Text 41' type=AUTO_SHAPE (1) :: Target 63%  +12% pass@1
+  shape 117 name='Text 43' type=AUTO_SHAPE (1) :: SWE-bench
+  shape 119 name='Text 44' type=AUTO_SHAPE (1) :: 300 GitHub PRs
+  shape 127 name='Text 48' type=AUTO_SHAPE (1) :: Base 5%
+  shape 129 name='Text 49' type=AUTO_SHAPE (1) :: Target 25%  ≥25% resolve
+  shape 133 name='Text 51' type=AUTO_SHAPE (1) :: Self-Host
+  shape 135 name='Text 52' type=AUTO_SHAPE (1) :: 10 NOESIS PRs
+  shape 141 name='Text 55' type=AUTO_SHAPE (1) :: Base 0%
+  shape 143 name='Text 56' type=AUTO_SHAPE (1) :: Target 50%  ≥5/10 green
+
+===== SLIDE 08 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Literature Review
+  shape 8 name='Text 5' type=AUTO_SHAPE (1) :: A  Multi-Agent AI & Orchestration
+  shape 9 name='Text 6' type=AUTO_SHAPE (1) :: References: 
+  shape 10 name='Text 7' type=AUTO_SHAPE (1) :: LangChain v0.3 [5] · Microsoft AutoGen [6]
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: Prior contribution:
+  shape 12 name='Text 9' type=AUTO_SHAPE (1) :: Agent communication, tool-calling, and task delegation frameworks at scale.
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: Remaining gap:
+  shape 14 name='Text 11' type=AUTO_SHAPE (1) :: No kernel-level security boundaries, deterministic replay, or hierarchical memory management.
+  shape 16 name='Text 13' type=AUTO_SHAPE (1) :: NOESIS targets C1, C2, C3 to address these system-level limitations.
+  shape 19 name='Text 16' type=AUTO_SHAPE (1) :: B  Memory & Long-Context
+  shape 20 name='Text 17' type=AUTO_SHAPE (1) :: References: 
+  shape 21 name='Text 18' type=AUTO_SHAPE (1) :: Liu et al. — Lost in the Middle (ACL 2023) [1]
+  shape 22 name='Text 19' type=AUTO_SHAPE (1) :: Prior contribution:
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: Identifies performance degradation in long-context LLM tasks; proposes two-tier retrieval.
+  shape 24 name='Text 21' type=AUTO_SHAPE (1) :: Remaining gap:
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: Retrieval-oriented approaches do not address hierarchical lifecycle management across agent steps.
+  shape 27 name='Text 24' type=AUTO_SHAPE (1) :: Motivates C3 — the 6-tier Νόησις memory model with promotion and provenance.
+  shape 30 name='Text 27' type=AUTO_SHAPE (1) :: C  Capability Security
+  shape 31 name='Text 28' type=AUTO_SHAPE (1) :: References: 
+  shape 32 name='Text 29' type=AUTO_SHAPE (1) :: Miller, Yee & Shapiro (2003) [10] · Ritchie & Thompson (1978) [9]
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: Prior contribution:
+  shape 34 name='Text 31' type=AUTO_SHAPE (1) :: Formal capability security (AND-mask, deny-first) and Unix OS spawn/join primitives.
+  shape 35 name='Text 32' type=AUTO_SHAPE (1) :: Remaining gap:
+  shape 36 name='Text 33' type=AUTO_SHAPE (1) :: These OS-level constructs have not been applied to multi-agent AI orchestration.
+  shape 38 name='Text 35' type=AUTO_SHAPE (1) :: Motivates C1 — AND-mask capability tokens and deny-first access control.
+  shape 41 name='Text 38' type=AUTO_SHAPE (1) :: D  Code Generation & Evaluation
+  shape 42 name='Text 39' type=AUTO_SHAPE (1) :: References: 
+  shape 43 name='Text 40' type=AUTO_SHAPE (1) :: HumanEval [2] · MBPP [3] · SWE-bench [4] · 
+  shape 43 name='Text 40' type=AUTO_SHAPE (1) :: Qwen2.5-Coder [7] · DeepSeek-Coder V2 [8]
+  shape 44 name='Text 41' type=AUTO_SHAPE (1) :: Prior contribution:
+  shape 45 name='Text 42' type=AUTO_SHAPE (1) :: Established pass@1 benchmarks and strong baseline LLMs for code generation tasks.
+  shape 46 name='Text 43' type=AUTO_SHAPE (1) :: Remaining gap:
+  shape 47 name='Text 44' type=AUTO_SHAPE (1) :: Evaluation focuses on standalone models; multi-agent pipeline effects are not measured.
+  shape 49 name='Text 46' type=AUTO_SHAPE (1) :: Provides the evaluation framework for O2 — benchmark performance objective.
+
+===== SLIDE 09 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: SWOT Analysis
+  shape 7 name='Text 4' type=AUTO_SHAPE (1) :: Strategic position of NOESIS as an open, capstone-grade multi-agent OS kernel project.
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: S
+  shape 12 name='Text 9' type=AUTO_SHAPE (1) :: Strengths
+  shape 14 name='Text 11' type=AUTO_SHAPE (1) :: 256/256 tests — fully typed and deterministic
+  shape 16 name='Text 13' type=AUTO_SHAPE (1) :: AND-mask MAC security (unique in open-source)
+  shape 18 name='Text 15' type=AUTO_SHAPE (1) :: Bit-exact replay — audit and compliance grade
+  shape 20 name='Text 17' type=AUTO_SHAPE (1) :: 6-tier memory with SHA-256 provenance chain
+  shape 24 name='Text 21' type=AUTO_SHAPE (1) :: W
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: Weaknesses
+  shape 27 name='Text 24' type=AUTO_SHAPE (1) :: Roster tuned for software engineering today
+  shape 29 name='Text 26' type=AUTO_SHAPE (1) :: Single node — MPI fan-out planned for M9
+  shape 31 name='Text 28' type=AUTO_SHAPE (1) :: Local model quality ≈ GPT-3.5 tier currently
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: TensorRT-LLM GPU scheduler not yet integrated
+  shape 37 name='Text 34' type=AUTO_SHAPE (1) :: O
+  shape 38 name='Text 35' type=AUTO_SHAPE (1) :: Opportunities
+  shape 40 name='Text 37' type=AUTO_SHAPE (1) :: HIPAA/SOX governance wave demands auditable AI
+  shape 42 name='Text 39' type=AUTO_SHAPE (1) :: $139 Jetson Nano = zero-fee on-device AI boom
+  shape 44 name='Text 41' type=AUTO_SHAPE (1) :: No OSS rival has all 3: memory+MAC+determinism
+  shape 46 name='Text 43' type=AUTO_SHAPE (1) :: NoesisOS desktop installer broadens the market
+  shape 50 name='Text 47' type=AUTO_SHAPE (1) :: T
+  shape 51 name='Text 48' type=AUTO_SHAPE (1) :: Threats
+  shape 53 name='Text 50' type=AUTO_SHAPE (1) :: LangChain/AutoGen may add security gates later
+  shape 55 name='Text 52' type=AUTO_SHAPE (1) :: GPT-4o cloud maintains output quality advantage
+  shape 57 name='Text 54' type=AUTO_SHAPE (1) :: "Kernel" framing may confuse non-technical buyers
+  shape 59 name='Text 56' type=AUTO_SHAPE (1) :: Larger models may require more compute later
+
+===== SLIDE 10 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Objectives
+  shape 7 name='Text 4' type=AUTO_SHAPE (1) :: Main Objective
+  shape 8 name='Text 5' type=AUTO_SHAPE (1) :: Design, implement, and evaluate an open, deterministic kernel substrate for autonomous multi-agent AI that addresses four kernel-level limitations — hierarchical memory management, capability-based security, deterministic execution, and agent lifecycle control — while demonstrating feasibility of deployment on resource-constrained edge hardware.
+  shape 9 name='Text 6' type=AUTO_SHAPE (1) :: Measurable Sub-Objectives
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: O1
+  shape 14 name='Text 11' type=AUTO_SHAPE (1) :: Typed Multi-Agent Kernel
+  shape 15 name='Text 12' type=AUTO_SHAPE (1) :: Design and implement a 12-agent typed roster (Manan → Nirikshak) with AND-mask capability spawn gates and a tri-state ExecutorAgent decision gate. Verified by ≥256 automated pytest green gates.
+  shape 17 name='Text 14' type=AUTO_SHAPE (1) :: COMPLETED (M7)
+  shape 21 name='Text 18' type=AUTO_SHAPE (1) :: O2
+  shape 22 name='Text 19' type=AUTO_SHAPE (1) :: Benchmark Evaluation
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: Evaluate the 12-agent pipeline on HumanEval (+8% pass@1 target), MBPP (+12% target), SWE-bench-Lite, and a Self-Hosted PR benchmark (≥5/10 green). Compare against standalone Qwen2.5-Coder-7B baseline with fixed-seed reproducibility.
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: PROPOSED (evaluation phase)
+  shape 29 name='Text 26' type=AUTO_SHAPE (1) :: O3
+  shape 30 name='Text 27' type=AUTO_SHAPE (1) :: Edge Deployment
+  shape 31 name='Text 28' type=AUTO_SHAPE (1) :: Package and deploy the NOESIS kernel on NVIDIA Jetson Orin Nano (~$139 hardware, 7–15 W, no recurring cloud API token cost). Characterise performance, power, and latency for the full 12-agent pipeline on-device.
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: PROPOSED (ongoing)
+
+===== SLIDE 11 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Conventional Agent Workflow  vs  NOESIS Kernel Approach
+  shape 7 name='Text 4' type=AUTO_SHAPE (1) :: Conventional Approach  (e.g., LangChain, AutoGen)
+  shape 9 name='Text 6' type=AUTO_SHAPE (1) :: NOESIS Kernel Approach  (design intent)
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: Memory
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: Retrieval-oriented (flat vector) memory.
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: Limited long-term retention across agent boundaries.
+  shape 15 name='Text 12' type=AUTO_SHAPE (1) :: 6-tier Νόησις memory (C3).
+  shape 15 name='Text 12' type=AUTO_SHAPE (1) :: Structured promotion with SHA-256 provenance tracking.
+  shape 17 name='Text 14' type=AUTO_SHAPE (1) :: Security
+  shape 19 name='Text 16' type=AUTO_SHAPE (1) :: Framework-level access control.
+  shape 19 name='Text 16' type=AUTO_SHAPE (1) :: No formal capability inheritance model at spawn.
+  shape 21 name='Text 18' type=AUTO_SHAPE (1) :: AND-mask capability token inheritance (C1).
+  shape 21 name='Text 18' type=AUTO_SHAPE (1) :: Deny-first policy; typed PermissionDenied on violation.
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: Reproducibility
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: Stochastic LLM execution.
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: Exact replay across identical inputs not guaranteed.
+  shape 27 name='Text 24' type=AUTO_SHAPE (1) :: Fixed-seed deterministic orchestration (C2).
+  shape 27 name='Text 24' type=AUTO_SHAPE (1) :: Bit-exact replay with immutable audit trace.
+  shape 29 name='Text 26' type=AUTO_SHAPE (1) :: Lifecycle
+  shape 31 name='Text 28' type=AUTO_SHAPE (1) :: Workflow-level orchestration.
+  shape 31 name='Text 28' type=AUTO_SHAPE (1) :: Limited checkpoint and recovery primitives.
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: Kernel-level spawn / join / checkpoint / resume.
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: Structured replan on agent failure.
+  shape 35 name='Text 32' type=AUTO_SHAPE (1) :: Inference Cost
+  shape 37 name='Text 34' type=AUTO_SHAPE (1) :: Recurring cloud API token cost for LLM calls.
+  shape 39 name='Text 36' type=AUTO_SHAPE (1) :: No recurring cloud API token cost for local inference.
+  shape 39 name='Text 36' type=AUTO_SHAPE (1) :: Total hardware cost ~$300 (NVIDIA Jetson Orin Nano).
+
+===== SLIDE 12 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Methodology  —  Steps & Execution Flow
+  shape 8 name='Text 5' type=AUTO_SHAPE (1) :: 1
+  shape 9 name='Text 6' type=AUTO_SHAPE (1) :: Kernel Primitives
+  shape 10 name='Text 7' type=AUTO_SHAPE (1) :: types · Pydantic v2 · DI · 31 HTTP endpoints · Alembic
+  shape 16 name='Text 13' type=AUTO_SHAPE (1) :: 2
+  shape 17 name='Text 14' type=AUTO_SHAPE (1) :: 12-Agent Roster
+  shape 18 name='Text 15' type=AUTO_SHAPE (1) :: Seeded typed agents · AgentRoster · 256 pytest gates
+  shape 24 name='Text 21' type=AUTO_SHAPE (1) :: 3
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: Memory & RAG
+  shape 26 name='Text 23' type=AUTO_SHAPE (1) :: Νόησις 6-tier · SHA-256 · BM25 + Qdrant hybrid search
+  shape 32 name='Text 29' type=AUTO_SHAPE (1) :: 4
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: Security (MAC)
+  shape 34 name='Text 31' type=AUTO_SHAPE (1) :: CapabilityToken · AND-mask · deny-first · typed PermissionDenied
+  shape 40 name='Text 37' type=AUTO_SHAPE (1) :: 5
+  shape 41 name='Text 38' type=AUTO_SHAPE (1) :: Studio Frontend
+  shape 42 name='Text 39' type=AUTO_SHAPE (1) :: Next.js 14 · 12 routes · tsc 0 / eslint 0 / vitest 45/45
+  shape 48 name='Text 45' type=AUTO_SHAPE (1) :: 6
+  shape 49 name='Text 46' type=AUTO_SHAPE (1) :: Evaluate & Deploy
+  shape 50 name='Text 47' type=AUTO_SHAPE (1) :: HumanEval · MBPP · SWE-bench · Jetson Orin Nano
+  shape 53 name='Text 50' type=AUTO_SHAPE (1) :: NOESIS Execution Decision Flow
+  shape 56 name='Text 53' type=AUTO_SHAPE (1) :: Goal Specification
+  shape 59 name='Text 56' type=AUTO_SHAPE (1) :: Goal + Capability Token
+  shape 62 name='Text 59' type=AUTO_SHAPE (1) :: PlannerAgent (Manan)  → Task DAG
+  shape 65 name='Text 62' type=AUTO_SHAPE (1) :: Capability
+  shape 65 name='Text 62' type=AUTO_SHAPE (1) :: Check?
+  shape 69 name='Text 66' type=AUTO_SHAPE (1) :: PermissionDenied
+  shape 69 name='Text 66' type=AUTO_SHAPE (1) :: (deny-first)
+  shape 70 name='Text 67' type=AUTO_SHAPE (1) :: NO
+  shape 71 name='Text 68' type=AUTO_SHAPE (1) :: YES
+  shape 74 name='Text 71' type=AUTO_SHAPE (1) :: 12-Agent Execution
+  shape 74 name='Text 71' type=AUTO_SHAPE (1) :: (All / Any / Majority join)
+  shape 77 name='Text 74' type=AUTO_SHAPE (1) :: Quality
+  shape 77 name='Text 74' type=AUTO_SHAPE (1) :: Threshold?
+  shape 81 name='Text 78' type=AUTO_SHAPE (1) :: Replan → loop back
+  shape 82 name='Text 79' type=AUTO_SHAPE (1) :: NO
+  shape 83 name='Text 80' type=AUTO_SHAPE (1) :: YES
+  shape 86 name='Text 83' type=AUTO_SHAPE (1) :: ExecutorAgent (Kriyakārī) Sign-Off Gate
+  shape 89 name='Text 86' type=AUTO_SHAPE (1) :: Audited Output Report
+
+===== SLIDE 13 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Reference Software Model 
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: NOESIS 5-Layer Kernel
+  shape 6 name='Text 3' type=AUTO_SHAPE (1) :: LAYER 5 — USER  ·  NOESIS STUDIO  (Next.js 14)
+  shape 7 name='Text 4' type=AUTO_SHAPE (1) :: Dashboard  ·  Workflow Builder  ·  Memory Explorer  ·  Logs & Audit  ·  Capabilities  ·  Settings
+  shape 10 name='Text 7' type=AUTO_SHAPE (1) :: LAYER 4 — OpenAPI 3.1  REST + WebSocket  ·  JSON { ok, data, error, request_id }
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: LAYER 3 — DETERMINISTIC ORCHESTRATOR  (fixed-seed)
+  shape 14 name='Text 11' type=AUTO_SHAPE (1) :: DAG Executor  ·  All / Any / Majority Join  ·  Fixed-Seed RNG  ·  Replay & Audit  ·  Event Bus
+  shape 17 name='Text 14' type=AUTO_SHAPE (1) :: LAYER 2A — CAPABILITY KERNEL  (C1 — MAC)
+  shape 18 name='Text 15' type=AUTO_SHAPE (1) :: ·  CapabilityToken (Typed)
+  shape 19 name='Text 16' type=AUTO_SHAPE (1) :: ·  AND-Mask Spawn Minting
+  shape 20 name='Text 17' type=AUTO_SHAPE (1) :: ·  Deny-First Policy
+  shape 21 name='Text 18' type=AUTO_SHAPE (1) :: ·  PermissionDenied (op, target, missing_list)
+  shape 22 name='Text 19' type=AUTO_SHAPE (1) :: ·  Immutable Audit Log
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: LAYER 2B — 12-AGENT ROSTER  (Typed)
+  shape 26 name='Text 23' type=AUTO_SHAPE (1) :: ·  Manan (Planner) · Darshak (Analyst)
+  shape 27 name='Text 24' type=AUTO_SHAPE (1) :: ·  Vidya (Coder) · Parikshak (Tester)
+  shape 28 name='Text 25' type=AUTO_SHAPE (1) :: ·  Karmakarta (Tooler) · Anveshak (Researcher)
+  shape 29 name='Text 26' type=AUTO_SHAPE (1) :: ·  Vivechak (Critic) · Paalak (Memory)
+  shape 30 name='Text 27' type=AUTO_SHAPE (1) :: ·  Rakshak · Nirikshak · Kriyakārī · Samanyakā
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: LAYER 2C — MEMORY CONTROLLER  (C3 — Νόησις)
+  shape 34 name='Text 31' type=AUTO_SHAPE (1) :: ·  T6 Transcendent (Tattva) — immutable
+  shape 35 name='Text 32' type=AUTO_SHAPE (1) :: ·  T5 Strategic (Yojana) — Qdrant + Graph
+  shape 36 name='Text 33' type=AUTO_SHAPE (1) :: ·  T4 Tactical (Ranniti) — SQLite JSON
+  shape 37 name='Text 34' type=AUTO_SHAPE (1) :: ·  T3 Semantic (Gyaan) — Qdrant vector
+  shape 38 name='Text 35' type=AUTO_SHAPE (1) :: ·  T2 Procedural — Redis  ·  T1 Sensory — Ring buffer
+  shape 40 name='Text 37' type=AUTO_SHAPE (1) :: LAYER 1 — KERNEL UTILITIES  ·  Tool Registry  ·  LLM Gateway (Strategy)  ·  Config & Secrets  ·  Prometheus  ·  Structured Logging  ·  Snapshots
+
+===== SLIDE 14 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: 12-Agent Typed Roster
+  shape 5 name='Text 2' type=AUTO_SHAPE (1) :: Four functional groups with a left-to-right processing flow. 
+  shape 5 name='Text 2' type=AUTO_SHAPE (1) :: Sanskrit codenames link νόησις (Greek: thinking) to मनन (Sanskrit: reflection).
+  shape 7 name='Text 4' type=AUTO_SHAPE (1) :: Planning & Analysis
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: 1
+  shape 12 name='Text 9' type=AUTO_SHAPE (1) :: Manan
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: PlannerAgent
+  shape 14 name='Text 11' type=AUTO_SHAPE (1) :: Goal → 12-step DAG
+  shape 17 name='Text 14' type=AUTO_SHAPE (1) :: 2
+  shape 18 name='Text 15' type=AUTO_SHAPE (1) :: Darshak
+  shape 19 name='Text 16' type=AUTO_SHAPE (1) :: AnalystAgent
+  shape 20 name='Text 17' type=AUTO_SHAPE (1) :: Intent · risk · constraints
+  shape 22 name='Text 19' type=AUTO_SHAPE (1) :: Development & Execution
+  shape 26 name='Text 23' type=AUTO_SHAPE (1) :: 3
+  shape 27 name='Text 24' type=AUTO_SHAPE (1) :: Vidya
+  shape 28 name='Text 25' type=AUTO_SHAPE (1) :: CoderAgent
+  shape 29 name='Text 26' type=AUTO_SHAPE (1) :: Code synthesis · diffs
+  shape 32 name='Text 29' type=AUTO_SHAPE (1) :: 4
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: Parikshak
+  shape 34 name='Text 31' type=AUTO_SHAPE (1) :: TesterAgent
+  shape 35 name='Text 32' type=AUTO_SHAPE (1) :: Unit + integration tests
+  shape 38 name='Text 35' type=AUTO_SHAPE (1) :: 5
+  shape 39 name='Text 36' type=AUTO_SHAPE (1) :: Karmakarta
+  shape 40 name='Text 37' type=AUTO_SHAPE (1) :: ToolerAgent
+  shape 41 name='Text 38' type=AUTO_SHAPE (1) :: Shell · file IO · APIs
+  shape 44 name='Text 41' type=AUTO_SHAPE (1) :: 11
+  shape 45 name='Text 42' type=AUTO_SHAPE (1) :: Kriyakārī
+  shape 46 name='Text 43' type=AUTO_SHAPE (1) :: ExecutorAgent
+  shape 47 name='Text 44' type=AUTO_SHAPE (1) :: Sign-Off / Reject / Replan
+  shape 49 name='Text 46' type=AUTO_SHAPE (1) :: Knowledge & Quality
+  shape 53 name='Text 50' type=AUTO_SHAPE (1) :: 6
+  shape 54 name='Text 51' type=AUTO_SHAPE (1) :: Anveshak
+  shape 55 name='Text 52' type=AUTO_SHAPE (1) :: ResearcherAgent
+  shape 56 name='Text 53' type=AUTO_SHAPE (1) :: Multi-source RAG + citations
+  shape 59 name='Text 56' type=AUTO_SHAPE (1) :: 7
+  shape 60 name='Text 57' type=AUTO_SHAPE (1) :: Vivechak
+  shape 61 name='Text 58' type=AUTO_SHAPE (1) :: CriticAgent
+  shape 62 name='Text 59' type=AUTO_SHAPE (1) :: 5-axis quality rubric
+  shape 65 name='Text 62' type=AUTO_SHAPE (1) :: 8
+  shape 66 name='Text 63' type=AUTO_SHAPE (1) :: Paalak
+  shape 67 name='Text 64' type=AUTO_SHAPE (1) :: MemoryAgent
+  shape 68 name='Text 65' type=AUTO_SHAPE (1) :: Tier promotion · eviction
+  shape 71 name='Text 68' type=AUTO_SHAPE (1) :: 10
+  shape 72 name='Text 69' type=AUTO_SHAPE (1) :: Samanyakā
+  shape 73 name='Text 70' type=AUTO_SHAPE (1) :: SynthesizerAgent
+  shape 74 name='Text 71' type=AUTO_SHAPE (1) :: Consolidates outputs
+  shape 76 name='Text 73' type=AUTO_SHAPE (1) :: Governance &Security
+  shape 79 name='Text 76' type=AUTO_SHAPE (1) :: 9
+  shape 80 name='Text 77' type=AUTO_SHAPE (1) :: Rakshak
+  shape 81 name='Text 78' type=AUTO_SHAPE (1) :: SecurityAgent
+  shape 82 name='Text 79' type=AUTO_SHAPE (1) :: MAC audit · injection scan
+  shape 85 name='Text 82' type=AUTO_SHAPE (1) :: 12
+  shape 86 name='Text 83' type=AUTO_SHAPE (1) :: Nirikshak
+  shape 87 name='Text 84' type=AUTO_SHAPE (1) :: SupervisorAgent
+  shape 88 name='Text 85' type=AUTO_SHAPE (1) :: Spawn-tree · AND-mask mint
+
+===== SLIDE 15 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: Project Timeline  ·  14-Week Schedule
+  shape 7 name='Text 4' type=AUTO_SHAPE (1) :: W1
+  shape 9 name='Text 6' type=AUTO_SHAPE (1) :: W2
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: W3
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: W4
+  shape 15 name='Text 12' type=AUTO_SHAPE (1) :: W5
+  shape 17 name='Text 14' type=AUTO_SHAPE (1) :: W6
+  shape 19 name='Text 16' type=AUTO_SHAPE (1) :: W7
+  shape 21 name='Text 18' type=AUTO_SHAPE (1) :: W8
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: W9
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: W10
+  shape 27 name='Text 24' type=AUTO_SHAPE (1) :: W11
+  shape 29 name='Text 26' type=AUTO_SHAPE (1) :: W12
+  shape 31 name='Text 28' type=AUTO_SHAPE (1) :: W13
+  shape 33 name='Text 30' type=AUTO_SHAPE (1) :: W14
+  shape 35 name='Text 32' type=AUTO_SHAPE (1) :: M0–M7  Kernel Implementation
+  shape 38 name='Text 35' type=AUTO_SHAPE (1) :: W1–W4
+  shape 40 name='Text 37' type=AUTO_SHAPE (1) :: Agent Roster Expansion
+  shape 43 name='Text 40' type=AUTO_SHAPE (1) :: W3–W6
+  shape 45 name='Text 42' type=AUTO_SHAPE (1) :: Memory & RAG Hardening
+  shape 48 name='Text 45' type=AUTO_SHAPE (1) :: W4–W7
+  shape 50 name='Text 47' type=AUTO_SHAPE (1) :: Security MAC Audit
+  shape 53 name='Text 50' type=AUTO_SHAPE (1) :: W6–W8
+  shape 55 name='Text 52' type=AUTO_SHAPE (1) :: Benchmark Evaluation (O2)
+  shape 58 name='Text 55' type=AUTO_SHAPE (1) :: W7–W10
+  shape 60 name='Text 57' type=AUTO_SHAPE (1) :: Jetson Deployment (O3)
+  shape 63 name='Text 60' type=AUTO_SHAPE (1) :: W10–W12
+  shape 65 name='Text 62' type=AUTO_SHAPE (1) :: Thesis Writing
+  shape 68 name='Text 65' type=AUTO_SHAPE (1) :: W12–W14
+  shape 70 name='Text 67' type=AUTO_SHAPE (1) :: Completed (M0-M7)
+  shape 72 name='Text 69' type=AUTO_SHAPE (1) :: Synopsis Stage
+  shape 74 name='Text 71' type=AUTO_SHAPE (1) :: Proposed
+  shape 76 name='Text 73' type=AUTO_SHAPE (1) :: Future Work
+
+===== SLIDE 16 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Text 1' type=AUTO_SHAPE (1) :: References
+  shape 5 name='Text 2' type=AUTO_SHAPE (1) :: 20 references: [1]–[10] primary · [11]–[20] supporting literature. Colour: teal = OS foundations · amber = prior frameworks · blue = benchmarks & LLMs.
+  shape 7 name='Text 4' type=AUTO_SHAPE (1) :: [1]
+  shape 8 name='Text 5' type=AUTO_SHAPE (1) :: N. F. Liu et al., "Lost in the Middle: How Language Models Use Long Contexts," in Proc. Annu. Meet. ACL, 2023, pp. 9129–9141. DOI: 10.18653/v1/2023.acl-long.243
+  shape 10 name='Text 7' type=AUTO_SHAPE (1) :: [2]
+  shape 11 name='Text 8' type=AUTO_SHAPE (1) :: M. Chen et al., "Evaluating Large Language Models Trained on Code," [HumanEval], arXiv preprint arXiv:2107.03374, Jul. 2021.
+  shape 13 name='Text 10' type=AUTO_SHAPE (1) :: [3]
+  shape 14 name='Text 11' type=AUTO_SHAPE (1) :: J. Austin et al., "Program Synthesis with Large Language Models," [MBPP Dataset], arXiv preprint arXiv:2108.07732, Aug. 2021.
+  shape 16 name='Text 13' type=AUTO_SHAPE (1) :: [4]
+  shape 17 name='Text 14' type=AUTO_SHAPE (1) :: C. E. Jiménez et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?" in Proc. ICLR, 2024. arXiv:2310.06770.
+  shape 19 name='Text 16' type=AUTO_SHAPE (1) :: [5]
+  shape 20 name='Text 17' type=AUTO_SHAPE (1) :: LangChain Contributors, "LangChain v0.3," MIT License, 2024. [Online]. Available: https://github.com/langchain-ai/langchain
+  shape 22 name='Text 19' type=AUTO_SHAPE (1) :: [6]
+  shape 23 name='Text 20' type=AUTO_SHAPE (1) :: Microsoft Research, "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation," MIT License, 2024. arXiv:2308.08155.
+  shape 25 name='Text 22' type=AUTO_SHAPE (1) :: [7]
+  shape 26 name='Text 23' type=AUTO_SHAPE (1) :: Qwen Team, "Qwen2.5-Coder Technical Report," Alibaba Group, arXiv preprint arXiv:2409.12186, Sep. 2024.
+  shape 28 name='Text 25' type=AUTO_SHAPE (1) :: [8]
+  shape 29 name='Text 26' type=AUTO_SHAPE (1) :: DeepSeek Team, "DeepSeek-Coder V2: Breaking the Barrier of Closed-Source Models in Code Intelligence," arXiv:2406.11931, Jun. 2024.
+  shape 31 name='Text 28' type=AUTO_SHAPE (1) :: [9]
+  shape 32 name='Text 29' type=AUTO_SHAPE (1) :: D. M. Ritchie and K. Thompson, "The UNIX Time-Sharing System," Bell Syst. Tech. J., vol. 57, no. 6, pp. 1905–1929, Jul.–Aug. 1978.
+  shape 34 name='Text 31' type=AUTO_SHAPE (1) :: [10]
+  shape 35 name='Text 32' type=AUTO_SHAPE (1) :: M. S. Miller, K.-P. Yee, and J. Shapiro, "Capability Myths Demolished," Hewlett-Packard Labs, Tech. Rep. SRL2003-02, 2003.
+  shape 37 name='Text 34' type=AUTO_SHAPE (1) :: [11]
+  shape 38 name='Text 35' type=AUTO_SHAPE (1) :: S. Yao et al., "ReAct: Synergizing Reasoning and Acting in Language Models," in Proc. Int. Conf. Learn. Representations (ICLR), 2023. arXiv:2210.03629.
+  shape 40 name='Text 37' type=AUTO_SHAPE (1) :: [12]
+  shape 41 name='Text 38' type=AUTO_SHAPE (1) :: T. Schick et al., "Toolformer: Language Models Can Teach Themselves to Use Tools," in Proc. NeurIPS, 2023. arXiv:2302.04761.
+  shape 43 name='Text 40' type=AUTO_SHAPE (1) :: [13]
+  shape 44 name='Text 41' type=AUTO_SHAPE (1) :: J. Wei et al., "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models," in Proc. NeurIPS, 2022. arXiv:2201.11903.
+  shape 46 name='Text 43' type=AUTO_SHAPE (1) :: [14]
+  shape 47 name='Text 44' type=AUTO_SHAPE (1) :: J. S. Park et al., "Generative Agents: Interactive Simulacra of Human Behavior," in Proc. ACM UIST, 2023. arXiv:2304.03442.
+  shape 49 name='Text 46' type=AUTO_SHAPE (1) :: [15]
+  shape 50 name='Text 47' type=AUTO_SHAPE (1) :: R. C. Atkinson and R. M. Shiffrin, "Human Memory: A Proposed System and Its Control Processes," Psychol. Learn. Motivat., vol. 2, pp. 89–195, 1968.
+  shape 52 name='Text 49' type=AUTO_SHAPE (1) :: [16]
+  shape 53 name='Text 50' type=AUTO_SHAPE (1) :: CrewAI Contributors, "CrewAI: Framework for Orchestrating Role-Playing Autonomous AI Agents," MIT License, 2024. [Online]. Available: https://github.com/joaomdmoura/crewai
+  shape 55 name='Text 52' type=AUTO_SHAPE (1) :: [17]
+  shape 56 name='Text 53' type=AUTO_SHAPE (1) :: B. Rozière et al., "Code Llama: Open Foundation Models for Code," arXiv preprint arXiv:2308.12950, Aug. 2023.
+  shape 58 name='Text 55' type=AUTO_SHAPE (1) :: [18]
+  shape 59 name='Text 56' type=AUTO_SHAPE (1) :: G. Li et al., "CAMEL: Communicative Agents for Mind Exploration of Large Language Model Society," in Proc. NeurIPS, 2023. arXiv:2303.17760.
+  shape 61 name='Text 58' type=AUTO_SHAPE (1) :: [19]
+  shape 62 name='Text 59' type=AUTO_SHAPE (1) :: L. Wang et al., "A Survey on Large Language Model-Based Autonomous Agents," Frontiers Comput. Sci., 2024. arXiv:2308.11432.
+  shape 64 name='Text 61' type=AUTO_SHAPE (1) :: [20]
+  shape 65 name='Text 62' type=AUTO_SHAPE (1) :: OpenAI, "GPT-4 Technical Report," arXiv preprint arXiv:2303.08774, Mar. 2023.
+  shape 68 name='Text 65' type=AUTO_SHAPE (1) :: Team Publications  · 
+  shape 69 name='Text 66' type=AUTO_SHAPE (1) :: Shah, D. & et al. "ECL-WDM: Ensemble Continual Learning," CSNT 2026 · DOI: 10.1109/CSNT69054.2026.11502115
+  shape 69 name='Text 66' type=AUTO_SHAPE (1) :: Shah, D. & et al. "Road Hazard Detection via Multi-Modal Perception," CICN 2025 · DOI: 10.1109/CICN67655.2025.11368330
+
+===== SLIDE 17 =====
+  layout: DEFAULT
+  shape 3 name='Image 0' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 4 name='Image 1' type=PICTURE (13) [IMAGE size=13119 bytes ext=png]
+  shape 5 name='Image 2' type=PICTURE (13) [IMAGE size=61533 bytes ext=jpg]
+  shape 6 name='Text 1' type=AUTO_SHAPE (1) :: Thank You
+  shape 7 name='Text 2' type=AUTO_SHAPE (1) :: νόησις  ·  νους  ·  μνήμη  —  Intellection · Mind · Memory
+  shape 8 name='Text 3' type=AUTO_SHAPE (1) :: Questions?

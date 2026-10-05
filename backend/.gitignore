@@ -1,0 +1,55 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# ---- Environments ----
+.env
+.env.local
+.venv
+venv/
+env/
+
+# ---- Data ----
+data/
+*.db
+*.sqlite
+*.sqlite3
+uploads/
+artifacts/
+
+# ---- IDE ----
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Logs ----
+*.log
+logs/
+
+# ---- Jupyter ----
+.ipynb_checkpoints/
+
+# ---- Frontend (future) ----
+node_modules/
+.next/
+out/

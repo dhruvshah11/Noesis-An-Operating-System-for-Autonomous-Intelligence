@@ -1,0 +1,4 @@
+codename,task_id,pass_rate,n_samples,rank,pass_at_1_bucketed
+0,HumanEval/0,1.0,5,0,1
+1,HumanEval/1,1.0,5,1,1
+2,HumanEval/2,1.0,5,2,1

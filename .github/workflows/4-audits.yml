@@ -1,0 +1,49 @@
+name: 4-Audits Weekly
+
+on:
+  schedule:
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audits:
+    name: MAC · determinism · LLM factory · memory promotion audits
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install hatch
+        run: pip install hatch
+
+      - name: MAC audit
+        run: hatch run python scripts/audit_mac_spawn.py
+
+      - name: Determinism smoke 3 runs x 2 goals
+        run: hatch run python scripts/determinism_manifest.py --goals benchmarks/noesis_se50/goals.txt --runs 3 --seeds 42
+
+      - name: LLM factory audit
+        run: hatch run python scripts/audit_llm_providers.py
+
+      - name: Memory promotion tests
+        run: hatch run -e test pytest backend/tests/unit/test_memory_promotion.py backend/tests/unit/test_memory_promotion_wiring.py -v
+        working-directory: ${{ github.workspace }}
+
+      - name: Upload audit-logs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-logs
+          path: |
+            docs/eval/*.md
+            docs/eval/*.json

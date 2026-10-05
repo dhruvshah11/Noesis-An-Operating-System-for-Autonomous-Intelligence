@@ -1,0 +1,151 @@
+# Noesis-SE50 goals file — pipe into: py determinism_manifest.py --goals FILE
+
+# R01 — Todo CLI with add/list/done flags — Rust_Systems (EASY)
+Produce a Rust CLI todo list with add/list/done flags.
+
+# R02 — Line count tool with ignore patterns — Rust_Systems (EASY)
+Write a Rust loc tool that counts lines of code skipping blanks and //comments plus a --ignore <glob> flag.
+
+# R03 — INI file parser — Rust_Systems (MEDIUM)
+Implement a nom 7 INI parser that parses [section] headers + key=value lines, returning a BTreeMap<String, BTreeMap<String, String>>.
+
+# R04 — Concurrent link checker — Rust_Systems (MEDIUM)
+Build a tokio HTTP link checker that reads a markdown file, extracts URLs, runs HEAD requests in parallel and reports broken links with coloured output.
+
+# R05 — Generic arena allocator — Rust_Systems (MEDIUM)
+Implement a generic bump-the-pointer arena allocator in Rust supporting allocation of T with Copy bounds and a reset() method; fuzz-test no UB.
+
+# R06 — KV store over TCP — Rust_Systems (HARD)
+Write a tokio KV store that serves GET/SET/DEL commands over a framed TCP protocol using prost protobuf messages; persists to a WAL on flush.
+
+# R07 — Shortest path planner — Rust_Systems (MEDIUM)
+Implement a Dijkstra planner using petgraph that ingests a list of (src, dst, w) edges then answers 'path from A→B' queries.
+
+# R08 — WASM markdown preview — Rust_Systems (HARD)
+Compile a pulldown-cmark markdown renderer to WASM via wasm-pack and expose a single render() entrypoint callable from JS.
+
+# R09 — Signed URL tokeniser — Rust_Systems (HARD)
+Build a signed URL tokeniser using ring HMAC-SHA256 that encodes (user, expires_at) as a base64url payload plus an HMAC signature; verify rejects tampered payloads.
+
+# R10 — Rust ↔ Python fastmath bindings — Rust_Systems (HARD)
+Write a PyO3 crate exposing a Python module 'noesis_fastmath' with vectorised dot_product that beats pure-numpy on len >= 10 000 f64 vectors.
+
+# P01 — Refactor 3-file parser into visitor pattern — Python_ML (EASY)
+Refactor a 3-file Python parser (lexer.py + parser.py + ast.py) into a visitor pattern by adding Evaluator(ast.NodeVisitor) that runs expressions.
+
+# P02 — Titanic-cleaning pipeline — Python_ML (EASY)
+Write a pandas data-cleaning pipeline for the Titanic dataset that imputes Age, encodes Sex/Embarked as categories, drops Name/Ticket and trains a 10-fold CV baseline.
+
+# P03 — Model inference service — Python_ML (MEDIUM)
+Wrap a sklearn Iris classifer as a FastAPI service POST /predict with a Pydantic request schema /v1/predict, add /healthz and Prometheus /metrics.
+
+# P04 — EDA notebook 4-panel dashboard — Python_ML (EASY)
+Produce a Jupyter notebook that loads house prices CSV, plots 4-panel dashboard: price histogram, feature correlation heatmap, box-plot by overall-quality, scatter sqft vs price.
+
+# P05 — 3-agent LangGraph RAG pipeline — Python_ML (HARD)
+Build a 3-agent LangGraph RAG pipeline: retrieve → synthesise → critique a single user query over a documents/ folder of PDFs.
+
+# P06 — Hypothesis correctness proof — Python_ML (MEDIUM)
+Prove a Python sorting helper correct with hypothesis by testing 10 000 generated lists against reference sorted(): idempotent, length preserved, min-first order.
+
+# P07 — AutoGluon 10-min baseline — Python_ML (MEDIUM)
+Write a 10-minute AutoGluon baseline script that trains on any CSV classification target specified via CLI --target --train and prints a sorted leaderboard.
+
+# P08 — Asynchronous feature store — Python_ML (MEDIUM)
+Build an async Python feature store backed by aiohttp that fetches 100 feature vectors by id concurrently and returns a merged dataframe; handles partial failures.
+
+# P09 — LLM prompt eval harness — Python_ML (HARD)
+Write a promptfoo-style Python harness that accepts N prompts, M LLM providers and O assertions then prints an (prompt × provider) matrix with pass/fail rate per cell.
+
+# P10 — Ray Train text classifier — Python_ML (HARD)
+Fine-tune distilbert over AG News via Ray Train on laptop 2 workers; capture training_loss as a plot AND checkpoint after 3 epochs.
+
+# T01 — Payments API Zod schema — TypeScript_Web (EASY)
+Write a TypeScript Zod schema for a payments API with ChargeRequest, RefundRequest, WebhookEvent plus .parse() tests.
+
+# T02 — Modal with form validation — TypeScript_Web (EASY)
+Build a Next.js Server Action modal dialog that posts a 'contact us' form, validates name/email/message and shows sonner toasts on success/error.
+
+# T03 — Observability dashboard — TypeScript_Web (MEDIUM)
+Build a 5-panel Next.js observability dashboard: 2 kpis, 1 timeseries line, 1 status-bar, 1 recent traces table. Fetch live via TanStack Query.
+
+# T04 — NextAuth Credentials OTP — TypeScript_Web (MEDIUM)
+Wire NextAuth with Credentials provider + OTP email flow via nodemailer; protect /dashboard redirecting 302 unauthed.
+
+# T05 — Geo-aware edge rate-limiter — TypeScript_Web (MEDIUM)
+Write a Next.js middleware rate limiter that reads x-forwarded-for, buckets by Country (MaxMind lite), and returns 429 after 100 rpm in-country.
+
+# T06 — Playwright checkout flow — TypeScript_Web (MEDIUM)
+Automate a Playwright e2e: add-to-cart → 3 variants → guest checkout → confirmation screen, 8 asserts in total.
+
+# T07 — Blog with ISR and Prisma — TypeScript_Web (HARD)
+Create a Next.js blog backed by Prisma/SQLite. Admin posts create/update via server actions. Posts route revalidate every 5 s (ISR).
+
+# T08 — Type-safe event bus — TypeScript_Web (HARD)
+Build a strongly typed event bus in TypeScript: emit<T>() + on<T>(handler) where T is a registry; handler params inferred. No any.
+
+# T09 — Axe accessibility audit page — TypeScript_Web (MEDIUM)
+Run axe-core axe-core against an app pages inventory and produce a JSON violations report grouped by impact.
+
+# T10 — i18n static site generator — TypeScript_Web (HARD)
+Build a Next.js multi-lang static site using next-intl with en, hi-IN, gu-IN locales; generateMetadata() with og tags per locale.
+
+# D01 — Laptop single-up compose — DevOps_Infra (EASY)
+Write a laptop docker-compose.yml that boots qdrant + redis + backend api service single-up with host.docker.internal Ollama passthrough.
+
+# D02 — Multi-stage python slim image — DevOps_Infra (EASY)
+Write a multi-stage Dockerfile for a FastAPI backend that installs deps with uv then copies only site-packages into a python:3.12-slim runner image.
+
+# D03 — PR CI pipeline — DevOps_Infra (MEDIUM)
+Write a GitHub Actions PR workflow that runs ruff + pytest unit subset + typecheck; fails-fast on any job.
+
+# D04 — Kind cluster with Helm releases — DevOps_Infra (MEDIUM)
+Spin up a 3-node Kind cluster and install prometheus + ingress-nginx via Helm; expose the Noesis backend as an Ingress.
+
+# D05 — OpenTelemetry tracing — DevOps_Infra (MEDIUM)
+Instrument a FastAPI app with OpenTelemetry traces to Jaeger, plus Prometheus metrics, and wire a 3-panel Grafana dashboard JSON.
+
+# D06 — AWS Fargate terraform plan — DevOps_Infra (HARD)
+Write a Terraform plan that provisions a single-AZ Fargate service + ALB + private ECR; output the final service URL.
+
+# D07 — Vault-backed env loader — DevOps_Infra (MEDIUM)
+Implement a Python .env loader that optionally pulls missing keys from HashiCorp Vault via AppRole and writes them to os.environ before FastAPI boot.
+
+# D08 — Restic backup schedule — DevOps_Infra (MEDIUM)
+Configure a systemd timer that runs a Restic backup of the SQLite DB + Docker volumes each hour; retains 7 daily + 4 weekly snapshots.
+
+# D09 — ChaosMesh network delay test — DevOps_Infra (HARD)
+Create a ChaosMesh NetworkChaos 200 ms delay between backend <-> redis service. Assert the backend retries 3x and returns 503 gracefully or succeeds.
+
+# D10 — Disaster-recovery runbook + script — DevOps_Infra (HARD)
+Write a disaster-recovery runbook plus a bash/python script for RTO <= 15 min: restore SQLite backup + Qdrant snapshot + re-enable health checks.
+
+# W01 — 6-page CODS-COMAD abstract — Technical_Writing (EASY)
+Write the CODS-COMAD 2027 paper abstract (≤ 200 words) laying out C1, C2, C3, dataset, eval results of the Noesis 12-agent system.
+
+# W02 — B.Tech 10-section synopsis — Technical_Writing (EASY)
+Produce a 10-section university synopsis document: title, problem statement, objectives, novelty, methodology block, tools used, schedule, risks, budget, references.
+
+# W03 — 15-paper Lit survey comparison matrix — Technical_Writing (MEDIUM)
+Write a 15-paper literature survey: 5 LangGraph 2024, 5 agent-tool 2023, 5 SWE-bench 2024; produce a (paper × 8 properties) comparison matrix.
+
+# W04 — ARC42 Chapter 3 System-Architecture — Technical_Writing (MEDIUM)
+Fill in ARC42 chapter 3 (System Architecture) with 3 levels: C4-Context → Container → Component diagram for Noesis; Mermaid source.
+
+# W05 — OpenAPI 3.1 spec + ReDoc — Technical_Writing (EASY)
+Publish a OpenAPI 3.1 spec for /v1/* routes with request schemas + 4 security schemes; generate a single-file ReDoc HTML.
+
+# W06 — 19-slide Marp viva deck — Technical_Writing (MEDIUM)
+Build a 19-slide B.Tech viva Marp deck: slide 2 C1/C2/C3, slide 8 architecture Mermaid, slides 14-17 eval tables, slide 18 demo script.
+
+# W07 — §6 Evaluation writeup — Technical_Writing (HARD)
+Draft paper §6 Evaluation: §6.1 C1 capability routing on Noesis-SE50 (pass@1,pass@3); §6.2 C3 determinism manifest; §6.3 C2 6-tier-memory latency p50/p95.
+
+# W08 — Laptop-first quick-start README — Technical_Writing (EASY)
+Write the laptop-first quick-start README 1-page: 5 prereqs, docker compose single-up, open :3000, verify /livez, screenshot of first dashboard.
+
+# W09 — ACM A0 3-column poster Typst — Technical_Writing (HARD)
+Produce a 3-column ACM A0 conference poster in Typst: left-intro, middle-method, right-results + QR code to repo.
+
+# W10 — Launch-week Dev.To blog post — Technical_Writing (MEDIUM)
+Write a 1200-word Dev.To launch blog: 'I built a 12-Sanskrit-agent AI software engineer box on my RTX laptop' with 8 screenshots, 5 code blocks, 1 demo-asciinema.

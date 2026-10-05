@@ -1,0 +1,142 @@
+{
+  "se50": {
+    "overall_pass_at_1": 1.0,
+    "overall_ci_low": 0.43849391955098227,
+    "overall_ci_high": 1.0,
+    "n_total": 3,
+    "n_correct": 3,
+    "per_category": [
+      {
+        "category": "Rust_Systems",
+        "n_total": 3,
+        "n_correct": 3,
+        "pass_at_1": 1.0,
+        "ci_low": 0.43849391955098227,
+        "ci_high": 1.0
+      }
+    ],
+    "per_difficulty": [
+      {
+        "difficulty": "EASY",
+        "n_total": 2,
+        "n_correct": 2,
+        "pass_at_1": 1.0
+      },
+      {
+        "difficulty": "MEDIUM",
+        "n_total": 1,
+        "n_correct": 1,
+        "pass_at_1": 1.0
+      }
+    ]
+  },
+  "se50_rows": [
+    {
+      "task_id": "R01",
+      "category": "Rust_Systems",
+      "difficulty": "easy",
+      "tristate": "signoff",
+      "duration_ms": 1,
+      "plan_sha": "a7c66761abbf6007",
+      "kriyakari_conf": 0.7845098039215687,
+      "samples": 1
+    },
+    {
+      "task_id": "R01",
+      "category": "Rust_Systems",
+      "difficulty": "easy",
+      "tristate": "signoff",
+      "duration_ms": 0,
+      "plan_sha": "b786f8a8da7762c2",
+      "kriyakari_conf": 0.7523529411764706,
+      "samples": 1
+    },
+    {
+      "task_id": "R01",
+      "category": "Rust_Systems",
+      "difficulty": "easy",
+      "tristate": "signoff",
+      "duration_ms": 0,
+      "plan_sha": "4419eefb71afbc43",
+      "kriyakari_conf": 0.8692156862745098,
+      "samples": 1
+    },
+    {
+      "task_id": "R02",
+      "category": "Rust_Systems",
+      "difficulty": "easy",
+      "tristate": "signoff",
+      "duration_ms": 0,
+      "plan_sha": "d2edfe3c0607088f",
+      "kriyakari_conf": 0.9194117647058824,
+      "samples": 1
+    },
+    {
+      "task_id": "R02",
+      "category": "Rust_Systems",
+      "difficulty": "easy",
+      "tristate": "signoff",
+      "duration_ms": 0,
+      "plan_sha": "1cccf92dff4f66a9",
+      "kriyakari_conf": 0.8386274509803922,
+      "samples": 1
+    },
+    {
+      "task_id": "R02",
+      "category": "Rust_Systems",
+      "difficulty": "easy",
+      "tristate": "signoff",
+      "duration_ms": 1,
+      "plan_sha": "1cd4bb644a13c5b5",
+      "kriyakari_conf": 0.841764705882353,
+      "samples": 1
+    },
+    {
+      "task_id": "R03",
+      "category": "Rust_Systems",
+      "difficulty": "medium",
+      "tristate": "signoff",
+      "duration_ms": 1,
+      "plan_sha": "240bafe92dde4fbd",
+      "kriyakari_conf": 0.8307843137254902,
+      "samples": 1
+    },
+    {
+      "task_id": "R03",
+      "category": "Rust_Systems",
+      "difficulty": "medium",
+      "tristate": "signoff",
+      "duration_ms": 0,
+      "plan_sha": "54d16f98bd9cc83a",
+      "kriyakari_conf": 0.8558823529411765,
+      "samples": 1
+    },
+    {
+      "task_id": "R03",
+      "category": "Rust_Systems",
+      "difficulty": "medium",
+      "tristate": "signoff",
+      "duration_ms": 0,
+      "plan_sha": "294a4d60a81671ce",
+      "kriyakari_conf": 0.8872549019607843,
+      "samples": 1
+    }
+  ],
+  "humaneval_pass_at_1": 0.0,
+  "humaneval_buckets": [],
+  "mbpp_pass_at_1": 0.0,
+  "mbpp_buckets": [],
+  "ablation_table": {
+    "variant_keys": [
+      "baseline_nomem",
+      "baseline_nomac",
+      "full_noesis"
+    ],
+    "rows": [],
+    "notes": {
+      "status": "placeholder",
+      "detail": "Populate by calling generate_ablation_tables() once 3-variant CSVs exist."
+    }
+  },
+  "signoff_avg_conf": 0.8422004357298475
+}

@@ -1,0 +1,29 @@
+# =====================================================================
+# Noesis SBOM — Trivy Ignore Policy (v0.2.0-rc2, MS9 deliverable)
+# =====================================================================
+# Policy: 0 HIGH / 0 CRITICAL vulnerabilities allowed in release images.
+#
+# This file is intentionally EMPTY.  Every HIGH or CRITICAL finding from
+# `trivy image` MUST be triaged and fixed (base-image rebuild, pinning a
+# patched transitive wheel, or removing the vulnerable dependency).
+#
+# If — and only if — a finding is a PROVEN FALSE POSITIVE (Trivy CPE
+# mismatch against a Python package name, or a distro package that we
+# explicitly do not use at runtime), add a single ignore block below
+# with:
+#   1. CVE id
+#   2. Exact reason + false-positive proof (link to upstream issue, or
+#      a `docker run --rm … rpm -ql / dpkg -L` transcript proving the
+#      binary / library is not present in the final runtime layer).
+#   3. Expiry date: MUST be <= 30 days so the exemption is revisited on
+#      every RC cut.
+#
+# Template:
+#   # CVE-YYYY-NNNNN: False positive — CPE match against <pkg-name> when
+#   # actual installed package is <other-name>. Proof: <link or SHA>.
+#   # Expires: YYYY-MM-DD
+#   CVE-YYYY-NNNNN
+#
+# Audit log (kept empty by policy for v0.2.0-rc2):
+#   (none)
+# =====================================================================

@@ -1,0 +1,15 @@
+# These are supported funding model platforms for Noesis.
+# Shown as the "Sponsor" button at the top of the repository.
+
+github: [astraos]
+patreon: astraos
+open_collective: astraos
+ko_fi: astraos
+tidelift: # replace with package-name on Tidelift when published
+community_bridge: # replace with project on CommunityBridge
+liberapay: astraos
+issuehunt: astraos
+lfx_crowdfunding:
+polar:
+buy_me_a_coffee: astraos
+custom: ["https://astraos.dev/sponsor"]

@@ -1,0 +1,29 @@
+# Build output
+.next/
+out/
+
+# Dependencies
+node_modules/
+
+# Environment
+.env*
+!.env.example
+
+# Testing
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+Thumbs.db
+
+# Local node binary (checked out by M4 bootstrap; not committed)
+.node/
+.node.zip
+.venv_py/

@@ -1,0 +1,119 @@
+# =====================================================================
+# Noesis Backend — Laptop / Self-Host Dockerfile (MS9 deliverable)
+# =====================================================================
+# 3-stage build:
+#   Stage 1 (builder):  python:3.12-slim  → install build deps + pip wheels
+#   Stage 2 (install):  python:3.12-slim  → pip install deps via requirements
+#   Stage 3 (runtime):  python:3.12-slim  → lean runtime + non-root noesisapp
+#
+# Targets: Docker Desktop (laptop) + GitHub Releases downloadable image.
+#
+# Build:  docker build -f Dockerfile.laptop -t local/noesis:0.2.0-rc2 .
+# Run:    docker run --rm -p 8000:8000 --env-file .env local/noesis:0.2.0-rc2
+# Health: curl -f http://localhost:8000/health
+# =====================================================================
+
+# --- Stage 1: Builder (gcc + python3-dev for any native wheels) -------
+FROM python:3.12-slim-bookworm AS builder
+
+WORKDIR /build
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        gcc \
+        python3-dev \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+COPY pyproject.toml ./
+
+# Freeze a requirements.txt from pyproject.toml so Stage 2 can pip install
+# without bringing hatch / build toolchain into the install layer.
+RUN pip install --upgrade pip hatchling \
+    && python -c "
+import tomllib, pathlib
+p = tomllib.loads(pathlib.Path('pyproject.toml').read_text())
+deps = p['project']['dependencies']
+pathlib.Path('requirements-frozen.txt').write_text('\n'.join(deps) + '\n')
+"
+
+# --- Stage 2: Install deps into an isolated venv ----------------------
+FROM python:3.12-slim-bookworm AS installer
+
+WORKDIR /install
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        gcc \
+        python3-dev \
+        libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+COPY --from=builder /build/requirements-frozen.txt ./
+
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/pip install --upgrade pip \
+    && /opt/venv/bin/pip install -r requirements-frozen.txt
+
+# --- Stage 3: Final slim runtime (no build toolchain) -----------------
+FROM python:3.12-slim-bookworm AS runtime
+
+LABEL org.opencontainers.image.title="Noesis Backend (Laptop / Self-Host)" \
+      org.opencontainers.image.description="Noesis — Autonomous Multi-Agent AI OS. Laptop build for Docker Desktop + GitHub Releases." \
+      org.opencontainers.image.version="0.2.0-rc2" \
+      org.opencontainers.image.source="https://github.com/dhruvshah11/noesis" \
+      org.opencontainers.image.licenses="MIT"
+
+# Minimal runtime deps only: curl (healthcheck), ca-certificates (LLM HTTPS),
+# libsqlite3-0 (embedded SQLite DB).
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        libsqlite3-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONFAULTHANDLER=1 \
+    PATH=/opt/venv/bin:$PATH \
+    APP_ENV=production \
+    NOESIS_HOME=/app
+
+COPY --from=installer /opt/venv /opt/venv
+
+WORKDIR /app
+
+COPY noesis/ ./noesis/
+
+# Persistent directories: SQLite DB, uploads, RAG scratch, workspace repos.
+RUN mkdir -p /app/data /app/uploads /app/repos /app/.cache \
+    && chown -R 10001:10001 /app
+
+VOLUME ["/app/data", "/app/uploads", "/app/repos"]
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=3s \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Least-privilege: non-root user with fixed high UID so Kubernetes / Docker
+# Desktop runAsNonRoot policies match without extra configuration.
+RUN groupadd --system --gid 10001 noesisapp \
+    && useradd --system --uid 10001 --gid 10001 \
+        --home-dir /app --shell /usr/sbin/nologin noesisapp
+USER noesisapp:noesisapp
+
+CMD ["uvicorn", "noesis.api.main:app", \
+     "--host", "0.0.0.0", \
+     "--port", "8000"]

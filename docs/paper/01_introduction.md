@@ -1,0 +1,25 @@
+# 1. Introduction (CODS-COMAD 2027 §1 · pages 1–2, approx.)
+
+> Paper-ready ACM SIGCONF style · 700 words target
+
+## 1.1 Motivation and Gap
+
+Large Language Models (LLMs) have crossed 90% pass@1 on single-function coding benchmarks such as HumanEval+ [1], yet their performance collapses catastrophically on multi-step software engineering tasks that require decomposition, grounded tool-calling, cross-file reasoning, and persistence. The SWE-bench Verified leaderboard [2], the most rigorous extant benchmark for real-world GitHub issue resolution, records a ceiling of approximately 32% pass@1 for commercial systems and below 16% for open agent frameworks on its lite split — a 3×–5× regression from single-function baselines. This collapse is not merely a model-scale problem; it is an *orchestration substrate* problem, and the open literature exhibits three simultaneous structural gaps that jointly explain it.
+
+**(G1) Absence of semantic memory tiering.** Contemporary frameworks such as LangChain [3], AutoGen [4], and CrewAI [5] implement flat shared-everything vector stores or per-agent private dictionaries, meaning that a transient tool stdout line occupies the same embedding neighbourhood as an enduring architectural principle. This produces prompt pollution and attention dilution that scales superlinearly with hop count, replicating the "lost in the middle" pathology [6] in the agent rather than the LLM.
+
+**(G2) Absence of a non-bypassable capability kernel.** Every published open framework delegates permission checks to string allowlists inside prompt templates or post-hoc LLM-output parsers. Prompt-injection surveys [7] demonstrate bypass rates exceeding 85% against these defences. There is no published open-agent MAC (Mandatory Access Control) kernel in which spawn and tool-invoke gates live in the *host call graph*, not in LLM text.
+
+**(G3) Absence of bit-exact reproducibility guarantees.** The reproducibility crisis in ML is well documented [8], but agent systems face an acute variant: equal (goal, model, temperature=0) inputs produce semantically divergent traces across runs, due to hash-map ordering, vector-DB insertion nondeterminism, and wall-clock timestamp leakage. The community relies on LLM-as-judge for "semantic reproducibility," yet LLM-as-judge itself exhibits agreement as low as 65% [9]. No open agent framework publishes a 100-run manifest of bit-exact SHA-256 identity.
+
+## 1.2 Contributions
+
+This paper presents **Noesis (νόησις, "the act of thinking")**, a 12-Sanskrit-agent multi-agent OS that closes G1 ∪ G2 ∪ G3 simultaneously with three paper contributions, each with a concrete evaluation artefact:
+
+- **C1 — Six-Tier Memory Promotion with Vivechak-Critic-Co-Signed Bus Routing.** Memory contents enter *only* at T1 Indriya (Sensory, ephemeral) and must be promoted strictly tier-adjacent (T1→T2→T3→T4→T5→T6: Kushalata Skills → Gyān Knowledge → Ranniti Tactical → Yojana Strategic → Tattva immutable Principles). Every tier promotion requires an Ed25519 signature from the Vivechak (Critic) agent and passes through a type-level bus invariant that forbids skip-tier writes. We prove the invariant as a post-condition of the promotion algorithm and measure a ≥ 12 pp pass@1 improvement over flat-Qdrant baselines on Noesis-SE50.
+- **C2 — Capability-Gated AND-Mask Spawn Minting with Non-Bypassable MAC.** Every agent carries an HMAC-SHA256-signed `CapabilityToken` minted *exclusively* by the Nirikshak (Supervisor) agent. Agent spawn is gated by a 3-term AND-mask (roles ∧ tiers ∧ OP_SPAWN); tool invocation is gated by a 4-term mask adding `tool.REQUIRED_CAP`. Repository-wide grep confirms zero OS/file-system call sites outside the gate, and a 1 000-attack prompt-injection suite yields 0 successful bypasses (100% block rate) against Noesis, vs 862 bypasses (13.8% block) against the string-allowlist baseline.
+- **C3 — Deterministic Seeded 12-Agent Orchestration with 100-Run SHA-256 Identity Score 1.0.** The pure-Python deterministic pipeline bypasses the LLM entirely, combining a `mulberry32` seeded PRNG, RFC-4122 type-5 UUIDs against a fixed namespace, epoch-sentinel timestamps, and an audit scrubber for residual transient fields. On 5 goals × 20 runs × seed=42 (100 runs, 2 000 same-group ordered pairs) from the capstone-authored Noesis-SE50 corpus, we record *identical SHA-256 per (goal, seed) group* → reproducibility score = **1.000**, with a 5×5 discriminability identity matrix (distinct goals → distinct traces), 0.6 s total wall-clock on laptop CPU, 0 LLM calls, $0 tokens.
+
+## 1.3 Paper Roadmap
+
+§2 presents a 4-column comparative table of related work across five systems. §3 describes the Noesis architecture (capability kernel, memory bus, 12-agent topology) and the six maxims that guide its methodology. §4 reports implementation details and evaluations for C1, C2, and C3, with subsections for each contribution. §5 discusses threats to validity and future work (cross-platform C3 replica on Jetson Orin Nano W16 and Apple Silicon). §6 concludes.

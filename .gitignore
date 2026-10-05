@@ -1,0 +1,68 @@
+# ---- Python venvs ----
+.venv/
+.venv_py/
+venv/
+__pycache__/
+*.pyc
+*.py[cod]
+*.egg-info/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---- Node ----
+frontend/node_modules/
+frontend/.next/
+frontend/.node/
+node_modules/
+out/
+
+# ---- Env secrets ----
+.env
+.env.local
+backend/.env.local
+frontend/.env.local
+.env.*
+
+# ---- IDE ----
+.vscode/
+.idea/
+.DS_Store
+*.tmp
+*.swp
+
+# ---- OS ----
+Thumbs.db
+
+# ---- Logs ----
+logs/
+*.log
+
+# ---- Jupyter ----
+.ipynb_checkpoints/
+
+# ---- Docker volumes ----
+docker/volumes/
+
+# ---- Data / DB ----
+data/
+*.db
+*.sqlite*
+uploads/
+artifacts/
+qdrant_storage/
+
+# ---- Python dist (built packages) ----
+dist/
+
+# =====================================================
+# SUBMISSION DELIVERABLES - EXPLICITLY DO NOT IGNORE
+# These must be committed to the repository.
+# =====================================================
+!NOESIS_major_Synopsis_Report_Final.docx
+!NOESIS_major_Synopsis_Report_Final_UPDATED.docx
+!NOESIS_thesis_chapters_1_through_8_UPDATED_SKELETON.docx
+!NOESIS_synopsis_presentation_final.pptx

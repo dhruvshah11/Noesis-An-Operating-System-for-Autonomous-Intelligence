@@ -1,0 +1,100 @@
+{
+  "se50": {
+    "overall_pass_at_1": 0.0,
+    "overall_ci_low": 0.0,
+    "overall_ci_high": 0.0,
+    "n_total": 0,
+    "n_correct": 0,
+    "per_category": [],
+    "per_difficulty": []
+  },
+  "se50_rows": [],
+  "humaneval_pass_at_1": 1.0,
+  "humaneval_buckets": [
+    {
+      "task_id": "HumanEval/0",
+      "codename": "0",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 0
+    },
+    {
+      "task_id": "HumanEval/1",
+      "codename": "1",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 1
+    },
+    {
+      "task_id": "HumanEval/2",
+      "codename": "2",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 2
+    },
+    {
+      "task_id": "HumanEval/3",
+      "codename": "3",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 3
+    },
+    {
+      "task_id": "HumanEval/4",
+      "codename": "4",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 4
+    },
+    {
+      "task_id": "HumanEval/5",
+      "codename": "5",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 5
+    },
+    {
+      "task_id": "HumanEval/6",
+      "codename": "6",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 6
+    },
+    {
+      "task_id": "HumanEval/7",
+      "codename": "7",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 7
+    },
+    {
+      "task_id": "HumanEval/8",
+      "codename": "8",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 8
+    },
+    {
+      "task_id": "HumanEval/9",
+      "codename": "9",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 9
+    }
+  ],
+  "mbpp_pass_at_1": 0.0,
+  "mbpp_buckets": [],
+  "ablation_table": {
+    "variant_keys": [
+      "baseline_nomem",
+      "baseline_nomac",
+      "full_noesis"
+    ],
+    "rows": [],
+    "notes": {
+      "status": "placeholder",
+      "detail": "Populate by calling generate_ablation_tables() once 3-variant CSVs exist."
+    }
+  },
+  "signoff_avg_conf": 0.85
+}

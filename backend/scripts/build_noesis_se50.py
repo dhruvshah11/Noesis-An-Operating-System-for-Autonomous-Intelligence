@@ -1,0 +1,1092 @@
+"""
+Build the Noesis-SE50 50-task capstone benchmark corpus.
+
+Produces:
+  benchmarks/noesis_se50/corpus.json  (50 tasks, full schema)
+  benchmarks/noesis_se50/corpus.csv   (50 rows, flat columns — Excel/SPSS friendly)
+  benchmarks/noesis_se50/goals.txt    (1 goal/line, pipe directly into
+                                       determinism_manifest.py --goals)
+
+Run from repo root:
+  cd backend ; py scripts/build_noesis_se50.py
+"""
+
+from __future__ import annotations
+
+import csv
+import json
+from dataclasses import asdict, dataclass, field
+from pathlib import Path
+
+
+@dataclass(slots=True)
+class SETask:
+    id: str
+    category: str
+    subcategory: str
+    difficulty: str  # EASY | MEDIUM | HARD
+    language_or_focus: str
+    title: str
+    goal_string: str
+    expected_artifacts: list[str]
+    accept_criteria: list[str]
+    points: int
+    expected_agents: list[str]  # from the 12-Sanskrit roster
+    tags: list[str] = field(default_factory=list)
+    reference_url: str | None = None
+
+
+CATEGORIES: tuple[str, ...] = (
+    "Rust_Systems",
+    "Python_ML",
+    "TypeScript_Web",
+    "DevOps_Infra",
+    "Technical_Writing",
+)
+
+
+def build_rust() -> list[SETask]:
+    tasks: list[SETask] = [
+        SETask(
+            id="R01",
+            category="Rust_Systems",
+            subcategory="CLI_tooling",
+            difficulty="EASY",
+            language_or_focus="Rust clap",
+            title="Todo CLI with add/list/done flags",
+            goal_string="Produce a Rust CLI todo list with add/list/done flags.",
+            expected_artifacts=["Cargo.toml", "src/main.rs", "tests/cli_smoke.rs"],
+            accept_criteria=[
+                "cargo build --release exits 0",
+                "cargo test exits 0",
+                "todo add 'x' then todo list prints 'x' on stdout",
+                "todo done 1 marks row 1 completed",
+            ],
+            points=2,
+            expected_agents=["planner", "coding", "testing", "executor"],
+            tags=["CLI", "clap", "collections"],
+        ),
+        SETask(
+            id="R02",
+            category="Rust_Systems",
+            subcategory="file_io",
+            difficulty="EASY",
+            language_or_focus="Rust std::fs",
+            title="Line count tool with ignore patterns",
+            goal_string="Write a Rust loc tool that counts lines of code skipping blanks and //comments plus a --ignore <glob> flag.",
+            expected_artifacts=["Cargo.toml", "src/lib.rs", "src/main.rs", "tests/loc_ignore.rs"],
+            accept_criteria=[
+                "reports 0 for empty files",
+                "skips lines that are only whitespace",
+                "skips lines that start with //",
+                "honours --ignore 'tests/*' glob",
+            ],
+            points=2,
+            expected_agents=["planner", "coding", "testing", "executor"],
+            tags=["FS", "glob", "walkdir"],
+        ),
+        SETask(
+            id="R03",
+            category="Rust_Systems",
+            subcategory="parsing",
+            difficulty="MEDIUM",
+            language_or_focus="nom 7",
+            title="INI file parser",
+            goal_string="Implement a nom 7 INI parser that parses [section] headers + key=value lines, returning a BTreeMap<String, BTreeMap<String, String>>.",
+            expected_artifacts=["Cargo.toml", "src/ini.rs", "benches/ini_bench.rs"],
+            accept_criteria=[
+                "empty input parses to empty map",
+                "parses [sec] then a=1 into sec.a=='1'",
+                "ignores lines starting with ; or #",
+                "handles = inside quoted values",
+            ],
+            points=3,
+            expected_agents=["planner", "research", "coding", "testing", "executor"],
+            tags=["nom", "parser_combinator", "serialisation"],
+        ),
+        SETask(
+            id="R04",
+            category="Rust_Systems",
+            subcategory="concurrency",
+            difficulty="MEDIUM",
+            language_or_focus="tokio async",
+            title="Concurrent link checker",
+            goal_string="Build a tokio HTTP link checker that reads a markdown file, extracts URLs, runs HEAD requests in parallel and reports broken links with coloured output.",
+            expected_artifacts=["Cargo.toml", "src/main.rs", "fixtures/sample.md"],
+            accept_criteria=[
+                "handles 50+ URLs concurrently",
+                "output is sorted by status code",
+                "marks 4xx/5xx as BROKEN, 2xx/3xx as OK",
+                "capped parallelism via semaphore",
+            ],
+            points=3,
+            expected_agents=["planner", "coding", "testing", "tool", "executor"],
+            tags=["tokio", "HTTP", "rayon_style"],
+        ),
+        SETask(
+            id="R05",
+            category="Rust_Systems",
+            subcategory="memory",
+            difficulty="MEDIUM",
+            language_or_focus="unsafe + allocator_api",
+            title="Generic arena allocator",
+            goal_string="Implement a generic bump-the-pointer arena allocator in Rust supporting allocation of T with Copy bounds and a reset() method; fuzz-test no UB.",
+            expected_artifacts=["Cargo.toml", "src/arena.rs", "fuzz/arena_fuzz.rs"],
+            accept_criteria=[
+                "32-byte struct x 10 000 allocations completes in <5ms",
+                "reset() deallocates the whole arena in O(1)",
+                "cargo miri test completes without UB",
+            ],
+            points=4,
+            expected_agents=["planner", "research", "critic", "coding", "testing", "executor"],
+            tags=["arena", "memory", "miri"],
+        ),
+        SETask(
+            id="R06",
+            category="Rust_Systems",
+            subcategory="networking",
+            difficulty="HARD",
+            language_or_focus="tcp + protobuf",
+            title="KV store over TCP",
+            goal_string="Write a tokio KV store that serves GET/SET/DEL commands over a framed TCP protocol using prost protobuf messages; persists to a WAL on flush.",
+            expected_artifacts=["Cargo.toml", "proto/kv.proto", "src/server.rs", "src/wal.rs"],
+            accept_criteria=[
+                "100 concurrent SET then GET => value preserved",
+                "flush() writes a recoverable WAL",
+                "server has --port and --data-dir flags",
+                "bench over localhost: 5k QPS minimum",
+            ],
+            points=5,
+            expected_agents=["planner", "coder", "testing", "tool", "critic", "executor", "supervisor"],
+            tags=["protobuf", "WAL", "tokio_tcp"],
+        ),
+        SETask(
+            id="R07",
+            category="Rust_Systems",
+            subcategory="algorithms",
+            difficulty="MEDIUM",
+            language_or_focus="graph + petgraph",
+            title="Shortest path planner",
+            goal_string="Implement a Dijkstra planner using petgraph that ingests a list of (src, dst, w) edges then answers 'path from A→B' queries.",
+            expected_artifacts=["Cargo.toml", "src/dijkstra.rs", "tests/europe_graph.rs"],
+            accept_criteria=[
+                "disconnected pairs returns None",
+                "4-node diamond returns shortest by weight not by hops",
+                "test with 1k node random graph matches reference impl",
+            ],
+            points=3,
+            expected_agents=["planner", "coding", "testing", "executor"],
+            tags=["graph", "shortest_path", "petgraph"],
+        ),
+        SETask(
+            id="R08",
+            category="Rust_Systems",
+            subcategory="wasm",
+            difficulty="HARD",
+            language_or_focus="wasm-pack + web-sys",
+            title="WASM markdown preview",
+            goal_string="Compile a pulldown-cmark markdown renderer to WASM via wasm-pack and expose a single render() entrypoint callable from JS.",
+            expected_artifacts=["Cargo.toml", "src/lib.rs", "www/index.html"],
+            accept_criteria=[
+                "wasm-pack build exits 0",
+                "JS call md.render('# Hello') returns '<h1>Hello</h1>'",
+                "renderer sanitises <script> tags",
+            ],
+            points=5,
+            expected_agents=["planner", "research", "coding", "testing", "executor"],
+            tags=["WASM", "markdown", "wasm-pack"],
+        ),
+        SETask(
+            id="R09",
+            category="Rust_Systems",
+            subcategory="security",
+            difficulty="HARD",
+            language_or_focus="ring HMAC",
+            title="Signed URL tokeniser",
+            goal_string="Build a signed URL tokeniser using ring HMAC-SHA256 that encodes (user, expires_at) as a base64url payload plus an HMAC signature; verify rejects tampered payloads.",
+            expected_artifacts=["Cargo.toml", "src/signature.rs", "tests/hmac_smoke.rs"],
+            accept_criteria=[
+                "flipping any bit of the token makes verify() return Err",
+                "expired tokens return Err",
+                "key rotation via multi-key verifier",
+            ],
+            points=5,
+            expected_agents=["planner", "security", "coding", "testing", "critic", "executor"],
+            tags=["crypto", "HMAC", "tamper_evident"],
+        ),
+        SETask(
+            id="R10",
+            category="Rust_Systems",
+            subcategory="interop",
+            difficulty="HARD",
+            language_or_focus="PyO3",
+            title="Rust ↔ Python fastmath bindings",
+            goal_string="Write a PyO3 crate exposing a Python module 'noesis_fastmath' with vectorised dot_product that beats pure-numpy on len >= 10 000 f64 vectors.",
+            expected_artifacts=["Cargo.toml", "src/lib.rs", "python/noesis_fastmath.pyi stub", "pyproject.toml"],
+            accept_criteria=[
+                "maturin build exits 0",
+                "python -m pytest py/ tests 3 cases pass",
+                "benchmark: len=1e6 f64 beats numpy by >= 15% on single-core",
+            ],
+            points=5,
+            expected_agents=["planner", "coding", "research", "testing", "tool", "executor"],
+            tags=["PyO3", "SIMD", "numpy"],
+        ),
+    ]
+    return tasks
+
+
+def build_python_ml() -> list[SETask]:
+    return [
+        SETask(
+            id="P01",
+            category="Python_ML",
+            subcategory="refactor",
+            difficulty="EASY",
+            language_or_focus="visitor_pattern",
+            title="Refactor 3-file parser into visitor pattern",
+            goal_string="Refactor a 3-file Python parser (lexer.py + parser.py + ast.py) into a visitor pattern by adding Evaluator(ast.NodeVisitor) that runs expressions.",
+            expected_artifacts=["lexer.py", "parser.py", "ast.py", "evaluator.py", "test_eval.py"],
+            accept_criteria=[
+                "expr '1+2*3' returns 7",
+                "evaluator fails with custom UndefinedNameError on unknown idents",
+                "ruff clean, mypy --strict clean",
+            ],
+            points=2,
+            expected_agents=["planner", "coder", "critic", "testing", "executor"],
+            tags=["refactor", "AST", "visitor"],
+        ),
+        SETask(
+            id="P02",
+            category="Python_ML",
+            subcategory="data_pipeline",
+            difficulty="EASY",
+            language_or_focus="pandas",
+            title="Titanic-cleaning pipeline",
+            goal_string="Write a pandas data-cleaning pipeline for the Titanic dataset that imputes Age, encodes Sex/Embarked as categories, drops Name/Ticket and trains a 10-fold CV baseline.",
+            expected_artifacts=["pipeline.py", "requirements.txt", "outputs/report.html"],
+            accept_criteria=[
+                "0 NaN rows in output DataFrame",
+                "Sex column dtype == category",
+                "LogisticRegression CV accuracy >= 0.78",
+            ],
+            points=2,
+            expected_agents=["planner", "research", "coding", "testing", "executor"],
+            tags=["pandas", "preprocessing", "baseline"],
+        ),
+        SETask(
+            id="P03",
+            category="Python_ML",
+            subcategory="mlops",
+            difficulty="MEDIUM",
+            language_or_focus="pydantic + FastAPI",
+            title="Model inference service",
+            goal_string="Wrap a sklearn Iris classifer as a FastAPI service POST /predict with a Pydantic request schema /v1/predict, add /healthz and Prometheus /metrics.",
+            expected_artifacts=["app/main.py", "app/schemas.py", "models/iris.joblib", "tests/test_api.py"],
+            accept_criteria=[
+                "POST /predict returns class name and probas in [0,1]",
+                "/healthz returns 200 in <50 ms",
+                "uvicorn benchmark 200 QPS",
+            ],
+            points=3,
+            expected_agents=["planner", "coding", "testing", "tool", "executor"],
+            tags=["FastAPI", "sklearn", "Prometheus"],
+        ),
+        SETask(
+            id="P04",
+            category="Python_ML",
+            subcategory="eda",
+            difficulty="EASY",
+            language_or_focus="matplotlib + seaborn",
+            title="EDA notebook 4-panel dashboard",
+            goal_string="Produce a Jupyter notebook that loads house prices CSV, plots 4-panel dashboard: price histogram, feature correlation heatmap, box-plot by overall-quality, scatter sqft vs price.",
+            expected_artifacts=["eda/house_prices.ipynb", "eda/output/*.png"],
+            accept_criteria=[
+                "notebook runs top-down without error",
+                "4 PNG figures saved >= 300dpi each",
+                "correlation heatmap sorted by abs(price_corr)",
+            ],
+            points=2,
+            expected_agents=["planner", "research", "coder", "executor"],
+            tags=["EDA", "visualisation", "housing"],
+        ),
+        SETask(
+            id="P05",
+            category="Python_ML",
+            subcategory="langchain_rag",
+            difficulty="HARD",
+            language_or_focus="langgraph + chromadb",
+            title="3-agent LangGraph RAG pipeline",
+            goal_string="Build a 3-agent LangGraph RAG pipeline: retrieve → synthesise → critique a single user query over a documents/ folder of PDFs.",
+            expected_artifacts=["rag/graph.py", "rag/nodes_retrieve.py", "rag/nodes_synth.py", "rag/nodes_critic.py"],
+            accept_criteria=[
+                "PDF in + question returns cited sentences from PDF",
+                "critic node flags hallucinations when doc chunk doesn't contain answer",
+                "latency p50 < 5 s on a laptop Ollama :11434",
+            ],
+            points=5,
+            expected_agents=["planner", "research", "rag", "memory", "critic", "testing", "executor"],
+            tags=["LangGraph", "RAG", "hallucination_detection"],
+        ),
+        SETask(
+            id="P06",
+            category="Python_ML",
+            subcategory="testing",
+            difficulty="MEDIUM",
+            language_or_focus="hypothesis",
+            goal_string="Prove a Python sorting helper correct with hypothesis by testing 10 000 generated lists against reference sorted(): idempotent, length preserved, min-first order.",
+            title="Hypothesis correctness proof",
+            expected_artifacts=["src/sort_helper.py", "tests/hyp_sort.py"],
+            accept_criteria=[
+                "hypothesis --phase=generate 10 000 runs green",
+                "idempotent sorter(sorter(x)) == sorter(x)",
+                "empty, singleton, reverse-sorted, duplicates all covered",
+            ],
+            points=3,
+            expected_agents=["planner", "testing", "critic", "coder", "executor"],
+            tags=["hypothesis", "property_based", "correctness"],
+        ),
+        SETask(
+            id="P07",
+            category="Python_ML",
+            subcategory="automl",
+            difficulty="MEDIUM",
+            language_or_focus="autogluon",
+            title="AutoGluon 10-min baseline",
+            goal_string="Write a 10-minute AutoGluon baseline script that trains on any CSV classification target specified via CLI --target --train and prints a sorted leaderboard.",
+            expected_artifacts=["autogluon_run.py", "requirements_autogluon.txt"],
+            accept_criteria=[
+                "adult-census target=income <= 10 min training",
+                "top model test-AUC >= baseline random forest +5%",
+                "leaderboard.csv saved with columns model, score_val, fit_time",
+            ],
+            points=4,
+            expected_agents=["planner", "research", "coder", "executor"],
+            tags=["AutoML", "AutoGluon", "tabular"],
+        ),
+        SETask(
+            id="P08",
+            category="Python_ML",
+            subcategory="async",
+            difficulty="MEDIUM",
+            language_or_focus="asyncio + aiohttp",
+            title="Asynchronous feature store",
+            goal_string="Build an async Python feature store backed by aiohttp that fetches 100 feature vectors by id concurrently and returns a merged dataframe; handles partial failures.",
+            expected_artifacts=["fs/client.py", "tests/fs_concurrent.py"],
+            accept_criteria=[
+                "100 features p95 < 2 s when server latencies ~100ms",
+                "5/100 failing endpoints return successes with explicit per-key errors",
+                "client has configurable timeout + retry",
+            ],
+            points=3,
+            expected_agents=["planner", "coder", "testing", "tool", "executor"],
+            tags=["asyncio", "feature_store", "resilience"],
+        ),
+        SETask(
+            id="P09",
+            category="Python_ML",
+            subcategory="llm_eval",
+            difficulty="HARD",
+            language_or_focus="promptfoo",
+            title="LLM prompt eval harness",
+            goal_string="Write a promptfoo-style Python harness that accepts N prompts, M LLM providers and O assertions then prints an (prompt × provider) matrix with pass/fail rate per cell.",
+            expected_artifacts=["llm_eval/harness.py", "llm_eval/providers/ollama.py"],
+            accept_criteria=[
+                "2 providers × 3 prompts matrix cell computed",
+                "assertions support substring-match + llm-as-judge",
+                "CSV report saved with per-cell timings",
+            ],
+            points=5,
+            expected_agents=["planner", "research", "tester", "coder", "executor", "supervisor"],
+            tags=["prompt_eval", "llm", "grid_search"],
+        ),
+        SETask(
+            id="P10",
+            category="Python_ML",
+            subcategory="distributed",
+            difficulty="HARD",
+            language_or_focus="ray train",
+            title="Ray Train text classifier",
+            goal_string="Fine-tune distilbert over AG News via Ray Train on laptop 2 workers; capture training_loss as a plot AND checkpoint after 3 epochs.",
+            expected_artifacts=["ray_train_distilbert.py", "outputs/loss_curve.png", "checkpoint/"],
+            accept_criteria=[
+                "ray.init(local_mode=True) runs 2 workers",
+                "3 epochs completes on laptop in <8 min",
+                "test-set F1 >= 0.85",
+            ],
+            points=5,
+            expected_agents=["planner", "research", "coder", "tester", "executor"],
+            tags=["Ray", "distilbert", "text_classification"],
+        ),
+    ]
+
+
+def build_ts_web() -> list[SETask]:
+    return [
+        SETask(
+            id="T01",
+            category="TypeScript_Web",
+            subcategory="schemas",
+            difficulty="EASY",
+            language_or_focus="Zod",
+            title="Payments API Zod schema",
+            goal_string="Write a TypeScript Zod schema for a payments API with ChargeRequest, RefundRequest, WebhookEvent plus .parse() tests.",
+            expected_artifacts=["src/api/payments.ts", "src/api/payments.test.ts"],
+            accept_criteria=[
+                "ChargeRequest.amount must be >= 1 (cents)",
+                "WebhookEvent discriminates 'charge.succeeded' | 'refund.succeeded'",
+                "vitest 12 cases green",
+            ],
+            points=2,
+            expected_agents=["planner", "coding", "testing", "executor"],
+            tags=["Zod", "API", "validation"],
+        ),
+        SETask(
+            id="T02",
+            category="TypeScript_Web",
+            subcategory="ui_components",
+            difficulty="EASY",
+            language_or_focus="next + shadcn",
+            title="Modal with form validation",
+            goal_string="Build a Next.js Server Action modal dialog that posts a 'contact us' form, validates name/email/message and shows sonner toasts on success/error.",
+            expected_artifacts=["app/contact/page.tsx", "app/contact/actions.ts", "components/ContactModal.tsx"],
+            accept_criteria=[
+                "eslint + tsc --noEmit clean",
+                "vitest 6 cases green",
+                "invalid email returns a Zod-formatted toast",
+            ],
+            points=2,
+            expected_agents=["planner", "coding", "testing", "executor"],
+            tags=["Next14", "ServerActions", "Sonner"],
+        ),
+        SETask(
+            id="T03",
+            category="TypeScript_Web",
+            subcategory="dashboard",
+            difficulty="MEDIUM",
+            language_or_focus="recharts + react_query",
+            title="Observability dashboard",
+            goal_string="Build a 5-panel Next.js observability dashboard: 2 kpis, 1 timeseries line, 1 status-bar, 1 recent traces table. Fetch live via TanStack Query.",
+            expected_artifacts=["app/dashboard/page.tsx", "components/DashboardGrid.tsx"],
+            accept_criteria=[
+                "all 5 panels render on 1080p single scroll",
+                "backend down grace degrades to amber banner",
+                "eslint + tsc clean",
+            ],
+            points=3,
+            expected_agents=["planner", "coder", "testing", "executor"],
+            tags=["Recharts", "TanStack", "Observability"],
+        ),
+        SETask(
+            id="T04",
+            category="TypeScript_Web",
+            subcategory="auth",
+            difficulty="MEDIUM",
+            language_or_focus="nextauth",
+            title="NextAuth Credentials OTP",
+            goal_string="Wire NextAuth with Credentials provider + OTP email flow via nodemailer; protect /dashboard redirecting 302 unauthed.",
+            expected_artifacts=["app/api/auth/[...nextauth]/route.ts", "lib/auth/otp.ts", "app/login/page.tsx"],
+            accept_criteria=[
+                "POST /api/auth/signin validates 6-digit OTP",
+                "no route leaks /dashboard to non-logged visitor",
+                "OTP expires after 5 minutes",
+            ],
+            points=3,
+            expected_agents=["planner", "security", "coder", "tester", "executor"],
+            tags=["NextAuth", "OTP", "nodemailer"],
+        ),
+        SETask(
+            id="T05",
+            category="TypeScript_Web",
+            subcategory="middleware",
+            difficulty="MEDIUM",
+            language_or_focus="edge_runtime",
+            title="Geo-aware edge rate-limiter",
+            goal_string="Write a Next.js middleware rate limiter that reads x-forwarded-for, buckets by Country (MaxMind lite), and returns 429 after 100 rpm in-country.",
+            expected_artifacts=["middleware.ts", "lib/ratelimit.ts"],
+            accept_criteria=[
+                "101st request same-country returns 429",
+                "60 s sliding window resets counters",
+                "runs on edge-runtime, no node deps",
+            ],
+            points=3,
+            expected_agents=["planner", "security", "coder", "tester", "executor"],
+            tags=["Edge", "RateLimit", "Geo"],
+        ),
+        SETask(
+            id="T06",
+            category="TypeScript_Web",
+            subcategory="testing",
+            difficulty="MEDIUM",
+            language_or_focus="playwright e2e",
+            title="Playwright checkout flow",
+            goal_string="Automate a Playwright e2e: add-to-cart → 3 variants → guest checkout → confirmation screen, 8 asserts in total.",
+            expected_artifacts=["tests/e2e/checkout.spec.ts", "playwright.config.ts"],
+            accept_criteria=[
+                "headless run in ci exits 0 with no retries",
+                "8 explicit expect() assertions",
+                "each step screenshot saved on failure",
+            ],
+            points=3,
+            expected_agents=["planner", "tester", "tool", "executor"],
+            tags=["Playwright", "E2E", "Cart"],
+        ),
+        SETask(
+            id="T07",
+            category="TypeScript_Web",
+            subcategory="ssr_isr",
+            difficulty="HARD",
+            language_or_focus="next + prisma",
+            title="Blog with ISR and Prisma",
+            goal_string="Create a Next.js blog backed by Prisma/SQLite. Admin posts create/update via server actions. Posts route revalidate every 5 s (ISR).",
+            expected_artifacts=["app/posts/[slug]/page.tsx", "app/admin/actions.ts", "prisma/schema.prisma"],
+            accept_criteria=[
+                "new post appears in public listing < 6 s after admin create",
+                "SQLite db file seed via prisma seed",
+                "zod protects server actions",
+            ],
+            points=4,
+            expected_agents=["planner", "coder", "tool", "tester", "executor"],
+            tags=["ISR", "Prisma", "Blog"],
+        ),
+        SETask(
+            id="T08",
+            category="TypeScript_Web",
+            subcategory="types",
+            difficulty="HARD",
+            language_or_focus="advanced_types",
+            title="Type-safe event bus",
+            goal_string="Build a strongly typed event bus in TypeScript: emit<T>() + on<T>(handler) where T is a registry; handler params inferred. No any.",
+            expected_artifacts=["lib/EventBus.ts", "lib/EventBus.test.ts"],
+            accept_criteria=[
+                "ts-expect-error confirms wrong-handler-arg fails",
+                "on/off removes subscriptions",
+                "emit emits to all handlers exactly once",
+            ],
+            points=5,
+            expected_agents=["planner", "coder", "critic", "tester", "executor"],
+            tags=["TS_types", "generics", "EventBus"],
+        ),
+        SETask(
+            id="T09",
+            category="TypeScript_Web",
+            subcategory="accessibility",
+            difficulty="MEDIUM",
+            language_or_focus="axe-core + cypress",
+            title="Axe accessibility audit page",
+            goal_string="Run axe-core axe-core against an app pages inventory and produce a JSON violations report grouped by impact.",
+            expected_artifacts=["tests/a11y/*.spec.ts", "reports/a11y.json"],
+            accept_criteria=[
+                "critical impact violations break CI (exit != 0)",
+                "serif + screen-reader labels checked",
+                "HTML report with per-page screenshots",
+            ],
+            points=3,
+            expected_agents=["planner", "tester", "critic", "executor"],
+            tags=["axe", "a11y", "WCAG"],
+        ),
+        SETask(
+            id="T10",
+            category="TypeScript_Web",
+            subcategory="i18n",
+            difficulty="HARD",
+            language_or_focus="next-intl",
+            title="i18n static site generator",
+            goal_string="Build a Next.js multi-lang static site using next-intl with en, hi-IN, gu-IN locales; generateMetadata() with og tags per locale.",
+            expected_artifacts=["src/i18n/config.ts", "messages/*.json", "app/[locale]/layout.tsx"],
+            accept_criteria=[
+                "/en /hi /gu all return 200 in static export",
+                "title/og:title unique per locale",
+                "missing key falls back to English without crash",
+            ],
+            points=5,
+            expected_agents=["planner", "coder", "tester", "executor"],
+            tags=["i18n", "next-intl", "SSG"],
+        ),
+    ]
+
+
+def build_devops() -> list[SETask]:
+    return [
+        SETask(
+            id="D01",
+            category="DevOps_Infra",
+            subcategory="compose",
+            difficulty="EASY",
+            language_or_focus="docker compose",
+            title="Laptop single-up compose",
+            goal_string="Write a laptop docker-compose.yml that boots qdrant + redis + backend api service single-up with host.docker.internal Ollama passthrough.",
+            expected_artifacts=["docker-compose.laptop.yml", ".env.example", "README-laptop.md"],
+            accept_criteria=[
+                "docker compose config parses without warnings",
+                "3 named volumes declared (qdrant, redis, db)",
+                "backend service healthcheck /livez /readyz",
+            ],
+            points=2,
+            expected_agents=["planner", "tool", "tester", "executor"],
+            tags=["Compose", "Laptop", "Ollama"],
+        ),
+        SETask(
+            id="D02",
+            category="DevOps_Infra",
+            subcategory="dockerfile",
+            difficulty="EASY",
+            language_or_focus="multi_stage_builds",
+            title="Multi-stage python slim image",
+            goal_string="Write a multi-stage Dockerfile for a FastAPI backend that installs deps with uv then copies only site-packages into a python:3.12-slim runner image.",
+            expected_artifacts=["Dockerfile", ".dockerignore"],
+            accept_criteria=[
+                "final image < 300 MB",
+                "runs as non-root user",
+                "pip freeze shows no dev-only dependencies",
+            ],
+            points=2,
+            expected_agents=["planner", "research", "coding", "executor"],
+            tags=["Dockerfile", "uv", "slim"],
+        ),
+        SETask(
+            id="D03",
+            category="DevOps_Infra",
+            subcategory="ci",
+            difficulty="MEDIUM",
+            language_or_focus="github_actions",
+            title="PR CI pipeline",
+            goal_string="Write a GitHub Actions PR workflow that runs ruff + pytest unit subset + typecheck; fails-fast on any job.",
+            expected_artifacts=[".github/workflows/pr.yml"],
+            accept_criteria=[
+                "3 parallel jobs: ruff, pytest, typecheck",
+                "fails in < 4 min on cold runner",
+                "only runs on PR not pushes to main",
+            ],
+            points=3,
+            expected_agents=["planner", "tool", "tester", "security", "executor"],
+            tags=["GitHubActions", "PR_gating", "ruff"],
+        ),
+        SETask(
+            id="D04",
+            category="DevOps_Infra",
+            subcategory="k8s",
+            difficulty="MEDIUM",
+            language_or_focus="kind + helm",
+            title="Kind cluster with Helm releases",
+            goal_string="Spin up a 3-node Kind cluster and install prometheus + ingress-nginx via Helm; expose the Noesis backend as an Ingress.",
+            expected_artifacts=["infra/kind/cluster.yaml", "infra/helm/release-noesis.yaml"],
+            accept_criteria=[
+                "kind create cluster exits 0",
+                "kubectl get nodes shows 3 nodes",
+                "curl ingress.host returns backend /livez",
+            ],
+            points=3,
+            expected_agents=["planner", "research", "tool", "executor"],
+            tags=["Kind", "Helm", "Ingress"],
+        ),
+        SETask(
+            id="D05",
+            category="DevOps_Infra",
+            subcategory="observability",
+            difficulty="MEDIUM",
+            language_or_focus="otel + grafana",
+            title="OpenTelemetry tracing",
+            goal_string="Instrument a FastAPI app with OpenTelemetry traces to Jaeger, plus Prometheus metrics, and wire a 3-panel Grafana dashboard JSON.",
+            expected_artifacts=["otel/collector-config.yaml", "grafana/dashboards/noesis.json"],
+            accept_criteria=[
+                "every /api call has root trace_id logged",
+                "Prometheus scrape /metrics exposes noesis_agents_run_total",
+                "grafana dashboard JSON importable",
+            ],
+            points=3,
+            expected_agents=["planner", "coding", "tool", "executor"],
+            tags=["OTel", "Prometheus", "Grafana"],
+        ),
+        SETask(
+            id="D06",
+            category="DevOps_Infra",
+            subcategory="terraform",
+            difficulty="HARD",
+            language_or_focus="terraform + aws",
+            title="AWS Fargate terraform plan",
+            goal_string="Write a Terraform plan that provisions a single-AZ Fargate service + ALB + private ECR; output the final service URL.",
+            expected_artifacts=["infra/tf/*.tf", "infra/tf/outputs.tf"],
+            accept_criteria=[
+                "terraform validate passes",
+                "tf plan shows <= 30 new resources",
+                "outputs.alb_dns present",
+            ],
+            points=5,
+            expected_agents=["planner", "research", "security", "tool", "executor", "supervisor"],
+            tags=["Terraform", "Fargate", "AWS"],
+        ),
+        SETask(
+            id="D07",
+            category="DevOps_Infra",
+            subcategory="secrets",
+            difficulty="MEDIUM",
+            language_or_focus="vault + 1password",
+            title="Vault-backed env loader",
+            goal_string="Implement a Python .env loader that optionally pulls missing keys from HashiCorp Vault via AppRole and writes them to os.environ before FastAPI boot.",
+            expected_artifacts=["noesis/config_secrets.py", "tests/test_config_secrets.py"],
+            accept_criteria=[
+                "plain env var takes precedence over Vault",
+                "missing Vault secret logs specific warning",
+                "never writes secret to stdout/errors",
+            ],
+            points=3,
+            expected_agents=["planner", "security", "coder", "tester", "executor"],
+            tags=["Vault", "secrets", "AppRole"],
+        ),
+        SETask(
+            id="D08",
+            category="DevOps_Infra",
+            subcategory="backups",
+            difficulty="MEDIUM",
+            language_or_focus="borg or restic",
+            title="Restic backup schedule",
+            goal_string="Configure a systemd timer that runs a Restic backup of the SQLite DB + Docker volumes each hour; retains 7 daily + 4 weekly snapshots.",
+            expected_artifacts=["systemd/noesis-backup.service", "systemd/noesis-backup.timer"],
+            accept_criteria=[
+                "restic snapshots | tail shows >= 1 after first run",
+                "retention enforced after forget --prune",
+                "email notification on failure",
+            ],
+            points=3,
+            expected_agents=["planner", "tool", "tester", "executor"],
+            tags=["Restic", "systemd", "backup"],
+        ),
+        SETask(
+            id="D09",
+            category="DevOps_Infra",
+            subcategory="chaos",
+            difficulty="HARD",
+            language_or_focus="chaos_mesh",
+            title="ChaosMesh network delay test",
+            goal_string="Create a ChaosMesh NetworkChaos 200 ms delay between backend <-> redis service. Assert the backend retries 3x and returns 503 gracefully or succeeds.",
+            expected_artifacts=["chaos/network-delay-200ms.yaml", "tests/chaos_backend_retries.sh"],
+            accept_criteria=[
+                "with chaos off: backend p95 < 300 ms",
+                "with chaos on: backend retries visible in logs",
+                "chaos experiment lasts 5 min only, cleans up",
+            ],
+            points=5,
+            expected_agents=["planner", "research", "tester", "executor", "supervisor"],
+            tags=["ChaosMesh", "Resilience", "Redis"],
+        ),
+        SETask(
+            id="D10",
+            category="DevOps_Infra",
+            subcategory="disaster_recovery",
+            difficulty="HARD",
+            language_or_focus="disaster_runbook",
+            title="Disaster-recovery runbook + script",
+            goal_string="Write a disaster-recovery runbook plus a bash/python script for RTO <= 15 min: restore SQLite backup + Qdrant snapshot + re-enable health checks.",
+            expected_artifacts=["runbooks/DR_2026_Q1.md", "scripts/restore_from_backup.sh"],
+            accept_criteria=[
+                "runbook passes 2 senior reviewers checklist",
+                "restore script exits 0 on fresh laptop",
+                "post-restore /readyz returns 200 within 15 min",
+            ],
+            points=5,
+            expected_agents=["planner", "security", "tool", "critic", "executor", "supervisor"],
+            tags=["Runbook", "DR", "RTO_15min"],
+        ),
+    ]
+
+
+def build_tech_writing() -> list[SETask]:
+    return [
+        SETask(
+            id="W01",
+            category="Technical_Writing",
+            subcategory="abstract",
+            difficulty="EASY",
+            language_or_focus="acm_sig_format",
+            title="6-page CODS-COMAD abstract",
+            goal_string="Write the CODS-COMAD 2027 paper abstract (≤ 200 words) laying out C1, C2, C3, dataset, eval results of the Noesis 12-agent system.",
+            expected_artifacts=["docs/paper/00_abstract_and_title_authors.md"],
+            accept_criteria=[
+                "150-200 words max",
+                "contains novelty statement, dataset name, 3 metrics, venue name",
+                "5 keywords below in ACM CCS format",
+            ],
+            points=2,
+            expected_agents=["planner", "research", "critic", "supervisor", "synthesizer"],
+            tags=["abstract", "CODS-COMAD"],
+        ),
+        SETask(
+            id="W02",
+            category="Technical_Writing",
+            subcategory="synopsis",
+            difficulty="EASY",
+            language_or_focus="university_form",
+            title="B.Tech 10-section synopsis",
+            goal_string="Produce a 10-section university synopsis document: title, problem statement, objectives, novelty, methodology block, tools used, schedule, risks, budget, references.",
+            expected_artifacts=["docs/synopsis/synopsis_latest.md"],
+            accept_criteria=[
+                "10 numbered sections present",
+                "Gantt in markdown table weeks 1..18",
+                "15 references IEEE style",
+            ],
+            points=2,
+            expected_agents=["planner", "research", "coder", "critic", "executor"],
+            tags=["synopsis", "B.Tech"],
+        ),
+        SETask(
+            id="W03",
+            category="Technical_Writing",
+            subcategory="literature_survey",
+            difficulty="MEDIUM",
+            language_or_focus="15_papers_matrix",
+            title="15-paper Lit survey comparison matrix",
+            goal_string="Write a 15-paper literature survey: 5 LangGraph 2024, 5 agent-tool 2023, 5 SWE-bench 2024; produce a (paper × 8 properties) comparison matrix.",
+            expected_artifacts=["docs/thesis/chapters/02_literature_survey.md"],
+            accept_criteria=[
+                "matrix 15 rows × 8 cols",
+                "each row carries DOI",
+                "gap section identifies 3 unsolved problems",
+            ],
+            points=3,
+            expected_agents=["planner", "research", "critic", "executor"],
+            tags=["LitSurvey", "matrix", "RQ1"],
+        ),
+        SETask(
+            id="W04",
+            category="Technical_Writing",
+            subcategory="architecture_docs",
+            difficulty="MEDIUM",
+            language_or_focus="arc42",
+            title="ARC42 Chapter 3 System-Architecture",
+            goal_string="Fill in ARC42 chapter 3 (System Architecture) with 3 levels: C4-Context → Container → Component diagram for Noesis; Mermaid source.",
+            expected_artifacts=["docs/architecture/arc42_ch03_system.md", "docs/architecture/diagrams/c4_*.mermaid"],
+            accept_criteria=[
+                "all 3 diagrams compile mermaid -> SVG",
+                "Container diagram shows all 12 Sanskrit agents",
+                "Component diagram shows 6 memory tiers",
+            ],
+            points=3,
+            expected_agents=["planner", "research", "coder", "critic", "executor"],
+            tags=["ARC42", "C4", "Mermaid"],
+        ),
+        SETask(
+            id="W05",
+            category="Technical_Writing",
+            subcategory="api_docs",
+            difficulty="EASY",
+            language_or_focus="openapi + redoc",
+            title="OpenAPI 3.1 spec + ReDoc",
+            goal_string="Publish a OpenAPI 3.1 spec for /v1/* routes with request schemas + 4 security schemes; generate a single-file ReDoc HTML.",
+            expected_artifacts=["docs/openapi/noesis_openapi.yaml", "docs/openapi/redoc.html"],
+            accept_criteria=[
+                "lint with redocly exits 0 errors",
+                "securitySchemes: 4 items",
+                "all schemas have examples",
+            ],
+            points=2,
+            expected_agents=["planner", "coder", "tool", "tester", "executor"],
+            tags=["OpenAPI", "ReDoc", "REST"],
+        ),
+        SETask(
+            id="W06",
+            category="Technical_Writing",
+            subcategory="viva_deck",
+            difficulty="MEDIUM",
+            language_or_focus="marp_deck",
+            title="19-slide Marp viva deck",
+            goal_string="Build a 19-slide B.Tech viva Marp deck: slide 2 C1/C2/C3, slide 8 architecture Mermaid, slides 14-17 eval tables, slide 18 demo script.",
+            expected_artifacts=["docs/viva/noesis_viva_2026.md", "docs/viva/theme-brand.css"],
+            accept_criteria=[
+                "marp build exits 0",
+                "19 slides, brand palette: #6E56CF / #22c55e / #f59e0b / #ef4444 / #06b6d4",
+                "C1/C2/C3 badges per slide 2",
+            ],
+            points=3,
+            expected_agents=["planner", "coder", "critic", "executor", "synthesizer"],
+            tags=["Marp", "viva", "branding"],
+        ),
+        SETask(
+            id="W07",
+            category="Technical_Writing",
+            subcategory="evaluation_writeup",
+            difficulty="HARD",
+            language_or_focus="result_tables",
+            title="§6 Evaluation writeup",
+            goal_string="Draft paper §6 Evaluation: §6.1 C1 capability routing on Noesis-SE50 (pass@1,pass@3); §6.2 C3 determinism manifest; §6.3 C2 6-tier-memory latency p50/p95.",
+            expected_artifacts=["docs/paper/04_implementation_evaluation.md"],
+            accept_criteria=[
+                "3 numbered sub-sections with bold novelty tag",
+                "3 result tables in LATEX-ready format",
+                "threats-to-validity para",
+            ],
+            points=5,
+            expected_agents=["planner", "research", "critic", "synthesizer", "executor", "supervisor"],
+            tags=["Evaluation", "C1_C2_C3", "CODS-COMAD"],
+        ),
+        SETask(
+            id="W08",
+            category="Technical_Writing",
+            subcategory="readme",
+            difficulty="EASY",
+            language_or_focus="awesome_list_style",
+            title="Laptop-first quick-start README",
+            goal_string="Write the laptop-first quick-start README 1-page: 5 prereqs, docker compose single-up, open :3000, verify /livez, screenshot of first dashboard.",
+            expected_artifacts=["README_QUICKSTART_LAPTOP.md"],
+            accept_criteria=[
+                "8 console commands copy-paste reproducible",
+                "expected output per command",
+                "troubleshooting top-5 Ollama/docker errors",
+            ],
+            points=2,
+            expected_agents=["planner", "research", "coder", "executor"],
+            tags=["README", "Laptop", "onboarding"],
+        ),
+        SETask(
+            id="W09",
+            category="Technical_Writing",
+            subcategory="poster",
+            difficulty="HARD",
+            language_or_focus="typst_poster",
+            title="ACM A0 3-column poster Typst",
+            goal_string="Produce a 3-column ACM A0 conference poster in Typst: left-intro, middle-method, right-results + QR code to repo.",
+            expected_artifacts=["docs/poster/poster.typ", "docs/poster/poster.pdf"],
+            accept_criteria=[
+                "typst compile yields PDF < 30 MB",
+                "figures placed no float overflow",
+                "QR links go to github.com/dhruvshah11",
+            ],
+            points=5,
+            expected_agents=["planner", "coder", "critic", "executor", "synthesizer"],
+            tags=["Poster", "Typst", "A0"],
+        ),
+        SETask(
+            id="W10",
+            category="Technical_Writing",
+            subcategory="blog_post",
+            difficulty="MEDIUM",
+            language_or_focus="dev_to_article",
+            title="Launch-week Dev.To blog post",
+            goal_string="Write a 1200-word Dev.To launch blog: 'I built a 12-Sanskrit-agent AI software engineer box on my RTX laptop' with 8 screenshots, 5 code blocks, 1 demo-asciinema.",
+            expected_artifacts=["docs/blog/launch_noesis_rtx_laptop.md"],
+            accept_criteria=[
+                "word count 1100–1300",
+                "8 inline images paths relative",
+                "1 asciinema cast embed",
+            ],
+            points=3,
+            expected_agents=["planner", "research", "coder", "critic", "executor"],
+            tags=["DevTo", "Launch", "RTX"],
+        ),
+    ]
+
+
+def build_corpus() -> list[SETask]:
+    all_tasks: list[SETask] = []
+    for builder in (build_rust, build_python_ml, build_ts_web, build_devops, build_tech_writing):
+        bucket = builder()
+        assert len(bucket) == 10, f"{builder.__name__} must return 10 tasks, got {len(bucket)}"
+        all_tasks.extend(bucket)
+    assert len(all_tasks) == 50, f"Total tasks must be 50, got {len(all_tasks)}"
+    return all_tasks
+
+
+CSV_COLS: tuple[str, ...] = (
+    "id",
+    "category",
+    "subcategory",
+    "difficulty",
+    "language_or_focus",
+    "title",
+    "goal_string",
+    "expected_artifacts",
+    "accept_criteria",
+    "points",
+    "expected_agents",
+    "tags",
+    "reference_url",
+)
+
+
+def write_csv(tasks: list[SETask], out_path: Path) -> None:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with out_path.open("w", encoding="utf-8", newline="") as fh:
+        writer = csv.writer(fh)
+        writer.writerow(CSV_COLS)
+        for t in tasks:
+            writer.writerow(
+                [
+                    t.id,
+                    t.category,
+                    t.subcategory,
+                    t.difficulty,
+                    t.language_or_focus,
+                    t.title,
+                    t.goal_string,
+                    " | ".join(t.expected_artifacts),
+                    " | ".join(t.accept_criteria),
+                    t.points,
+                    ", ".join(t.expected_agents),
+                    ", ".join(t.tags),
+                    t.reference_url or "",
+                ]
+            )
+
+
+def write_json(tasks: list[SETask], out_path: Path) -> None:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "corpus_name": "Noesis-SE50",
+        "version": "1.0.0",
+        "generated_at": "2026-08-24",
+        "target_venue": "CODS-COMAD 2027",
+        "authors_contact": "Dhruv Shah, github.com/dhruvshah11",
+        "categories": list(CATEGORIES),
+        "total_tasks": len(tasks),
+        "total_points": sum(t.points for t in tasks),
+        "tasks": [asdict(t) for t in tasks],
+    }
+    out_path.write_text(json.dumps(payload, indent=2, sort_keys=False, ensure_ascii=False), encoding="utf-8")
+
+
+def write_goals_txt(tasks: list[SETask], out_path: Path) -> None:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    lines = [f"# {t.id} — {t.title} — {t.category} ({t.difficulty})" for t in tasks]
+    goals_block = "\n".join(f"{comment}\n{t.goal_string}\n" for comment, t in zip(lines, tasks))
+    out_path.write_text(
+        "# Noesis-SE50 goals file — pipe into: py determinism_manifest.py --goals FILE\n\n" + goals_block,
+        encoding="utf-8",
+    )
+
+
+def main() -> int:
+    repo_root = Path(__file__).resolve().parents[1]
+    out_dir = repo_root / "benchmarks" / "noesis_se50"
+    tasks = build_corpus()
+
+    csv_path = out_dir / "corpus.csv"
+    json_path = out_dir / "corpus.json"
+    goals_path = out_dir / "goals.txt"
+
+    write_csv(tasks, csv_path)
+    write_json(tasks, json_path)
+    write_goals_txt(tasks, goals_path)
+
+    by_cat: dict[str, int] = {}
+    by_diff: dict[str, int] = {}
+    total_points = 0
+    for t in tasks:
+        by_cat[t.category] = by_cat.get(t.category, 0) + 1
+        by_diff[t.difficulty] = by_diff.get(t.difficulty, 0) + 1
+        total_points += t.points
+
+    print(f"Wrote {csv_path}")
+    print(f"Wrote {json_path}")
+    print(f"Wrote {goals_path}")
+    print("\nCategory distribution:")
+    for c in CATEGORIES:
+        print(f"  {c:<20}  {by_cat[c]:>2}  tasks")
+    print("\nDifficulty distribution:")
+    for d in ("EASY", "MEDIUM", "HARD"):
+        print(f"  {d:<7}  {by_diff.get(d, 0):>2} tasks")
+    print(f"\nTotal capstone points = {total_points}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

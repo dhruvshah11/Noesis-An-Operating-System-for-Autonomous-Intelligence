@@ -1,0 +1,298 @@
+// ---------------------------------------------------------------------------
+// Universal Agent Protocol (UAP) — Proto3 IDL, v1.
+//
+// This schema is the 10yr-stable wire contract for Noesis inter-agent
+// transport.  The Python package `noesis.uap` is the REFERENCE implementation
+// (Pydantic models → encoder/decoder).  Any compliant implementation in any
+// language MUST round-trip *losslessly* against this schema when exercised
+// by the M1 acceptance test harness.
+//
+// Rules for wire-stability (also documented in noesis/uap/__init__.py):
+//   1. Never rename a field.  Deprecate via `deprecated=true` only.
+//   2. New fields are always optional, tagged with a FRESH tag number.
+//      Tag numbers 1-15 are reserved for hot-path common fields.
+//   3. Enum values on the wire are STRINGS, never integer ordinals
+//      (Proto3 JSON mapping convention — we keep the same semantics even on
+//      the binary wire so that grep-ing a captured binary stream still
+//      yields intent identifiers).
+//   4. `message_id` / `conversation_id` / `task_id` are UUIDv7, encoded as
+//      lowercase ASCII hex strings (32 chars, no dashes).
+//   5. All timestamps are RFC 3339 UTC strings with `Z` suffix.
+// ---------------------------------------------------------------------------
+
+syntax = "proto3";
+
+package noesis.uap.v1;
+
+option go_package = "noesis.io/uap/v1";
+option java_multiple_files = true;
+option java_package = "io.noesis.uap.v1";
+option objc_class_prefix = "UAP";
+
+// =========================================================================
+// Enums — string-valued on the wire per rule 3.
+// =========================================================================
+
+// 30 canonical inter-agent intents.  Alphabetical by family.  Do not renumber.
+enum UAPIntentEnum {
+  UAP_INTENT_UNSPECIFIED = 0;
+
+  // Communication
+  UAP_INTENT_COMM_ACK          = 1;
+  UAP_INTENT_COMM_HEARTBEAT    = 2;
+  UAP_INTENT_COMM_PING         = 3;
+  UAP_INTENT_COMM_PONG         = 4;
+  UAP_INTENT_COMM_GREETING     = 5;
+
+  // Orchestration
+  UAP_INTENT_ORCH_DELEGATE     = 10;
+  UAP_INTENT_ORCH_HANDOFF      = 11;
+  UAP_INTENT_ORCH_SPAWN        = 12;
+  UAP_INTENT_ORCH_KILL         = 13;
+  UAP_INTENT_ORCH_BROADCAST    = 14;
+
+  // Goals / execution
+  UAP_INTENT_GOAL_DECLARE      = 20;
+  UAP_INTENT_GOAL_PROGRESS     = 21;
+  UAP_INTENT_GOAL_COMPLETED    = 22;
+  UAP_INTENT_GOAL_ABANDONED    = 23;
+  UAP_INTENT_TASK_SUBMIT       = 24;
+  UAP_INTENT_TASK_RESULT       = 25;
+  UAP_INTENT_TASK_FAILURE      = 26;
+
+  // Knowledge
+  UAP_INTENT_KNOW_QUERY        = 30;
+  UAP_INTENT_KNOW_QUERY_RESULT = 31;
+  UAP_INTENT_KNOW_ASSERT       = 32;
+  UAP_INTENT_KNOW_RECALL       = 33;
+
+  // Tools
+  UAP_INTENT_TOOL_CALL         = 40;
+  UAP_INTENT_TOOL_RESULT       = 41;
+  UAP_INTENT_TOOL_FAILURE      = 42;
+  UAP_INTENT_TOOL_REGISTER     = 43;
+
+  // Reasoning
+  UAP_INTENT_REASON_THINK      = 50;
+  UAP_INTENT_REASON_REFLECT    = 51;
+  UAP_INTENT_REASON_CRITIQUE   = 52;
+  UAP_INTENT_REASON_VOTE       = 53;
+  UAP_INTENT_REASON_JUDGE      = 54;
+
+  // Observability
+  UAP_INTENT_OBS_TRACE         = 60;
+  UAP_INTENT_OBS_METRIC        = 61;
+  UAP_INTENT_OBS_LOG           = 62;
+
+  // Error
+  UAP_INTENT_ERR_ERROR         = 70;
+  UAP_INTENT_ERR_RETRY_REQUEST = 71;
+  UAP_INTENT_ERR_ESCALATE      = 72;
+}
+
+// =========================================================================
+// Sub-messages — shared building blocks.
+// =========================================================================
+
+message UAPOrigin {
+  string agent_id           = 1;  // DNS-reverse agent id, e.g. io.noesis.planner
+  string agent_type         = 2;  // e.g. planner/research/coding/unknown
+  optional string run_id    = 3;  // UUIDv7 hex (32 chars)
+  optional string workspace_id = 4;
+  optional string node_id   = 5;  // kube pod name / distributed node
+  optional int64 pid        = 6;
+  optional string signature = 7;  // EdDSA / JWS over UAPMessage.canonical_bytes()
+  optional string signer_issuer = 8;
+}
+
+message UAPEvidence {
+  string source            = 1;
+  string kind              = 2;  // text | quote | link | image | timestamp | tool_output
+  string snippet           = 3;
+  double confidence        = 4;  // 0..1 inclusive
+  string retrieved_at      = 5;  // RFC 3339 UTC, Z suffix
+  map<string, string> metadata = 6;
+  // Plugin extensions can stuff raw JSON into extras_json if metadata's
+  // string values aren't expressive enough.  String-valued map keeps binary
+  // wire fast and simple.
+  optional string extras_json = 7;
+}
+
+message UAPGoal {
+  string id                = 1;
+  string description       = 2;
+  int32 priority           = 3;  // 0..10 inclusive (default = 5)
+  optional string deadline = 4;  // RFC 3339 UTC
+  string success_criteria  = 5;
+  optional string parent_goal_id = 6;
+  double confidence        = 7;  // 0..1 inclusive
+}
+
+message UAPArtifact {
+  string id                   = 1;
+  string kind                 = 2;  // blob | file | dataset | chart | diff | code_patch
+  optional int64 size_bytes   = 3;
+  optional string mime_type   = 4;
+  optional string url         = 5;
+  optional string sha256      = 6;
+  map<string, string> metadata = 7;
+}
+
+message UAPSpan {
+  optional string trace_id      = 1;  // 32 hex chars
+  optional string span_id       = 2;  // 16 hex chars
+  optional string parent_span_id = 3;
+  string service               = 4;  // default = "noesis"
+}
+
+// =========================================================================
+// Agent-to-agent message — the core unit of exchange.
+// =========================================================================
+
+message UAPMessage {
+  // ---- CloudEvents-compatible envelope metadata ----
+  string spec_version       = 1;  // default = "1.0"
+  string message_id         = 2;  // UUIDv7 hex (32 chars, no dashes)
+  string time               = 3;  // RFC 3339 UTC
+  string type               = 4;  // MUST equal intent.wire_value; CloudEvents compat
+  string source             = 5;  // default = "noesis://kernel"
+  string subject            = 6;  // default = "<sender_id>::<intent>"
+
+  // ---- Semantics ----
+  string intent             = 10;  // UAPIntentEnum wire name (e.g. "task.submit")
+  UAPOrigin sender          = 11;
+  optional string recipient_agent_id = 12;  // null/empty = broadcast
+  optional string conversation_id    = 13;  // UUIDv7 hex
+  optional string thread_id          = 14;
+
+  repeated UAPGoal goals    = 20;
+  string body               = 21;
+  optional string structured_json = 22;  // arbitrary structured payload as JSON string
+  double confidence         = 23;  // 0..1, rounded to 4 decimals on the wire
+  repeated UAPEvidence evidence = 24;
+
+  // ---- DAG / execution graph ----
+  repeated string dependencies = 30;  // predecessor message_ids (UUIDv7 hex)
+  optional string task_id       = 31;  // UUIDv7 hex
+
+  // ---- Attachments ----
+  repeated UAPArtifact artifacts = 40;
+  repeated string events_json    = 41;  // repeated JSON-blob strings
+  repeated string errors_json    = 42;
+  repeated string metrics_json   = 43;
+  repeated string resources_json = 44;
+  repeated string execution_trace_json = 45;
+
+  // ---- Tracing (introspection only — NOT part of canonical_bytes signature) ----
+  optional UAPSpan span        = 50;
+}
+
+// =========================================================================
+// Turn — single agent turn inside a conversation.
+// Contains 1 request + N replies so the entire conversation-step round-trip
+// persists as one database record.
+// =========================================================================
+
+message UAPTurn {
+  string turn_id            = 1;   // UUIDv7 hex
+  string conversation_id    = 2;   // UUIDv7 hex
+  int64 sequence            = 3;   // monotonic per conversation
+  string created_at         = 4;   // RFC 3339 UTC
+  UAPMessage request        = 5;
+  repeated UAPMessage replies = 6;
+  optional string summary   = 7;   // optional LLM-compressed recap
+  double wall_time_ms       = 8;   // 0.0 if not measured
+}
+
+// =========================================================================
+// Envelope — wraps a single message for transport on any bus
+// (NATS / Kafka / gRPC / local queue / persistent SQL queue).
+// =========================================================================
+
+enum UAPTransportKind {
+  UAP_TRANSPORT_UNSPECIFIED = 0;
+  UAP_TRANSPORT_LOCAL       = 1;   // in-process memory queue
+  UAP_TRANSPORT_NATS        = 2;
+  UAP_TRANSPORT_KAFKA       = 3;
+  UAP_TRANSPORT_GRPC        = 4;
+  UAP_TRANSPORT_REDIS       = 5;
+  UAP_TRANSPORT_SQL_QUEUE   = 6;
+}
+
+message UAPEnvelope {
+  string envelope_id        = 1;   // UUIDv7 hex
+  int64 created_at_unix_ms  = 2;   // monotonic wall-clock (millis since 1970-01-01 UTC)
+  UAPTransportKind transport = 3;
+  optional string subject   = 4;   // NATS subject / Kafka topic / routing key
+  UAPMessage payload        = 5;
+  map<string, string> trace_headers = 6;  // W3C trace-context / baggage passthrough
+}
+
+// =========================================================================
+// SysCall — kernel ↔ agent privileged ABI.
+// An agent never speaks raw SQL or Redis; it makes SysCalls that the kernel
+// mediates through CapabilityTokens.  Audit-trail every SysCall with
+// timestamps, the caller handle, and deny-reason where applicable.
+// =========================================================================
+
+enum UAPSysCallKind {
+  UAP_SYSCALL_UNSPECIFIED       = 0;
+
+  // --- Memory / knowledge ---
+  UAP_SYSCALL_MEMORY_READ       = 10;
+  UAP_SYSCALL_MEMORY_WRITE      = 11;
+  UAP_SYSCALL_MEMORY_SEARCH     = 12;
+  UAP_SYSCALL_KNOWLEDGE_GET     = 13;
+  UAP_SYSCALL_KNOWLEDGE_PUT     = 14;
+
+  // --- RAG ---
+  UAP_SYSCALL_RAG_RETRIEVE      = 20;
+  UAP_SYSCALL_RAG_CHUNK         = 21;
+
+  // --- LLM ---
+  UAP_SYSCALL_LLM_COMPLETE      = 30;
+  UAP_SYSCALL_LLM_EMBED         = 31;
+  UAP_SYSCALL_LLM_MULTIMODAL    = 32;
+
+  // --- Tools ---
+  UAP_SYSCALL_TOOL_INVOKE       = 40;
+  UAP_SYSCALL_TOOL_REGISTER     = 41;
+  UAP_SYSCALL_TOOL_LIST         = 42;
+
+  // --- Messaging ---
+  UAP_SYSCALL_SEND_MESSAGE      = 50;
+  UAP_SYSCALL_RECV_MESSAGE      = 51;
+  UAP_SYSCALL_BROADCAST         = 52;
+
+  // --- Alloc ---
+  UAP_SYSCALL_TOKEN_MALLOC      = 60;
+  UAP_SYSCALL_TOKEN_FREE        = 61;
+  UAP_SYSCALL_TOKEN_STATUS      = 62;
+
+  // --- Meta / control ---
+  UAP_SYSCALL_GET_CLOCK         = 70;
+  UAP_SYSCALL_SET_SCHEDULER     = 71;
+  UAP_SYSCALL_SPAWN_AGENT       = 72;
+  UAP_SYSCALL_SLEEP             = 73;
+}
+
+message UAPSysCall {
+  string call_id            = 1;   // UUIDv7 hex
+  int64 issued_at_unix_ns   = 2;   // nanoseconds; monotonic clock within a pid
+  string caller_agent_id    = 3;
+  uint64 caller_handle      = 4;   // opaque agent handle assigned by allocator
+  UAPSysCallKind kind       = 5;
+  string args_json          = 6;   // structured args as JSON string
+  optional string capability_token = 7;  // hex token from PluginCapabilityAPI
+}
+
+message UAPSysCallReply {
+  string call_id            = 1;   // mirrors UAPSysCall.call_id
+  int64 completed_at_unix_ns = 2;
+  bool success              = 3;
+  bool denied               = 4;   // true if capability-token rejected the call
+  optional string deny_reason = 5;
+  optional string result_json = 6;
+  repeated string artifacts   = 7;  // UAPArtifact ids produced by this call
+  double latency_ns           = 8;  // measured by kernel; 0 if not observable
+}

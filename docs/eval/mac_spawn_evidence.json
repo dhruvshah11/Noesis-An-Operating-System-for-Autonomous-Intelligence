@@ -1,0 +1,64 @@
+{
+  "generated_at_utc": "2026-08-24T15:08:18.156942+00:00",
+  "scenarios": [
+    {
+      "scenario": "a",
+      "label": "0 caps \u2192 TOOL_INVOKE",
+      "denied": true,
+      "deny_reason": "AND-mask check: any(c.allows(TOOL_INVOKE, shell)) on 0-cap list \u2192 False",
+      "deny_path": "Kernel.syscall[cap_table: noesis/kernel/kernel.py:350-352] \u2192 PermissionDenied(capability not present)",
+      "evidence": {
+        "agent_id": "audit-zero-caps",
+        "caps_provided_count": 0,
+        "cap_op": "tool_invoke",
+        "target": "shell",
+        "and_mask_hit": false,
+        "perm_denied_type": "PermissionDenied"
+      }
+    },
+    {
+      "scenario": "b",
+      "label": "JWT sha256 last-byte flip",
+      "denied": true,
+      "deny_reason": "jwt signature mismatch (tamper detected)",
+      "deny_path": "Ingress JWTService.decode \u2192 JWTDecodeError(signature mismatch)",
+      "evidence": {
+        "good_token_prefix": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX\u2026",
+        "tampered_token_prefix": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX\u2026",
+        "signatures_identical": false,
+        "signatures_last_byte_differ": true,
+        "reason_contains_signature_mismatch": true
+      }
+    },
+    {
+      "scenario": "c",
+      "label": "empty-token tool invoke",
+      "denied": true,
+      "deny_reason": "token is empty/whitespace-only (empty-token gate)",
+      "deny_path": "Ingress token-validity gate \u2192 401 Unauthorized (before cap table)",
+      "evidence": {
+        "token_repr": "'   \\t\\n  '",
+        "token_len": 7,
+        "token_stripped_len": 0,
+        "gate_returns_ok": false
+      }
+    },
+    {
+      "scenario": "d",
+      "label": "valid token, tool not in mask",
+      "denied": true,
+      "deny_reason": "AND-mask: mask=[TOOL_INVOKE:search], call=(tool_invoke:shell) \u2192 any() hits 0 matches \u2192 DENY",
+      "deny_path": "Capability.allows() glob match [noesis/kernel/capabilities.py:76-98] \u2192 AND-gate any() fails \u2192 PermissionDenied",
+      "evidence": {
+        "agent_id": "audit-not-in-mask",
+        "mask_caps": [
+          "tool_invoke:search"
+        ],
+        "called": "tool_invoke:shell",
+        "and_mask_hit": false,
+        "perm_denied_type": "PermissionDenied"
+      }
+    }
+  ],
+  "all_denied": true
+}

@@ -1,0 +1,63 @@
+name: 4-Audit Weekly Scheduled Run
+
+on:
+  schedule:
+    # 04:00 UTC every Monday → ~09:30 IST morning review
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: 4-audits-weekly
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: backend
+
+jobs:
+  four-audits:
+    name: MAC + Determinism + LLM Factory + Memory Promotion
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: backend/pyproject.toml
+      - name: Install hatch
+        run: python -m pip install --upgrade pip hatch
+
+      - name: (C2) MAC spawn deny audit
+        run: hatch run python scripts/audit_mac_spawn.py ../docs/eval/mac_spawn_evidence.weekly.md ../docs/eval/mac_spawn_evidence.weekly.json
+
+      - name: (C3) Determinism smoke × 3 runs × 2 seeds × 3 goals
+        run: >
+          hatch run python scripts/determinism_manifest.py
+          --runs 3 --seeds 42,7
+          --goals benchmarks/noesis_se50/goals.txt
+          --goals-limit 3
+          --outcsv ../docs/eval/determinism_manifest.weekly.csv
+          --outjson ../docs/eval/determinism_manifest.weekly.json
+
+      - name: (MS4) LLM 4-provider factory audit
+        run: hatch run python scripts/audit_llm_providers.py ../docs/eval/llm_factory.weekly.md ../docs/eval/llm_factory.weekly.json
+
+      - name: (C1) Memory promotion controller + wiring tests
+        run: >
+          hatch -e test run pytest
+          tests/unit/test_memory_promotion.py
+          tests/unit/test_memory_promotion_wiring.py
+          tests/unit/test_bench_stats.py
+          -v --tb=short
+
+      - uses: actions/upload-artifact@v4
+        name: Upload audit artefacts
+        with:
+          name: 4-audits-weekly-${{ github.run_id }}
+          path: |
+            docs/eval/mac_spawn_evidence.*
+            docs/eval/determinism_manifest.weekly.*
+            docs/eval/llm_factory.weekly.*
+          retention-days: 90

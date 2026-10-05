@@ -1,0 +1,73 @@
+---
+name: Feature Request
+description: Suggest an enhancement or brand-new capability
+title: "feat: <short description>"
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feature requests are welcome! Before submitting, please search existing issues —
+        including closed ones — to avoid duplicates. Describe the **problem you're
+        solving**, not just the solution you want.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area does this relate to?
+      multiple: false
+      options:
+        - Agent architecture (Planner / Research / Coding / Memory / etc.)
+        - Orchestration (LangGraph, parallelism, task queue)
+        - LLM providers (OpenAI / Anthropic / Gemini / Ollama / OpenRouter / new)
+        - RAG / document ingestion / retrieval quality
+        - Memory system (scoring / pruning / embeddings)
+        - Tools (Python sandbox, GitHub, Calendar, etc.)
+        - API layer (FastAPI routes, streaming, auth, rate-limit)
+        - Frontend dashboard (Next.js / React / UI / UX)
+        - Observability / logging / tracing / metrics
+        - DevOps (Docker, Kubernetes, Terraform, CI)
+        - Benchmarking / evaluation
+        - CLI / developer experience
+        - Documentation / examples
+        - Other (describe below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do that's hard, slow, or impossible today? Who does it affect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Sketch your ideal API, new agent, UX mockup, or architecture change. Screenshots welcomed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+      description: What have you tried? How do similar tools (LangGraph, CrewAI, AutoGen, OpenHands) solve this?
+
+  - type: checkboxes
+    id: willingness
+    attributes:
+      label: Willing to contribute?
+      options:
+        - label: Yes, I can open a Pull Request to implement this with guidance.
+        - label: I can help test the feature once built.
+        - label: I can provide example datasets / benchmark tasks.
+        - label: No, I'm just submitting the idea.
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional context
+      description: Links, screenshots, pseudocode, examples, etc.

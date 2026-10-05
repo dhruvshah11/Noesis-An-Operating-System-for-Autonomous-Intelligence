@@ -1,0 +1,11 @@
+# Default reviewers for Noesis.
+#
+# Reviewers listed here are automatically requested on any opened PR.
+# Team members listed under teams/ must map to actual teams in the repo org.
+
+---
+defaults:
+  users: []
+  # organizations:
+  #   - name: astraos/core
+  #     required: 2
