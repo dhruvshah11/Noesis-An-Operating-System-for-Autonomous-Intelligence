@@ -9,7 +9,7 @@
 # =====================================================================
 
 # --- Stage 1: Builder ------------------------------------------------
-FROM python:3.12-slim-bookworm AS builder
+FROM python:3.14-slim-bookworm AS builder
 
 WORKDIR /build
 
@@ -63,7 +63,7 @@ RUN uv venv --python 3.12 /opt/venv \
         "orjson>=3.10.0"
 
 # --- Stage 2: Final runtime image -----------------------------------
-FROM python:3.12-slim-bookworm AS runtime
+FROM python:3.14-slim-bookworm AS runtime
 
 LABEL org.opencontainers.image.title="Noesis Backend" \
       org.opencontainers.image.description="An Operating System for Autonomous Intelligence — Backend API" \

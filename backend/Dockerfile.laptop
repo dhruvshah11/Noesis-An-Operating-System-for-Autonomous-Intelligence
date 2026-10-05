@@ -14,7 +14,7 @@
 # =====================================================================
 
 # --- Stage 1: Builder (gcc + python3-dev for any native wheels) -------
-FROM python:3.12-slim-bookworm AS builder
+FROM python:3.14-slim-bookworm AS builder
 
 WORKDIR /build
 
@@ -43,7 +43,7 @@ pathlib.Path('requirements-frozen.txt').write_text('\n'.join(deps) + '\n')
 "
 
 # --- Stage 2: Install deps into an isolated venv ----------------------
-FROM python:3.12-slim-bookworm AS installer
+FROM python:3.14-slim-bookworm AS installer
 
 WORKDIR /install
 
@@ -66,7 +66,7 @@ RUN python -m venv /opt/venv \
     && /opt/venv/bin/pip install -r requirements-frozen.txt
 
 # --- Stage 3: Final slim runtime (no build toolchain) -----------------
-FROM python:3.12-slim-bookworm AS runtime
+FROM python:3.14-slim-bookworm AS runtime
 
 LABEL org.opencontainers.image.title="Noesis Backend (Laptop / Self-Host)" \
       org.opencontainers.image.description="Noesis — Autonomous Multi-Agent AI OS. Laptop build for Docker Desktop + GitHub Releases." \
