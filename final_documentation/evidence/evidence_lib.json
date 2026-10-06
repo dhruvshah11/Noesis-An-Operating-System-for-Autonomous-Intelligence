@@ -1,0 +1,2856 @@
+{
+ "se50_goal_count": 101,
+ "planner_timing": {
+  "n": 303,
+  "mean_ms": 0.6301,
+  "p50_ms": 0.5701,
+  "p95_ms": 1.1619,
+  "max_ms": 1.9438
+ },
+ "planner_determinism": {
+  "goals": 101,
+  "runs_per_goal": 3,
+  "goals_with_single_hash": 101
+ },
+ "planner_steps_histogram": {
+  "4": 52,
+  "5": 24,
+  "6": 25
+ },
+ "planner_agent_mix": {
+  "reflection": 224,
+  "coding": 114,
+  "research": 99,
+  "tool": 20,
+  "memory": 16,
+  "rag": 5
+ },
+ "planner_seed_sensitivity": {
+  "goal": "# Noesis-SE50 goals file — pipe into: py determinism_manifest.py --goals FILE",
+  "hashes": {
+   "1": "a28b2c65756a5069",
+   "2": "bf8197f26e2f81d0",
+   "42": "a8e2e34b8c99bbdc",
+   "1337": "e293c8d61330123f",
+   "9999": "f0d90192087b9323"
+  },
+  "unique": 5
+ },
+ "planner_sample_plan": {
+  "goal": "Research capability-based security and write a summary document with citations",
+  "plan": {
+   "id": "b449d0a6-7990-571e-8f3a-56b4a1169d1a",
+   "goal": "Research capability-based security and write a summary document with citations",
+   "steps": [
+    {
+     "id": "bee9408d-d67c-5086-be3d-d5c423575c69",
+     "index": 0,
+     "description": "Gather authoritative sources on security",
+     "assigned_agent": "research",
+     "dependencies": [],
+     "tool_hints": [
+      "web_fetch"
+     ],
+     "rag_query": "research capability based security",
+     "status": 3,
+     "confidence": 0.9,
+     "result": null,
+     "error": null,
+     "started_at": "2026-01-01T00:00:00Z",
+     "finished_at": "2026-01-01T00:00:00Z"
+    },
+    {
+     "id": "4c0c8413-bdf8-51ac-87f1-663541b57a02",
+     "index": 1,
+     "description": "Cross-check claims about research across ≥2 references",
+     "assigned_agent": "research",
+     "dependencies": [
+      "bee9408d-d67c-5086-be3d-d5c423575c69"
+     ],
+     "tool_hints": [
+      "web_fetch"
+     ],
+     "rag_query": "research capability based security",
+     "status": 3,
+     "confidence": 0.9,
+     "result": null,
+     "error": null,
+     "started_at": "2026-01-01T00:00:00Z",
+     "finished_at": "2026-01-01T00:00:00Z"
+    },
+    {
+     "id": "aab1a789-12a3-532f-8e1d-6826ebc316fd",
+     "index": 2,
+     "description": "Extract citations + confidence notes for document",
+     "assigned_agent": "research",
+     "dependencies": [
+      "4c0c8413-bdf8-51ac-87f1-663541b57a02"
+     ],
+     "tool_hints": [
+      "web_fetch"
+     ],
+     "rag_query": "research capability based security",
+     "status": 3,
+     "confidence": 0.9,
+     "result": null,
+     "error": null,
+     "started_at": "2026-01-01T00:00:00Z",
+     "finished_at": "2026-01-01T00:00:00Z"
+    },
+    {
+     "id": "fc46d24c-0707-5a9c-b80e-47d651e26cd7",
+     "index": 3,
+     "description": "Run reflection pass on aggregated outputs; sign-off or trigger replan.",
+     "assigned_agent": "reflection",
+     "dependencies": [
+      "bee9408d-d67c-5086-be3d-d5c423575c69",
+      "4c0c8413-bdf8-51ac-87f1-663541b57a02",
+      "aab1a789-12a3-532f-8e1d-6826ebc316fd"
+     ],
+     "tool_hints": [],
+     "rag_query": null,
+     "status": 3,
+     "confidence": 0.85,
+     "result": null,
+     "error": null,
+     "started_at": "2026-01-01T00:00:00Z",
+     "finished_at": "2026-01-01T00:00:00Z"
+    }
+   ],
+   "reasoning": "Decomposed goal 'Research capability-based security and write a summary document with citations' into 3 steps:\n  · Every step has explicit dependencies (DAG — no cycles).\n  · Worker step confidence is proportional to keyword clarity.\n  · Final step is always ReflectionAgent gate.",
+   "created_at": "2026-01-01T00:00:00Z",
+   "metadata": {
+    "promotion_report": {
+     "tier_counts": {
+      "T1": 5,
+      "T2": 0,
+      "T3": 0,
+      "T4": 0,
+      "T5": 0,
+      "T6": 0
+     },
+     "provenance_tail_sha": "0000000000000000000000000000000000000000000000000000000000000000",
+     "total_events": 0
+    }
+   }
+  },
+  "seeds": [
+   "research",
+   "capability",
+   "based",
+   "security",
+   "and",
+   "write",
+   "summary",
+   "document"
+  ],
+  "required_capabilities": [
+   "reflection",
+   "research"
+  ],
+  "promotion_report": {
+   "tier_counts": {
+    "T1": 5,
+    "T2": 0,
+    "T3": 0,
+    "T4": 0,
+    "T5": 0,
+    "T6": 0
+   },
+   "provenance_tail_sha": "0000000000000000000000000000000000000000000000000000000000000000",
+   "total_events": 0
+  }
+ },
+ "executor_grid": [
+  {
+   "unmet_high_of_4": 0,
+   "failed_steps_of_6": 0,
+   "confidence": 1.0,
+   "decision": "signoff"
+  },
+  {
+   "unmet_high_of_4": 0,
+   "failed_steps_of_6": 1,
+   "confidence": 0.92,
+   "decision": "signoff"
+  },
+  {
+   "unmet_high_of_4": 0,
+   "failed_steps_of_6": 2,
+   "confidence": 0.84,
+   "decision": "replan"
+  },
+  {
+   "unmet_high_of_4": 0,
+   "failed_steps_of_6": 3,
+   "confidence": 0.76,
+   "decision": "replan"
+  },
+  {
+   "unmet_high_of_4": 1,
+   "failed_steps_of_6": 0,
+   "confidence": 0.75,
+   "decision": "replan"
+  },
+  {
+   "unmet_high_of_4": 1,
+   "failed_steps_of_6": 1,
+   "confidence": 0.67,
+   "decision": "replan"
+  },
+  {
+   "unmet_high_of_4": 1,
+   "failed_steps_of_6": 2,
+   "confidence": 0.59,
+   "decision": "replan"
+  },
+  {
+   "unmet_high_of_4": 1,
+   "failed_steps_of_6": 3,
+   "confidence": 0.51,
+   "decision": "replan"
+  },
+  {
+   "unmet_high_of_4": 2,
+   "failed_steps_of_6": 0,
+   "confidence": 0.5,
+   "decision": "replan"
+  },
+  {
+   "unmet_high_of_4": 2,
+   "failed_steps_of_6": 1,
+   "confidence": 0.42,
+   "decision": "reject"
+  },
+  {
+   "unmet_high_of_4": 2,
+   "failed_steps_of_6": 2,
+   "confidence": 0.34,
+   "decision": "reject"
+  },
+  {
+   "unmet_high_of_4": 2,
+   "failed_steps_of_6": 3,
+   "confidence": 0.26,
+   "decision": "reject"
+  },
+  {
+   "unmet_high_of_4": 3,
+   "failed_steps_of_6": 0,
+   "confidence": 0.25,
+   "decision": "reject"
+  },
+  {
+   "unmet_high_of_4": 3,
+   "failed_steps_of_6": 1,
+   "confidence": 0.17,
+   "decision": "reject"
+  },
+  {
+   "unmet_high_of_4": 3,
+   "failed_steps_of_6": 2,
+   "confidence": 0.09,
+   "decision": "reject"
+  },
+  {
+   "unmet_high_of_4": 3,
+   "failed_steps_of_6": 3,
+   "confidence": 0.01,
+   "decision": "reject"
+  }
+ ],
+ "kernel_capability_cases": [
+  {
+   "case": "K1 zero capabilities -> TOOL_INVOKE(search)",
+   "success": false,
+   "error": "PermDenied[token=201d6308-f538-4ed0-8077-5aef6d6d4402 op=tool_invoke target=search]: syscall=tool_invoke",
+   "latency_ms": 0.037
+  },
+  {
+   "case": "K2 TOOL_INVOKE:search -> TOOL_INVOKE(shell)",
+   "success": false,
+   "error": "PermDenied[token=d1096f53-d486-476b-895a-54c5d9540065 op=tool_invoke target=shell]: syscall=tool_invoke",
+   "latency_ms": 0.027
+  },
+  {
+   "case": "K3 TOOL_INVOKE:search -> TOOL_INVOKE(search)",
+   "success": true,
+   "error": "",
+   "latency_ms": 0.03
+  },
+  {
+   "case": "K4 TOOL_INVOKE:s* glob -> TOOL_INVOKE(shell)",
+   "success": true,
+   "error": "",
+   "latency_ms": 0.029
+  },
+  {
+   "case": "K5 MEMORY_READ:* -> MEMORY_WRITE(working)",
+   "success": false,
+   "error": "PermDenied[token=866c68d4-9a96-4700-81e1-dcf8bbabce10 op=memory_write target=working]: syscall=memory_write",
+   "latency_ms": 0.019
+  },
+  {
+   "case": "K6 MEMORY_WRITE:working -> MEMORY_WRITE(working)",
+   "success": true,
+   "error": "",
+   "latency_ms": 0.059
+  },
+  {
+   "case": "K7 MODEL_INFERENCE:* -> MODEL_ROUTE",
+   "success": true,
+   "error": "",
+   "latency_ms": 0.11
+  },
+  {
+   "case": "K8 MODEL_INFERENCE:* -> SPAWN_AGENT",
+   "success": false,
+   "error": "PermDenied[token=4683f779-737f-4b22-aaca-7b54cd55ff9c op=spawn_agent target=*]: syscall=spawn_agent",
+   "latency_ms": 0.02
+  },
+  {
+   "case": "K9 all caps -> RAG_SEARCH (no handler)",
+   "success": false,
+   "error": "No handler for syscall rag_search",
+   "latency_ms": 0.014
+  }
+ ],
+ "kernel_spans_sample": [
+  {
+   "trace_id": "2dd35ccb-860e-460e-aa0b-7ce8e21382de",
+   "span_id": "3686e468-09bf-4f57-ba59-81d74ca8827e",
+   "syscall": "memory_write",
+   "success": false,
+   "denied": true,
+   "latency_ms": 0.019,
+   "error": "PermDenied[token=866c68d4-9a96-4700-81e1-dcf8bbabce10 op=memory_write target=working]: syscall=memory_write",
+   "ts": "2026-10-06T14:30:58.985538+00:00"
+  },
+  {
+   "trace_id": "750d1ecf-0965-4c43-9303-68d540e8c020",
+   "span_id": "3102882b-72a4-4c09-9179-d80063418a93",
+   "syscall": "memory_write",
+   "success": true,
+   "denied": false,
+   "latency_ms": 0.059,
+   "error": null,
+   "ts": "2026-10-06T14:30:58.985768+00:00"
+  },
+  {
+   "trace_id": "670caf6d-c21b-441c-8a43-514f9de703c9",
+   "span_id": "e0ce4633-8276-41e4-b94f-b70ca48c92c7",
+   "syscall": "model_route",
+   "success": true,
+   "denied": false,
+   "latency_ms": 0.11,
+   "error": null,
+   "ts": "2026-10-06T14:30:58.986057+00:00"
+  },
+  {
+   "trace_id": "3e0ff85d-8160-4170-ad68-168c0eed5b29",
+   "span_id": "6ea766d4-1bbd-4106-a63a-efb794702c71",
+   "syscall": "spawn_agent",
+   "success": false,
+   "denied": true,
+   "latency_ms": 0.02,
+   "error": "PermDenied[token=4683f779-737f-4b22-aaca-7b54cd55ff9c op=spawn_agent target=*]: syscall=spawn_agent",
+   "ts": "2026-10-06T14:30:58.986240+00:00"
+  }
+ ],
+ "roster_spawn_gating": [
+  {
+   "agent_type": "coding",
+   "class": "CodingAgent",
+   "required_capabilities": [
+    "tool_invoke:files"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "critic",
+   "class": "CriticAgent",
+   "required_capabilities": [
+    "memory_read:episodic"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "executor",
+   "class": "ExecutorAgent",
+   "required_capabilities": [
+    "workspace_write:*"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "judge",
+   "class": "JudgeAgent",
+   "required_capabilities": [
+    "model_inference:judge/*",
+    "memory_read:episodic"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "memory",
+   "class": "MemoryAgent",
+   "required_capabilities": [
+    "memory_read:*",
+    "memory_write:*",
+    "memory_prune:semantic"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "orchestrator",
+   "class": "OrchestratorAgent",
+   "required_capabilities": [
+    "spawn_agent:subtask:*"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "planner",
+   "class": "PlannerAgent",
+   "required_capabilities": [
+    "rag_search:*"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "rag",
+   "class": "RAGAgent",
+   "required_capabilities": [
+    "rag_search:*",
+    "rag_ingest:workspace:*",
+    "memory_read:semantic"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "reflection",
+   "class": "ReflectionAgent",
+   "required_capabilities": [
+    "memory_read:*"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "research",
+   "class": "ResearchAgent",
+   "required_capabilities": [
+    "tool_invoke:web_fetch"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "supervisor",
+   "class": "SupervisorAgent",
+   "required_capabilities": [
+    "spawn_agent:*",
+    "kill_agent:zombie:*",
+    "admin:status"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  },
+  {
+   "agent_type": "tool",
+   "class": "ToolAgent",
+   "required_capabilities": [
+    "tool_invoke:*"
+   ],
+   "spawn_with_no_caps_denied": true,
+   "spawn_with_required_caps_allowed": true
+  }
+ ],
+ "tool_registry_cases": [
+  {
+   "tool": "files",
+   "args": {
+    "operation": "list",
+    "path": "."
+   },
+   "permission": "denied",
+   "detail": "PermDenied[token=af877541-bbc3-48d9-84ae-a65b1300f4c6 op=tool_invoke target=files]: Tool 'files' requires TOOL_INVOKE:files"
+  },
+  {
+   "tool": "files",
+   "args": {
+    "operation": "read",
+    "path": "../../etc/passwd"
+   },
+   "permission": "granted",
+   "success": false,
+   "exit_code": 13,
+   "stdout": "",
+   "stderr": "path escapes allowed root: '../../etc/passwd'",
+   "structured": {}
+  },
+  {
+   "tool": "files",
+   "args": {
+    "operation": "write",
+    "path": "notes/a.txt",
+    "content": "hello"
+   },
+   "permission": "granted",
+   "success": true,
+   "exit_code": 0,
+   "stdout": "wrote 5 bytes → notes/a.txt",
+   "stderr": "",
+   "structured": {}
+  },
+  {
+   "tool": "shell",
+   "args": {
+    "command": "rm -rf /"
+   },
+   "permission": "granted",
+   "success": true,
+   "exit_code": 0,
+   "stdout": "[shell dry-run] would exec: rm -rf /\n[shell dry-run] cwd: C:\\Users\\dhruv\\AppData\\Local\\Temp\\claude\\C--Users-dhruv-Downlo",
+   "stderr": "",
+   "structured": {}
+  },
+  {
+   "tool": "python_sandbox",
+   "args": {
+    "code": "import os\nos.listdir('.')"
+   },
+   "permission": "granted",
+   "success": false,
+   "exit_code": 66,
+   "stdout": "",
+   "stderr": "import of module 'os' not allowed",
+   "structured": {}
+  },
+  {
+   "tool": "python_sandbox",
+   "args": {
+    "code": "import math\nmath.sqrt(144)"
+   },
+   "permission": "granted",
+   "success": true,
+   "exit_code": 0,
+   "stdout": "",
+   "stderr": "",
+   "structured": {
+    "result": 12.0
+   }
+  },
+  {
+   "tool": "python_sandbox",
+   "args": {
+    "code": "open('x.txt','w')"
+   },
+   "permission": "granted",
+   "success": false,
+   "exit_code": 70,
+   "stdout": "",
+   "stderr": "NameError: name 'open' is not defined\n  at C:\\Users\\dhruv\\AppData\\Local\\Temp\\claude\\C--Users-dhruv-Downloads-ASTRAOS\\7eb0e156-e252-4364-8a37-096e0c0287ad\\scratc",
+   "structured": {}
+  },
+  {
+   "tool": "web_fetch",
+   "args": {
+    "url": "file:///c:/windows/win.ini"
+   },
+   "permission": "granted",
+   "success": false,
+   "exit_code": 1,
+   "stdout": "",
+   "stderr": "scheme 'file' not allowed",
+   "structured": {}
+  }
+ ],
+ "promotion_cascade": {
+  "trace": [
+   {
+    "stage": "pass 1 (t0)",
+    "T1": 2,
+    "T2": 2,
+    "T3": 2,
+    "T4": 4,
+    "T5": 0,
+    "T6": 0
+   },
+   {
+    "stage": "passes 2-3 (t0)",
+    "T1": 2,
+    "T2": 2,
+    "T3": 2,
+    "T4": 4,
+    "T5": 0,
+    "T6": 0
+   },
+   {
+    "stage": "after +8 days",
+    "T1": 2,
+    "T2": 2,
+    "T3": 2,
+    "T4": 0,
+    "T5": 4,
+    "T6": 0
+   },
+   {
+    "stage": "after human review of 2",
+    "T1": 2,
+    "T2": 2,
+    "T3": 2,
+    "T4": 0,
+    "T5": 2,
+    "T6": 2
+   }
+  ],
+  "events": 24,
+  "provenance_tail_sha": "78c935aa57b26f53331eaa203101983300d4d3ec8eb38e706044a40938d2219a",
+  "edges": {
+   "T1->T2": 8,
+   "T2->T3": 6,
+   "T3->T4": 4,
+   "T4->T5": 4,
+   "T5->T6": 2
+  }
+ },
+ "paalak_overwrite": "refused: Paalak tier refuses overwrite of 92dc97a3-fe78-4bb7-a947-f84bb1222d29",
+ "promotion_chain_repeat": 1,
+ "planner_promotion_report": {
+  "tier_counts": {
+   "T1": 5,
+   "T2": 0,
+   "T3": 0,
+   "T4": 0,
+   "T5": 0,
+   "T6": 0
+  },
+  "provenance_tail_sha": "0000000000000000000000000000000000000000000000000000000000000000",
+  "total_events": 0
+ },
+ "rag": {
+  "ingest": [
+   {
+    "file": "ARCHITECTURE.md",
+    "bytes": 35486,
+    "chunks": 57,
+    "ingest_ms": 7.197
+   },
+   {
+    "file": "README.md",
+    "bytes": 50601,
+    "chunks": 77,
+    "ingest_ms": 10.778
+   },
+   {
+    "file": "CHANGELOG.md",
+    "bytes": 4173,
+    "chunks": 7,
+    "ingest_ms": 1.364
+   }
+  ],
+  "queries": [
+   {
+    "query": "capability token HMAC",
+    "top_hits": [
+     {
+      "doc": "ARCHITECTURE.md — Noesis Kernel MVP",
+      "frag": 6,
+      "score": 1.0,
+      "bm25_rank": 1
+     },
+     {
+      "doc": "1. Clone & enter",
+      "frag": 62,
+      "score": 0.984,
+      "bm25_rank": 2
+     },
+     {
+      "doc": "1. Clone & enter",
+      "frag": 12,
+      "score": 0.968,
+      "bm25_rank": 3
+     }
+    ],
+    "n": 50,
+    "mean_ms": 0.1273,
+    "p50_ms": 0.1135,
+    "p95_ms": 0.2257,
+    "max_ms": 0.2907
+   },
+   {
+    "query": "memory promotion tiers",
+    "top_hits": [
+     {
+      "doc": "ARCHITECTURE.md — Noesis Kernel MVP",
+      "frag": 12,
+      "score": 1.0,
+      "bm25_rank": 1
+     },
+     {
+      "doc": "1. Clone & enter",
+      "frag": 15,
+      "score": 0.984,
+      "bm25_rank": 2
+     },
+     {
+      "doc": "1. Clone & enter",
+      "frag": 14,
+      "score": 0.968,
+      "bm25_rank": 3
+     }
+    ],
+    "n": 50,
+    "mean_ms": 0.1906,
+    "p50_ms": 0.1904,
+    "p95_ms": 0.2371,
+    "max_ms": 0.3574
+   },
+   {
+    "query": "docker compose deployment",
+    "top_hits": [
+     {
+      "doc": "1. Clone & enter",
+      "frag": 61,
+      "score": 1.0,
+      "bm25_rank": 1
+     },
+     {
+      "doc": "Changelog",
+      "frag": 1,
+      "score": 0.984,
+      "bm25_rank": 2
+     },
+     {
+      "doc": "1. Clone & enter",
+      "frag": 62,
+      "score": 0.968,
+      "bm25_rank": 3
+     }
+    ],
+    "n": 50,
+    "mean_ms": 0.1119,
+    "p50_ms": 0.1076,
+    "p95_ms": 0.1292,
+    "max_ms": 0.3142
+   },
+   {
+    "query": "scheduler deadline priority",
+    "top_hits": [
+     {
+      "doc": "ARCHITECTURE.md — Noesis Kernel MVP",
+      "frag": 53,
+      "score": 1.0,
+      "bm25_rank": 1
+     },
+     {
+      "doc": "ARCHITECTURE.md — Noesis Kernel MVP",
+      "frag": 52,
+      "score": 0.984,
+      "bm25_rank": 2
+     }
+    ],
+    "n": 50,
+    "mean_ms": 0.017,
+    "p50_ms": 0.0162,
+    "p95_ms": 0.0188,
+    "max_ms": 0.0429
+   }
+  ],
+  "fragments": 141,
+  "vocab": 2495
+ },
+ "router": {
+  "cases": [
+   {
+    "constraint": "default (no constraints)",
+    "primary": "openai:gpt-4o",
+    "score": 0.9318,
+    "fallbacks": [
+     "gemini:gemini-1.5-pro",
+     "anthropic:claude-3-5-sonnet-latest"
+    ],
+    "reason": "primary=openai:gpt-4o | score=0.932 | candidates_filtered=7"
+   },
+   {
+    "constraint": "local only",
+    "primary": "ollama:llama3.1:8b",
+    "score": 0.653,
+    "fallbacks": [],
+    "reason": "primary=ollama:llama3.1:8b | score=0.653 | candidates_filtered=1"
+   },
+   {
+    "constraint": "min_quality>=0.95",
+    "primary": "openai:gpt-4o",
+    "score": 0.9318,
+    "fallbacks": [
+     "anthropic:claude-3-opus-latest"
+    ],
+    "reason": "primary=openai:gpt-4o | score=0.932 | candidates_filtered=2"
+   },
+   {
+    "constraint": "max p95 <= 2s",
+    "primary": "openai:gpt-4o-mini",
+    "score": 0.7565,
+    "fallbacks": [],
+    "reason": "primary=openai:gpt-4o-mini | score=0.757 | candidates_filtered=1"
+   },
+   {
+    "constraint": "requires vision",
+    "primary": "openai:gpt-4o",
+    "score": 0.9318,
+    "fallbacks": [
+     "gemini:gemini-1.5-pro"
+    ],
+    "reason": "primary=openai:gpt-4o | score=0.932 | candidates_filtered=2"
+   },
+   {
+    "constraint": "impossible (quality>=1.0)",
+    "primary": "openai:gpt-4o-mini",
+    "score": 0.7565,
+    "fallbacks": [],
+    "reason": "constraints.filtered_all_candidates_used_fallback"
+   }
+  ],
+  "scores": [
+   {
+    "model": "openai:gpt-4o",
+    "score": 0.9318,
+    "cost_estimate": 0.015,
+    "components": {
+     "quality": 0.95,
+     "reasoning": 0.9,
+     "tool_use": 0.95,
+     "code": 0.92,
+     "vision": 0.95,
+     "multimodal": 0.95,
+     "inverse_cost": 0.985,
+     "inverse_latency": 0.805
+    }
+   },
+   {
+    "model": "gemini:gemini-1.5-pro",
+    "score": 0.901,
+    "cost_estimate": 0.00625,
+    "components": {
+     "quality": 0.93,
+     "reasoning": 0.91,
+     "tool_use": 0.9,
+     "code": 0.9,
+     "vision": 0.96,
+     "multimodal": 0.96,
+     "inverse_cost": 0.994,
+     "inverse_latency": 0.604
+    }
+   },
+   {
+    "model": "anthropic:claude-3-5-sonnet-latest",
+    "score": 0.8292,
+    "cost_estimate": 0.021,
+    "components": {
+     "quality": 0.94,
+     "reasoning": 0.92,
+     "tool_use": 0.94,
+     "code": 0.95,
+     "vision": 0.0,
+     "multimodal": 0.0,
+     "inverse_cost": 0.979,
+     "inverse_latency": 0.738
+    }
+   },
+   {
+    "model": "anthropic:claude-3-opus-latest",
+    "score": 0.7722,
+    "cost_estimate": 0.105,
+    "components": {
+     "quality": 0.99,
+     "reasoning": 0.98,
+     "tool_use": 0.97,
+     "code": 0.97,
+     "vision": 0.0,
+     "multimodal": 0.0,
+     "inverse_cost": 0.895,
+     "inverse_latency": 0.0
+    }
+   },
+   {
+    "model": "openai:gpt-4o-mini",
+    "score": 0.7565,
+    "cost_estimate": 0.0009,
+    "components": {
+     "quality": 0.8,
+     "reasoning": 0.7,
+     "tool_use": 0.85,
+     "code": 0.75,
+     "vision": 0.0,
+     "multimodal": 0.0,
+     "inverse_cost": 0.999,
+     "inverse_latency": 0.966
+    }
+   },
+   {
+    "model": "openrouter:meta-llama/llama-3.1-405b-instruct",
+    "score": 0.7513,
+    "cost_estimate": 0.0081,
+    "components": {
+     "quality": 0.9,
+     "reasoning": 0.85,
+     "tool_use": 0.85,
+     "code": 0.88,
+     "vision": 0.0,
+     "multimodal": 0.0,
+     "inverse_cost": 0.992,
+     "inverse_latency": 0.336
+    }
+   },
+   {
+    "model": "ollama:llama3.1:8b",
+    "score": 0.653,
+    "cost_estimate": 0.0,
+    "components": {
+     "quality": 0.7,
+     "reasoning": 0.6,
+     "tool_use": 0.6,
+     "code": 0.65,
+     "vision": 0.0,
+     "multimodal": 0.0,
+     "inverse_cost": 1.0,
+     "inverse_latency": 0.805
+    }
+   }
+  ],
+  "weights": {
+   "quality": 0.3,
+   "reasoning": 0.15,
+   "tool_use": 0.15,
+   "code": 0.05,
+   "vision": 0.05,
+   "multimodal": 0.05,
+   "inverse_cost": 0.15,
+   "inverse_latency": 0.1
+  }
+ },
+ "backend_files": [
+  {
+   "file": "noesis/__init__.py",
+   "loc": 124,
+   "lines": 131,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/agents/__init__.py",
+   "loc": 79,
+   "lines": 85,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/agents/core.py",
+   "loc": 1771,
+   "lines": 2106,
+   "classes": 32,
+   "functions": 48
+  },
+  {
+   "file": "noesis/api/__init__.py",
+   "loc": 1,
+   "lines": 2,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/api/deps.py",
+   "loc": 39,
+   "lines": 58,
+   "classes": 0,
+   "functions": 4
+  },
+  {
+   "file": "noesis/api/main.py",
+   "loc": 344,
+   "lines": 412,
+   "classes": 0,
+   "functions": 10
+  },
+  {
+   "file": "noesis/api/middleware/__init__.py",
+   "loc": 0,
+   "lines": 1,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/api/middleware/capability_gate.py",
+   "loc": 140,
+   "lines": 181,
+   "classes": 1,
+   "functions": 7
+  },
+  {
+   "file": "noesis/api/routes/__init__.py",
+   "loc": 6,
+   "lines": 8,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/api/routes/bench_results.py",
+   "loc": 291,
+   "lines": 353,
+   "classes": 8,
+   "functions": 6
+  },
+  {
+   "file": "noesis/api/routes/health.py",
+   "loc": 86,
+   "lines": 118,
+   "classes": 1,
+   "functions": 6
+  },
+  {
+   "file": "noesis/api/routes/kernel.py",
+   "loc": 86,
+   "lines": 107,
+   "classes": 0,
+   "functions": 4
+  },
+  {
+   "file": "noesis/api/routes/llm_benchmark.py",
+   "loc": 147,
+   "lines": 172,
+   "classes": 1,
+   "functions": 4
+  },
+  {
+   "file": "noesis/api/routes/v1.py",
+   "loc": 23,
+   "lines": 34,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/api/routes/v1_m3.py",
+   "loc": 304,
+   "lines": 407,
+   "classes": 6,
+   "functions": 16
+  },
+  {
+   "file": "noesis/api/routes/v1_m5.py",
+   "loc": 842,
+   "lines": 1017,
+   "classes": 13,
+   "functions": 34
+  },
+  {
+   "file": "noesis/api/routes/v1_metrics.py",
+   "loc": 32,
+   "lines": 45,
+   "classes": 0,
+   "functions": 2
+  },
+  {
+   "file": "noesis/benchmarks/__init__.py",
+   "loc": 25,
+   "lines": 28,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/benchmarks/stats.py",
+   "loc": 1058,
+   "lines": 1291,
+   "classes": 4,
+   "functions": 21
+  },
+  {
+   "file": "noesis/cli.py",
+   "loc": 837,
+   "lines": 1007,
+   "classes": 0,
+   "functions": 25
+  },
+  {
+   "file": "noesis/config.py",
+   "loc": 153,
+   "lines": 205,
+   "classes": 5,
+   "functions": 6
+  },
+  {
+   "file": "noesis/core/__init__.py",
+   "loc": 15,
+   "lines": 19,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/core/di.py",
+   "loc": 171,
+   "lines": 241,
+   "classes": 3,
+   "functions": 23
+  },
+  {
+   "file": "noesis/core/ports.py",
+   "loc": 202,
+   "lines": 288,
+   "classes": 17,
+   "functions": 32
+  },
+  {
+   "file": "noesis/database/__init__.py",
+   "loc": 38,
+   "lines": 50,
+   "classes": 0,
+   "functions": 1
+  },
+  {
+   "file": "noesis/database/models.py",
+   "loc": 163,
+   "lines": 207,
+   "classes": 7,
+   "functions": 1
+  },
+  {
+   "file": "noesis/database/qdrant.py",
+   "loc": 199,
+   "lines": 250,
+   "classes": 3,
+   "functions": 11
+  },
+  {
+   "file": "noesis/database/redis.py",
+   "loc": 44,
+   "lines": 72,
+   "classes": 0,
+   "functions": 5
+  },
+  {
+   "file": "noesis/database/sql.py",
+   "loc": 97,
+   "lines": 132,
+   "classes": 1,
+   "functions": 4
+  },
+  {
+   "file": "noesis/database/sql_repos.py",
+   "loc": 649,
+   "lines": 804,
+   "classes": 8,
+   "functions": 72
+  },
+  {
+   "file": "noesis/kernel/__init__.py",
+   "loc": 109,
+   "lines": 119,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/kernel/allocators.py",
+   "loc": 194,
+   "lines": 235,
+   "classes": 5,
+   "functions": 14
+  },
+  {
+   "file": "noesis/kernel/capabilities.py",
+   "loc": 101,
+   "lines": 140,
+   "classes": 4,
+   "functions": 3
+  },
+  {
+   "file": "noesis/kernel/interrupts.py",
+   "loc": 90,
+   "lines": 126,
+   "classes": 5,
+   "functions": 1
+  },
+  {
+   "file": "noesis/kernel/kernel.py",
+   "loc": 710,
+   "lines": 845,
+   "classes": 6,
+   "functions": 37
+  },
+  {
+   "file": "noesis/kernel/model_router.py",
+   "loc": 239,
+   "lines": 293,
+   "classes": 7,
+   "functions": 7
+  },
+  {
+   "file": "noesis/kernel/scheduler.py",
+   "loc": 286,
+   "lines": 361,
+   "classes": 7,
+   "functions": 11
+  },
+  {
+   "file": "noesis/llm/__init__.py",
+   "loc": 13,
+   "lines": 17,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/llm/_retry.py",
+   "loc": 63,
+   "lines": 88,
+   "classes": 1,
+   "functions": 3
+  },
+  {
+   "file": "noesis/llm/anthropic_provider.py",
+   "loc": 165,
+   "lines": 186,
+   "classes": 1,
+   "functions": 7
+  },
+  {
+   "file": "noesis/llm/base.py",
+   "loc": 130,
+   "lines": 161,
+   "classes": 2,
+   "functions": 10
+  },
+  {
+   "file": "noesis/llm/factory.py",
+   "loc": 317,
+   "lines": 369,
+   "classes": 1,
+   "functions": 11
+  },
+  {
+   "file": "noesis/llm/gemini_provider.py",
+   "loc": 152,
+   "lines": 176,
+   "classes": 1,
+   "functions": 7
+  },
+  {
+   "file": "noesis/llm/ollama_provider.py",
+   "loc": 185,
+   "lines": 217,
+   "classes": 2,
+   "functions": 10
+  },
+  {
+   "file": "noesis/llm/openai_provider.py",
+   "loc": 186,
+   "lines": 233,
+   "classes": 2,
+   "functions": 11
+  },
+  {
+   "file": "noesis/llm/openrouter_provider.py",
+   "loc": 36,
+   "lines": 48,
+   "classes": 1,
+   "functions": 3
+  },
+  {
+   "file": "noesis/llm/parse.py",
+   "loc": 213,
+   "lines": 308,
+   "classes": 1,
+   "functions": 6
+  },
+  {
+   "file": "noesis/llm/prompts.py",
+   "loc": 190,
+   "lines": 246,
+   "classes": 3,
+   "functions": 8
+  },
+  {
+   "file": "noesis/logging.py",
+   "loc": 128,
+   "lines": 163,
+   "classes": 0,
+   "functions": 7
+  },
+  {
+   "file": "noesis/memory/__init__.py",
+   "loc": 79,
+   "lines": 83,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/memory/bus.py",
+   "loc": 191,
+   "lines": 245,
+   "classes": 2,
+   "functions": 9
+  },
+  {
+   "file": "noesis/memory/promotion.py",
+   "loc": 506,
+   "lines": 591,
+   "classes": 7,
+   "functions": 28
+  },
+  {
+   "file": "noesis/memory/tiers.py",
+   "loc": 292,
+   "lines": 395,
+   "classes": 10,
+   "functions": 29
+  },
+  {
+   "file": "noesis/observability/__init__.py",
+   "loc": 21,
+   "lines": 24,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/observability/metrics.py",
+   "loc": 184,
+   "lines": 240,
+   "classes": 1,
+   "functions": 9
+  },
+  {
+   "file": "noesis/plugins/__init__.py",
+   "loc": 47,
+   "lines": 54,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/plugins/capability.py",
+   "loc": 54,
+   "lines": 81,
+   "classes": 1,
+   "functions": 7
+  },
+  {
+   "file": "noesis/plugins/hookspec.py",
+   "loc": 115,
+   "lines": 158,
+   "classes": 2,
+   "functions": 25
+  },
+  {
+   "file": "noesis/plugins/manager.py",
+   "loc": 298,
+   "lines": 358,
+   "classes": 4,
+   "functions": 18
+  },
+  {
+   "file": "noesis/plugins/manifest.py",
+   "loc": 71,
+   "lines": 117,
+   "classes": 1,
+   "functions": 5
+  },
+  {
+   "file": "noesis/rag/__init__.py",
+   "loc": 0,
+   "lines": 1,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/rag/pipeline.py",
+   "loc": 357,
+   "lines": 472,
+   "classes": 13,
+   "functions": 20
+  },
+  {
+   "file": "noesis/security/__init__.py",
+   "loc": 422,
+   "lines": 532,
+   "classes": 10,
+   "functions": 24
+  },
+  {
+   "file": "noesis/services/__init__.py",
+   "loc": 23,
+   "lines": 29,
+   "classes": 0,
+   "functions": 0
+  },
+  {
+   "file": "noesis/services/kernel_services.py",
+   "loc": 577,
+   "lines": 669,
+   "classes": 3,
+   "functions": 15
+  },
+  {
+   "file": "noesis/tools/__init__.py",
+   "loc": 1062,
+   "lines": 1270,
+   "classes": 13,
+   "functions": 65
+  },
+  {
+   "file": "noesis/types.py",
+   "loc": 498,
+   "lines": 696,
+   "classes": 37,
+   "functions": 6
+  },
+  {
+   "file": "noesis/uap/__init__.py",
+   "loc": 294,
+   "lines": 428,
+   "classes": 13,
+   "functions": 7
+  },
+  {
+   "file": "noesis/uap/wire.py",
+   "loc": 508,
+   "lines": 667,
+   "classes": 0,
+   "functions": 52
+  }
+ ],
+ "backend_packages": {
+  "api": {
+   "files": 14,
+   "loc": 2341,
+   "classes": 30,
+   "functions": 93
+  },
+  "agents": {
+   "files": 2,
+   "loc": 1850,
+   "classes": 32,
+   "functions": 48
+  },
+  "(root)": {
+   "files": 5,
+   "loc": 1740,
+   "classes": 42,
+   "functions": 44
+  },
+  "kernel": {
+   "files": 7,
+   "loc": 1729,
+   "classes": 34,
+   "functions": 73
+  },
+  "llm": {
+   "files": 11,
+   "loc": 1650,
+   "classes": 15,
+   "functions": 76
+  },
+  "database": {
+   "files": 6,
+   "loc": 1190,
+   "classes": 19,
+   "functions": 94
+  },
+  "benchmarks": {
+   "files": 2,
+   "loc": 1083,
+   "classes": 4,
+   "functions": 21
+  },
+  "memory": {
+   "files": 4,
+   "loc": 1068,
+   "classes": 19,
+   "functions": 66
+  },
+  "tools": {
+   "files": 1,
+   "loc": 1062,
+   "classes": 13,
+   "functions": 65
+  },
+  "uap": {
+   "files": 2,
+   "loc": 802,
+   "classes": 13,
+   "functions": 59
+  },
+  "services": {
+   "files": 2,
+   "loc": 600,
+   "classes": 3,
+   "functions": 15
+  },
+  "plugins": {
+   "files": 5,
+   "loc": 585,
+   "classes": 8,
+   "functions": 55
+  },
+  "security": {
+   "files": 1,
+   "loc": 422,
+   "classes": 10,
+   "functions": 24
+  },
+  "core": {
+   "files": 3,
+   "loc": 388,
+   "classes": 20,
+   "functions": 55
+  },
+  "rag": {
+   "files": 2,
+   "loc": 357,
+   "classes": 13,
+   "functions": 20
+  },
+  "observability": {
+   "files": 2,
+   "loc": 205,
+   "classes": 1,
+   "functions": 9
+  }
+ },
+ "scripts_loc": 4741,
+ "tests_loc": 4869,
+ "frontend_files": [
+  {
+   "file": "app/agents/benchmark/page.tsx",
+   "loc": 336
+  },
+  {
+   "file": "app/agents/page.tsx",
+   "loc": 489
+  },
+  {
+   "file": "app/benchmarks/page.tsx",
+   "loc": 866
+  },
+  {
+   "file": "app/conversations/[id]/page.tsx",
+   "loc": 268
+  },
+  {
+   "file": "app/conversations/new/page.tsx",
+   "loc": 242
+  },
+  {
+   "file": "app/conversations/page.tsx",
+   "loc": 365
+  },
+  {
+   "file": "app/documents/page.tsx",
+   "loc": 304
+  },
+  {
+   "file": "app/layout.tsx",
+   "loc": 36
+  },
+  {
+   "file": "app/memory/explorer/page.tsx",
+   "loc": 487
+  },
+  {
+   "file": "app/memory/page.tsx",
+   "loc": 278
+  },
+  {
+   "file": "app/metrics/page.tsx",
+   "loc": 528
+  },
+  {
+   "file": "app/page.tsx",
+   "loc": 173
+  },
+  {
+   "file": "app/providers.tsx",
+   "loc": 58
+  },
+  {
+   "file": "app/settings/page.tsx",
+   "loc": 579
+  },
+  {
+   "file": "app/timeline/page.tsx",
+   "loc": 235
+  },
+  {
+   "file": "scripts/generate-api-types.ts",
+   "loc": 69
+  },
+  {
+   "file": "src/__tests__/bench_api_bridge.test.ts",
+   "loc": 163
+  },
+  {
+   "file": "src/__tests__/bench_runner_page.test.tsx",
+   "loc": 82
+  },
+  {
+   "file": "src/__tests__/bench_sankey_palette.test.tsx",
+   "loc": 242
+  },
+  {
+   "file": "src/__tests__/bench_tabs_rotate.test.tsx",
+   "loc": 70
+  },
+  {
+   "file": "src/components/dashboard/KpiGrid.test.tsx",
+   "loc": 34
+  },
+  {
+   "file": "src/components/dashboard/KpiGrid.tsx",
+   "loc": 122
+  },
+  {
+   "file": "src/components/dashboard/MetricsDashboard.tsx",
+   "loc": 284
+  },
+  {
+   "file": "src/components/dashboard/MiniTimeline.tsx",
+   "loc": 1
+  },
+  {
+   "file": "src/components/dashboard/QuickActionsStrip.test.tsx",
+   "loc": 19
+  },
+  {
+   "file": "src/components/dashboard/QuickActionsStrip.tsx",
+   "loc": 52
+  },
+  {
+   "file": "src/components/dashboard/TopToolsTable.test.tsx",
+   "loc": 75
+  },
+  {
+   "file": "src/components/dashboard/TopToolsTable.tsx",
+   "loc": 93
+  },
+  {
+   "file": "src/components/layout/DashboardShell.tsx",
+   "loc": 18
+  },
+  {
+   "file": "src/components/layout/Sidebar.test.tsx",
+   "loc": 32
+  },
+  {
+   "file": "src/components/layout/Sidebar.tsx",
+   "loc": 102
+  },
+  {
+   "file": "src/components/layout/Topbar.tsx",
+   "loc": 83
+  },
+  {
+   "file": "src/components/timeline/ExecutionTimeline.test.tsx",
+   "loc": 42
+  },
+  {
+   "file": "src/components/timeline/ExecutionTimeline.tsx",
+   "loc": 212
+  },
+  {
+   "file": "src/components/ui/Badge.tsx",
+   "loc": 33
+  },
+  {
+   "file": "src/components/ui/Button.tsx",
+   "loc": 47
+  },
+  {
+   "file": "src/components/ui/CodeBlock.tsx",
+   "loc": 71
+  },
+  {
+   "file": "src/components/ui/Tooltip.tsx",
+   "loc": 69
+  },
+  {
+   "file": "src/lib/agents_codenames.ts",
+   "loc": 170
+  },
+  {
+   "file": "src/lib/api/bench.ts",
+   "loc": 246
+  },
+  {
+   "file": "src/lib/api/endpoints.ts",
+   "loc": 325
+  },
+  {
+   "file": "src/lib/api/http.test.ts",
+   "loc": 140
+  },
+  {
+   "file": "src/lib/api/http.ts",
+   "loc": 105
+  },
+  {
+   "file": "src/lib/api/openapi.spec.d.ts",
+   "loc": 24
+  },
+  {
+   "file": "src/lib/brand.ts",
+   "loc": 37
+  },
+  {
+   "file": "src/lib/demo.tsx",
+   "loc": 190
+  },
+  {
+   "file": "src/lib/format.ts",
+   "loc": 33
+  },
+  {
+   "file": "src/lib/mock/bench_results_demo.ts",
+   "loc": 29
+  },
+  {
+   "file": "src/lib/schemas.ts",
+   "loc": 194
+  },
+  {
+   "file": "src/testing/mocks.test.ts",
+   "loc": 92
+  },
+  {
+   "file": "src/testing/mocks.ts",
+   "loc": 529
+  },
+  {
+   "file": "src/testing/schemas.test.ts",
+   "loc": 112
+  },
+  {
+   "file": "src/testing/setup.ts",
+   "loc": 25
+  },
+  {
+   "file": "tailwind.config.ts",
+   "loc": 65
+  },
+  {
+   "file": "vitest.config.ts",
+   "loc": 37
+  }
+ ],
+ "db_schema": [
+  {
+   "table": "documents",
+   "columns": [
+    {
+     "name": "id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": true,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    },
+    {
+     "name": "user_id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": true,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "title",
+     "type": "VARCHAR(1024)",
+     "pg_type": "VARCHAR(1024)",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "source_uri",
+     "type": "VARCHAR(2048)",
+     "pg_type": "VARCHAR(2048)",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "mime_type",
+     "type": "VARCHAR(128)",
+     "pg_type": "VARCHAR(128)",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "'application/octet-stream'"
+    },
+    {
+     "name": "byte_size",
+     "type": "INTEGER",
+     "pg_type": "INTEGER",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0"
+    },
+    {
+     "name": "chunk_count",
+     "type": "INTEGER",
+     "pg_type": "INTEGER",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0"
+    },
+    {
+     "name": "ingestion_status",
+     "type": "VARCHAR(32)",
+     "pg_type": "VARCHAR(32)",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "'pending'"
+    },
+    {
+     "name": "metadata_json",
+     "type": "VARCHAR",
+     "pg_type": "JSONB",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "created_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": true,
+     "fk": [],
+     "default": "callable"
+    }
+   ],
+   "indexes": [
+    {
+     "name": "ix_documents_created_at",
+     "columns": [
+      "created_at"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_documents_user_id",
+     "columns": [
+      "user_id"
+     ],
+     "unique": false
+    }
+   ],
+   "unique_constraints": []
+  },
+  {
+   "table": "memory_tiers_promotions",
+   "columns": [
+    {
+     "name": "tier",
+     "type": "VARCHAR(32)",
+     "pg_type": "VARCHAR(32)",
+     "pk": true,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "entry_uuid",
+     "type": "VARCHAR(36)",
+     "pg_type": "VARCHAR(36)",
+     "pk": true,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "content_json",
+     "type": "VARCHAR",
+     "pg_type": "JSONB",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "metadata_json",
+     "type": "VARCHAR",
+     "pg_type": "JSONB",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "inserted_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    },
+    {
+     "name": "promoted_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    }
+   ],
+   "indexes": [
+    {
+     "name": "ix_memory_tiers_tier",
+     "columns": [
+      "tier"
+     ],
+     "unique": false
+    }
+   ],
+   "unique_constraints": []
+  },
+  {
+   "table": "users",
+   "columns": [
+    {
+     "name": "id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": true,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    },
+    {
+     "name": "email",
+     "type": "VARCHAR(255)",
+     "pg_type": "VARCHAR(255)",
+     "pk": false,
+     "nullable": false,
+     "unique": true,
+     "index": true,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "full_name",
+     "type": "VARCHAR(255)",
+     "pg_type": "VARCHAR(255)",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "is_active",
+     "type": "BOOLEAN",
+     "pg_type": "BOOLEAN",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "True"
+    },
+    {
+     "name": "is_admin",
+     "type": "BOOLEAN",
+     "pg_type": "BOOLEAN",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "False"
+    },
+    {
+     "name": "hashed_password",
+     "type": "VARCHAR(255)",
+     "pg_type": "VARCHAR(255)",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "external_id",
+     "type": "VARCHAR(255)",
+     "pg_type": "VARCHAR(255)",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": true,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "created_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    },
+    {
+     "name": "updated_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    }
+   ],
+   "indexes": [
+    {
+     "name": "ix_users_external_id",
+     "columns": [
+      "external_id"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_users_email",
+     "columns": [
+      "email"
+     ],
+     "unique": true
+    }
+   ],
+   "unique_constraints": []
+  },
+  {
+   "table": "conversations",
+   "columns": [
+    {
+     "name": "id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": true,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    },
+    {
+     "name": "user_id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": true,
+     "fk": [
+      "users.id ON DELETE SET NULL"
+     ],
+     "default": null
+    },
+    {
+     "name": "title",
+     "type": "VARCHAR(512)",
+     "pg_type": "VARCHAR(512)",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "'Untitled conversation'"
+    },
+    {
+     "name": "metadata_json",
+     "type": "VARCHAR",
+     "pg_type": "JSONB",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "created_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    },
+    {
+     "name": "updated_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    }
+   ],
+   "indexes": [
+    {
+     "name": "ix_conversations_user_id",
+     "columns": [
+      "user_id"
+     ],
+     "unique": false
+    }
+   ],
+   "unique_constraints": []
+  },
+  {
+   "table": "memories",
+   "columns": [
+    {
+     "name": "id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": true,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    },
+    {
+     "name": "user_id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": true,
+     "fk": [
+      "users.id ON DELETE CASCADE"
+     ],
+     "default": null
+    },
+    {
+     "name": "memory_type",
+     "type": "VARCHAR(32)",
+     "pg_type": "VARCHAR(32)",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "content",
+     "type": "TEXT",
+     "pg_type": "TEXT",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "summary",
+     "type": "TEXT",
+     "pg_type": "TEXT",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "importance",
+     "type": "FLOAT",
+     "pg_type": "FLOAT",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0.5"
+    },
+    {
+     "name": "access_count",
+     "type": "INTEGER",
+     "pg_type": "INTEGER",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0"
+    },
+    {
+     "name": "is_compressed",
+     "type": "BOOLEAN",
+     "pg_type": "BOOLEAN",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "False"
+    },
+    {
+     "name": "vector_id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": true,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "metadata_json",
+     "type": "VARCHAR",
+     "pg_type": "JSONB",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "created_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": true,
+     "fk": [],
+     "default": "callable"
+    },
+    {
+     "name": "last_accessed_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    }
+   ],
+   "indexes": [
+    {
+     "name": "ix_memories_user_id",
+     "columns": [
+      "user_id"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_memories_user_type",
+     "columns": [
+      "user_id",
+      "memory_type"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_memories_created_at",
+     "columns": [
+      "created_at"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_memories_vector_id",
+     "columns": [
+      "vector_id"
+     ],
+     "unique": false
+    }
+   ],
+   "unique_constraints": [
+    {
+     "name": "uq_memories_vector_id",
+     "columns": [
+      "vector_id"
+     ]
+    }
+   ]
+  },
+  {
+   "table": "messages",
+   "columns": [
+    {
+     "name": "id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": true,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    },
+    {
+     "name": "conversation_id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": true,
+     "fk": [
+      "conversations.id ON DELETE CASCADE"
+     ],
+     "default": null
+    },
+    {
+     "name": "role",
+     "type": "VARCHAR(32)",
+     "pg_type": "VARCHAR(32)",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "content",
+     "type": "TEXT",
+     "pg_type": "TEXT",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "name",
+     "type": "VARCHAR(128)",
+     "pg_type": "VARCHAR(128)",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "tool_call_id",
+     "type": "VARCHAR(128)",
+     "pg_type": "VARCHAR(128)",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "tool_calls_json",
+     "type": "VARCHAR",
+     "pg_type": "JSONB",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "prompt_tokens",
+     "type": "INTEGER",
+     "pg_type": "INTEGER",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0"
+    },
+    {
+     "name": "completion_tokens",
+     "type": "INTEGER",
+     "pg_type": "INTEGER",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0"
+    },
+    {
+     "name": "latency_ms",
+     "type": "FLOAT",
+     "pg_type": "FLOAT",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "metadata_json",
+     "type": "VARCHAR",
+     "pg_type": "JSONB",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "created_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": true,
+     "fk": [],
+     "default": "callable"
+    }
+   ],
+   "indexes": [
+    {
+     "name": "ix_messages_created_at",
+     "columns": [
+      "created_at"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_messages_convo_created",
+     "columns": [
+      "conversation_id",
+      "created_at"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_messages_conversation_id",
+     "columns": [
+      "conversation_id"
+     ],
+     "unique": false
+    }
+   ],
+   "unique_constraints": []
+  },
+  {
+   "table": "task_executions",
+   "columns": [
+    {
+     "name": "id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": true,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "callable"
+    },
+    {
+     "name": "conversation_id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": true,
+     "fk": [
+      "conversations.id ON DELETE SET NULL"
+     ],
+     "default": null
+    },
+    {
+     "name": "plan_step_id",
+     "type": "UUID",
+     "pg_type": "UUID",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": true,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "agent_type",
+     "type": "VARCHAR(32)",
+     "pg_type": "VARCHAR(32)",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "description",
+     "type": "TEXT",
+     "pg_type": "TEXT",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "status",
+     "type": "INTEGER",
+     "pg_type": "INTEGER",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0"
+    },
+    {
+     "name": "input_tokens",
+     "type": "INTEGER",
+     "pg_type": "INTEGER",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0"
+    },
+    {
+     "name": "output_tokens",
+     "type": "INTEGER",
+     "pg_type": "INTEGER",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0"
+    },
+    {
+     "name": "cost_usd",
+     "type": "FLOAT",
+     "pg_type": "FLOAT",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0.0"
+    },
+    {
+     "name": "duration_ms",
+     "type": "FLOAT",
+     "pg_type": "FLOAT",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": "0.0"
+    },
+    {
+     "name": "error",
+     "type": "TEXT",
+     "pg_type": "TEXT",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "result_preview",
+     "type": "TEXT",
+     "pg_type": "TEXT",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "metadata_json",
+     "type": "VARCHAR",
+     "pg_type": "JSONB",
+     "pk": false,
+     "nullable": true,
+     "unique": false,
+     "index": false,
+     "fk": [],
+     "default": null
+    },
+    {
+     "name": "created_at",
+     "type": "DATETIME",
+     "pg_type": "DATETIME",
+     "pk": false,
+     "nullable": false,
+     "unique": false,
+     "index": true,
+     "fk": [],
+     "default": "callable"
+    }
+   ],
+   "indexes": [
+    {
+     "name": "ix_task_executions_created_at",
+     "columns": [
+      "created_at"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_task_executions_conversation_id",
+     "columns": [
+      "conversation_id"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_tasks_status",
+     "columns": [
+      "status"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_task_executions_plan_step_id",
+     "columns": [
+      "plan_step_id"
+     ],
+     "unique": false
+    },
+    {
+     "name": "ix_tasks_agent",
+     "columns": [
+      "agent_type"
+     ],
+     "unique": false
+    }
+   ],
+   "unique_constraints": []
+  }
+ ],
+ "junit_per_file": {
+  "tests/api/test_routes_bench_results": {
+   "passed": 5,
+   "time": 3.55
+  },
+  "tests/claim_suites/test_claim_C1_MAC_bench_results/TestClaimC1MACBenchResults": {
+   "passed": 4,
+   "time": 1.408
+  },
+  "tests/claim_suites/test_claim_C1_MAC_llm_benchmark/TestClaimC1MACLLMBenchmark": {
+   "passed": 4,
+   "time": 2.346
+  },
+  "tests/integration/test_kernel_e2e": {
+   "passed": 3,
+   "time": 0.9470000000000001
+  },
+  "tests/unit/test_api_smoke": {
+   "passed": 3,
+   "time": 1.057
+  },
+  "tests/unit/test_bench_stats": {
+   "passed": 8,
+   "time": 0.7899999999999999
+  },
+  "tests/unit/test_config": {
+   "passed": 5,
+   "time": 0.027
+  },
+  "tests/unit/test_config_edges": {
+   "passed": 5,
+   "time": 0.013000000000000001
+  },
+  "tests/unit/test_determinism_manifest": {
+   "passed": 1,
+   "time": 0.036
+  },
+  "tests/unit/test_dtos": {
+   "passed": 14,
+   "time": 0.014000000000000005
+  },
+  "tests/unit/test_executor_tristate": {
+   "passed": 4,
+   "time": 0.005
+  },
+  "tests/unit/test_kernel_api": {
+   "passed": 10,
+   "time": 0.09199999999999998
+  },
+  "tests/unit/test_llm_factory_audit": {
+   "passed": 2,
+   "time": 0.028
+  },
+  "tests/unit/test_llm_provider": {
+   "passed": 7,
+   "time": 0.030000000000000002
+  },
+  "tests/unit/test_m3": {
+   "passed": 68,
+   "time": 10.236999999999991,
+   "xfailed": 1
+  },
+  "tests/unit/test_m5": {
+   "passed": 50,
+   "time": 149.26800000000003,
+   "xfailed": 1
+  },
+  "tests/unit/test_memory_promotion": {
+   "passed": 4,
+   "time": 0.037000000000000005
+  },
+  "tests/unit/test_memory_promotion_wiring": {
+   "passed": 2,
+   "time": 0.006
+  },
+  "tests/unit/test_memory_rag": {
+   "passed": 39,
+   "time": 0.04800000000000003
+  },
+  "tests/unit/test_plugins_cli": {
+   "passed": 13,
+   "time": 0.38400000000000006
+  },
+  "tests/unit/test_ports": {
+   "passed": 18,
+   "time": 0.01800000000000001
+  },
+  "tests/unit/test_repositories": {
+   "passed": 10,
+   "time": 0.022
+  },
+  "tests/unit/test_stats_fallbacks": {
+   "passed": 3,
+   "time": 0.017
+  },
+  "tests/unit/test_types": {
+   "passed": 15,
+   "time": 0.018000000000000002
+  },
+  "tests/unit/test_uap_idl": {
+   "passed": 13,
+   "time": 0.027000000000000007
+  }
+ },
+ "junit_totals": {
+  "tests": "312",
+  "failures": "0",
+  "errors": "0",
+  "skipped": "2",
+  "time": "180.247"
+ },
+ "se50_planner": {
+  "goals": 50,
+  "runs_per_goal": 3,
+  "goals_with_single_hash": 50,
+  "steps_hist": {
+   "4": 1,
+   "5": 24,
+   "6": 25
+  },
+  "agent_mix": {
+   "reflection": 109,
+   "coding": 99,
+   "research": 34,
+   "tool": 17,
+   "memory": 10,
+   "rag": 5
+  },
+  "timing": {
+   "n": 150,
+   "mean_ms": 1.086,
+   "p50_ms": 1.0514,
+   "p95_ms": 1.6385
+  },
+  "categories": {
+   "Rust_Systems": 10,
+   "Python_ML": 10,
+   "TypeScript_Web": 10,
+   "DevOps_Infra": 10,
+   "Technical_Writing": 10
+  },
+  "difficulty": {
+   "EASY": 13,
+   "MEDIUM": 22,
+   "HARD": 15
+  }
+ }
+}

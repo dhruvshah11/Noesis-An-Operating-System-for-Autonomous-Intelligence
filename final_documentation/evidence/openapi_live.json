@@ -1,0 +1,2725 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Noesis API",
+  "description": "Noesis \u2014 The Autonomous Multi-Agent AI Operating System.  Multi-agent orchestration with long-term memory, RAG, tool-calling, planning, and self-reflection.  All public routes live under `/v1` for semantic URL versioning.",
+  "termsOfService": "https://github.com/noesis/noesis/blob/main/TERMS.md",
+  "contact": {
+   "name": "Noesis Maintainers",
+   "url": "https://github.com/noesis/noesis",
+   "email": "maintainers@noesis.dev"
+  },
+  "license": {
+   "name": "MIT License",
+   "url": "https://github.com/noesis/noesis/blob/main/LICENSE"
+  },
+  "version": "0.1.0"
+ },
+ "servers": [
+  {
+   "url": "/v1",
+   "description": "v1 API (current)"
+  },
+  {
+   "url": "/",
+   "description": "Root (legacy redirects to /v1)"
+  }
+ ],
+ "paths": {
+  "/v1/health/livez": {
+   "get": {
+    "tags": [
+     "v1",
+     "health"
+    ],
+    "summary": "Livez",
+    "description": "Liveness probe \u2014 always responds 200 while the app is alive.",
+    "operationId": "livez_v1_health_livez_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/health/readyz": {
+   "get": {
+    "tags": [
+     "v1",
+     "health"
+    ],
+    "summary": "Readyz",
+    "description": "Readiness probe \u2014 fails 503 only if a hard-failing dependency (sql) probe fails.\n\nOptional laptop-first deps (redis, qdrant) mark status=warn on disconnect; they\ndo not flip overall health to fail.",
+    "operationId": "readyz_v1_health_readyz_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/health": {
+   "get": {
+    "tags": [
+     "v1",
+     "health"
+    ],
+    "summary": "Health",
+    "description": "Combined health view (convenience alias for /readyz).",
+    "operationId": "health_v1_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/kernel/state": {
+   "get": {
+    "tags": [
+     "v1",
+     "kernel"
+    ],
+    "summary": "Kernel State",
+    "description": "Return static + cheap dynamic counters for the running kernel.",
+    "operationId": "kernel_state_v1_kernel_state_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/kernel/stats": {
+   "get": {
+    "tags": [
+     "v1",
+     "kernel"
+    ],
+    "summary": "Kernel Stats",
+    "description": "Aggregate scheduler, allocator, and model-router counters.",
+    "operationId": "kernel_stats_v1_kernel_stats_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/kernel/traces": {
+   "get": {
+    "tags": [
+     "v1",
+     "kernel"
+    ],
+    "summary": "Kernel Traces",
+    "description": "Return the most-recent N syscall spans captured in the ring buffer.\n\nEach entry is OTel-shaped (``trace_id``, ``span_id``, ``latency_ms``,\n``success``, ``denied``, ``ts``, ``syscall``, ``error``) so a ReactFlow\nor Honeycomb/Grafana frontend can render them without transformation.",
+    "operationId": "kernel_traces_v1_kernel_traces_get",
+    "parameters": [
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 5000,
+       "minimum": 1,
+       "default": 50,
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/auth/login": {
+   "post": {
+    "tags": [
+     "v1",
+     "auth"
+    ],
+    "summary": "Login",
+    "operationId": "login_v1_auth_login_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/LoginRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TokenPair"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/auth/me": {
+   "get": {
+    "tags": [
+     "v1",
+     "auth"
+    ],
+    "summary": "Me",
+    "operationId": "me_v1_auth_me_get",
+    "parameters": [
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/MeResponse"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/auth/refresh": {
+   "post": {
+    "tags": [
+     "v1",
+     "auth"
+    ],
+    "summary": "Refresh",
+    "operationId": "refresh_v1_auth_refresh_post",
+    "parameters": [
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TokenPair"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/observability/summary": {
+   "get": {
+    "tags": [
+     "v1",
+     "observability"
+    ],
+    "summary": "Observability Summary",
+    "operationId": "observability_summary_v1_observability_summary_get",
+    "parameters": [
+     {
+      "name": "window_s",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "default": 600,
+       "title": "Window S"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ObservabilitySummary"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/conversations": {
+   "get": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "List Conversations",
+    "operationId": "list_conversations_v1_conversations_get",
+    "parameters": [
+     {
+      "name": "status",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Status"
+      }
+     },
+     {
+      "name": "agent",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Agent"
+      }
+     },
+     {
+      "name": "search",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Search"
+      }
+     },
+     {
+      "name": "cursor",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Cursor"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Create Conversation",
+    "operationId": "create_conversation_v1_conversations_post",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ConversationCreateReq"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/conversations/{conversation_id}": {
+   "get": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Get Conversation",
+    "operationId": "get_conversation_v1_conversations__conversation_id__get",
+    "parameters": [
+     {
+      "name": "conversation_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Conversation Id"
+      }
+     },
+     {
+      "name": "include_messages",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": true,
+       "title": "Include Messages"
+      }
+     },
+     {
+      "name": "limit_messages",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 500,
+       "minimum": 1,
+       "default": 50,
+       "title": "Limit Messages"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "patch": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Patch Conversation",
+    "operationId": "patch_conversation_v1_conversations__conversation_id__patch",
+    "parameters": [
+     {
+      "name": "conversation_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Conversation Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ConversationPatchReq"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "delete": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Delete Conversation",
+    "operationId": "delete_conversation_v1_conversations__conversation_id__delete",
+    "parameters": [
+     {
+      "name": "conversation_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Conversation Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/conversations/{conversation_id}/messages": {
+   "get": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "List Messages",
+    "operationId": "list_messages_v1_conversations__conversation_id__messages_get",
+    "parameters": [
+     {
+      "name": "conversation_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Conversation Id"
+      }
+     },
+     {
+      "name": "cursor",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Cursor"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Append Message",
+    "operationId": "append_message_v1_conversations__conversation_id__messages_post",
+    "parameters": [
+     {
+      "name": "conversation_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Conversation Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MessageCreateReq"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/agents": {
+   "get": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "List Agents",
+    "operationId": "list_agents_v1_agents_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/agents/invoke": {
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Invoke Agent",
+    "operationId": "invoke_agent_v1_agents_invoke_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AgentInvokeReq"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/runs/plan": {
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Plan Goal",
+    "operationId": "plan_goal_v1_runs_plan_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PlanReq"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/runs/execute": {
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Execute Plan",
+    "operationId": "execute_plan_v1_runs_execute_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ExecuteReq"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/runs/{run_id}/executions": {
+   "get": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "List Executions",
+    "operationId": "list_executions_v1_runs__run_id__executions_get",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Run Id"
+      }
+     },
+     {
+      "name": "cursor",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Cursor"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/documents": {
+   "get": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "List Documents",
+    "operationId": "list_documents_v1_documents_get",
+    "parameters": [
+     {
+      "name": "status",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Status"
+      }
+     },
+     {
+      "name": "search",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Search"
+      }
+     },
+     {
+      "name": "cursor",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Cursor"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Create Document",
+    "operationId": "create_document_v1_documents_post",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DocumentCreateReq"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/documents/{document_id}": {
+   "get": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Get Document",
+    "operationId": "get_document_v1_documents__document_id__get",
+    "parameters": [
+     {
+      "name": "document_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Document Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "delete": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Delete Document",
+    "operationId": "delete_document_v1_documents__document_id__delete",
+    "parameters": [
+     {
+      "name": "document_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Document Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/documents/upload": {
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Upload Document",
+    "operationId": "upload_document_v1_documents_upload_post",
+    "requestBody": {
+     "content": {
+      "multipart/form-data": {
+       "schema": {
+        "$ref": "#/components/schemas/Body_upload_document_v1_documents_upload_post"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/memory": {
+   "get": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "List Memory",
+    "operationId": "list_memory_v1_memory_get",
+    "parameters": [
+     {
+      "name": "memory_type",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Memory Type"
+      }
+     },
+     {
+      "name": "min_importance",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "number",
+       "maximum": 1.0,
+       "minimum": 0.0,
+       "default": 0.0,
+       "title": "Min Importance"
+      }
+     },
+     {
+      "name": "cursor",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Cursor"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 200,
+       "minimum": 1,
+       "default": 25,
+       "title": "Limit"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/memory/query": {
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Query Memory",
+    "operationId": "query_memory_v1_memory_query_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MemoryQueryReq"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/memory/compress": {
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Compress Memory",
+    "operationId": "compress_memory_v1_memory_compress_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MemoryCompressReq"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/uap/transports": {
+   "get": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "List Uap Transports",
+    "operationId": "list_uap_transports_v1_uap_transports_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/uap/transports/inproc": {
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Bind Inproc Transport",
+    "operationId": "bind_inproc_transport_v1_uap_transports_inproc_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/InProcBindReq"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/uap/envelope/send": {
+   "post": {
+    "tags": [
+     "v1",
+     "v1.m5"
+    ],
+    "summary": "Uap Envelope Send",
+    "operationId": "uap_envelope_send_v1_uap_envelope_send_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/UAPEnvelopeSendReq"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/metrics": {
+   "get": {
+    "tags": [
+     "v1",
+     "observability"
+    ],
+    "summary": "Prometheus scrape endpoint (root /metrics mount)",
+    "description": "OpenMetrics text-format scrape (see astra.api.main for root /metrics mount).",
+    "operationId": "prometheus_scrape_v1_metrics_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/metrics_json": {
+   "get": {
+    "tags": [
+     "v1",
+     "observability"
+    ],
+    "summary": "JSON metrics snapshot",
+    "description": "JSON envelope of counters + summaries totals for the dashboard Metrics page.",
+    "operationId": "metrics_snapshot_json_v1_metrics_json_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_str__object__"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/health/livez": {
+   "get": {
+    "tags": [
+     "health"
+    ],
+    "summary": "Livez",
+    "description": "Liveness probe \u2014 always responds 200 while the app is alive.",
+    "operationId": "livez_health_livez_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/health/readyz": {
+   "get": {
+    "tags": [
+     "health"
+    ],
+    "summary": "Readyz",
+    "description": "Readiness probe \u2014 fails 503 only if a hard-failing dependency (sql) probe fails.\n\nOptional laptop-first deps (redis, qdrant) mark status=warn on disconnect; they\ndo not flip overall health to fail.",
+    "operationId": "readyz_health_readyz_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/health": {
+   "get": {
+    "tags": [
+     "health"
+    ],
+    "summary": "Health",
+    "description": "Combined health view (convenience alias for /readyz).",
+    "operationId": "health_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/llm/benchmark": {
+   "get": {
+    "tags": [
+     "llm"
+    ],
+    "summary": "Llm Benchmark",
+    "description": "Run a single BaseProvider.chat() and report prompt_tokens/sec + first_token_latency_ms.\n\nIf Ollama is reachable on ``OLLAMA_BASE_URL``, measurements come from a real\ncall.  Otherwise, deterministic mocked values are returned so the endpoint\nalways responds 200 (useful for offline CI smoke-tests).",
+    "operationId": "llm_benchmark_llm_benchmark_get",
+    "parameters": [
+     {
+      "name": "prompt_tokens",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 32768,
+       "minimum": 8,
+       "description": "Approximate number of prompt tokens to send.",
+       "default": 256,
+       "title": "Prompt Tokens"
+      },
+      "description": "Approximate number of prompt tokens to send."
+     },
+     {
+      "name": "model",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Override the configured model for this run.",
+       "title": "Model"
+      },
+      "description": "Override the configured model for this run."
+     },
+     {
+      "name": "X-Noesis-Capability-Token",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Signed capability token from the kernel (b64payload.b64mac).",
+       "title": "X-Noesis-Capability-Token"
+      },
+      "description": "Signed capability token from the kernel (b64payload.b64mac)."
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/bench/results": {
+   "get": {
+    "tags": [
+     "benchmarks"
+    ],
+    "summary": "Get Bench Results",
+    "description": "Fetch latest benchmark results for the frontend /benchmarks page.\n\nReturns **BenchmarkResults** matching the frontend Zod schema\n``BenchmarkResultsSchema`` (schemas.ts:209).\n\nWhen real ``tables_for_paper.json`` exists under ``eval_root`` (default:\n``docs/eval``) the latest copy (by mtime) is served.  Otherwise a\ndemo-mode placeholder with ``overall_pass_at_1=0.40`` is returned and\n``meta.demo`` = ``true`` is flagged in the envelope.\n\nPass ``?refresh=true`` to regenerate ``tables_for_paper.json`` from any\n``se50_results.csv`` / ``humaneval_pass1.csv`` / ``mbpp_results.csv``\nauto-discovered under ``eval_root`` before re-reading.\n\nSee also the older sibling endpoint ``GET /llm/benchmark`` which measures\nlive provider token-throughput and first-token latency\n(``noesis.api.routes.llm_benchmark.llm_benchmark``).",
+    "operationId": "get_bench_results_api_bench_results_get",
+    "parameters": [
+     {
+      "name": "refresh",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "description": "Recompute stats from CSV files on disk",
+       "default": false,
+       "title": "Refresh"
+      },
+      "description": "Recompute stats from CSV files on disk"
+     },
+     {
+      "name": "X-Noesis-Capability-Token",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Signed capability token from the kernel (b64payload.b64mac).",
+       "title": "X-Noesis-Capability-Token"
+      },
+      "description": "Signed capability token from the kernel (b64payload.b64mac)."
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/metrics": {
+   "get": {
+    "tags": [
+     "observability"
+    ],
+    "summary": "Prometheus scrape endpoint (root /metrics mount)",
+    "description": "OpenMetrics text-format scrape (see astra.api.main for root /metrics mount).",
+    "operationId": "prometheus_scrape_metrics_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/metrics_json": {
+   "get": {
+    "tags": [
+     "observability"
+    ],
+    "summary": "JSON metrics snapshot",
+    "description": "JSON envelope of counters + summaries totals for the dashboard Metrics page.",
+    "operationId": "metrics_snapshot_json_metrics_json_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/APIEnvelope_dict_str__object__"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "APIEnvelope": {
+    "properties": {
+     "ok": {
+      "type": "boolean",
+      "title": "Ok"
+     },
+     "data": {
+      "anyOf": [
+       {},
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Data"
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     },
+     "request_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Request Id"
+     },
+     "meta": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Meta"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ok"
+    ],
+    "title": "APIEnvelope",
+    "description": "Standard envelope for every JSON response.\n\nConsumers always look at the same keys: ``ok``, ``data``, ``error``,\n``request_id`` \u2014 simplifies frontend error handling."
+   },
+   "APIEnvelope_dict_": {
+    "properties": {
+     "ok": {
+      "type": "boolean",
+      "title": "Ok"
+     },
+     "data": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Data"
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     },
+     "request_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Request Id"
+     },
+     "meta": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Meta"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ok"
+    ],
+    "title": "APIEnvelope[dict]"
+   },
+   "APIEnvelope_dict_str__object__": {
+    "properties": {
+     "ok": {
+      "type": "boolean",
+      "title": "Ok"
+     },
+     "data": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Data"
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     },
+     "request_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Request Id"
+     },
+     "meta": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Meta"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ok"
+    ],
+    "title": "APIEnvelope[dict[str, object]]"
+   },
+   "AgentInvokeReq": {
+    "properties": {
+     "agent": {
+      "type": "string",
+      "minLength": 1,
+      "title": "Agent"
+     },
+     "state": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "State"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "agent"
+    ],
+    "title": "AgentInvokeReq"
+   },
+   "Body_upload_document_v1_documents_upload_post": {
+    "properties": {
+     "file": {
+      "type": "string",
+      "contentMediaType": "application/octet-stream",
+      "title": "File"
+     },
+     "user_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "User Id"
+     },
+     "title": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Title"
+     },
+     "source_uri": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source Uri"
+     }
+    },
+    "type": "object",
+    "required": [
+     "file"
+    ],
+    "title": "Body_upload_document_v1_documents_upload_post"
+   },
+   "ConversationCreateReq": {
+    "properties": {
+     "title": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title"
+     },
+     "agent": {
+      "type": "string",
+      "title": "Agent",
+      "default": "orchestrator"
+     },
+     "tags": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Tags"
+     },
+     "user_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "User Id"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "title"
+    ],
+    "title": "ConversationCreateReq"
+   },
+   "ConversationPatchReq": {
+    "properties": {
+     "title": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Title"
+     },
+     "status": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/ConversationStatus"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "tags": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tags"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "ConversationPatchReq"
+   },
+   "ConversationStatus": {
+    "type": "string",
+    "enum": [
+     "active",
+     "completed",
+     "paused",
+     "failed"
+    ],
+    "title": "ConversationStatus",
+    "description": "Lifecycle status for a conversation thread \u2014 matches frontend Zod enum."
+   },
+   "DocumentCreateReq": {
+    "properties": {
+     "title": {
+      "type": "string",
+      "minLength": 1,
+      "title": "Title"
+     },
+     "source_uri": {
+      "type": "string",
+      "minLength": 1,
+      "title": "Source Uri"
+     },
+     "mime_type": {
+      "type": "string",
+      "title": "Mime Type",
+      "default": "application/octet-stream"
+     },
+     "user_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "User Id"
+     },
+     "metadata": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Metadata"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "title",
+     "source_uri"
+    ],
+    "title": "DocumentCreateReq"
+   },
+   "ExecuteReq": {
+    "properties": {
+     "plan": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Plan"
+     },
+     "conversation_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Conversation Id"
+     },
+     "user_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "User Id"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "plan"
+    ],
+    "title": "ExecuteReq"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "InProcBindReq": {
+    "properties": {
+     "actor_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Actor Id"
+     },
+     "capabilities": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Capabilities"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "InProcBindReq"
+   },
+   "LoginRequest": {
+    "properties": {
+     "user_id": {
+      "type": "string",
+      "maxLength": 128,
+      "minLength": 2,
+      "title": "User Id"
+     },
+     "password": {
+      "type": "string",
+      "maxLength": 4096,
+      "minLength": 8,
+      "title": "Password"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "user_id",
+     "password"
+    ],
+    "title": "LoginRequest"
+   },
+   "MeResponse": {
+    "properties": {
+     "sub": {
+      "type": "string",
+      "title": "Sub"
+     },
+     "roles": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Roles"
+     },
+     "jti": {
+      "type": "string",
+      "title": "Jti"
+     },
+     "issued_at": {
+      "type": "string",
+      "title": "Issued At"
+     },
+     "expires_at": {
+      "type": "string",
+      "title": "Expires At"
+     },
+     "token_use": {
+      "type": "string",
+      "title": "Token Use",
+      "default": "access"
+     }
+    },
+    "type": "object",
+    "required": [
+     "sub",
+     "roles",
+     "jti",
+     "issued_at",
+     "expires_at"
+    ],
+    "title": "MeResponse"
+   },
+   "MemoryCompressReq": {
+    "properties": {
+     "older_than_days": {
+      "type": "integer",
+      "maximum": 3650.0,
+      "minimum": 1.0,
+      "title": "Older Than Days",
+      "default": 30
+     },
+     "tiers": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Tiers"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "MemoryCompressReq"
+   },
+   "MemoryQueryReq": {
+    "properties": {
+     "content": {
+      "type": "string",
+      "minLength": 1,
+      "title": "Content"
+     },
+     "tiers": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Tiers"
+     },
+     "top_k": {
+      "type": "integer",
+      "maximum": 200.0,
+      "minimum": 1.0,
+      "title": "Top K",
+      "default": 10
+     },
+     "min_importance": {
+      "type": "number",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Min Importance",
+      "default": 0.0
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "content"
+    ],
+    "title": "MemoryQueryReq"
+   },
+   "MessageCreateReq": {
+    "properties": {
+     "role": {
+      "type": "string",
+      "enum": [
+       "system",
+       "user",
+       "assistant",
+       "tool",
+       "observation",
+       "reflection"
+      ],
+      "title": "Role"
+     },
+     "content": {
+      "type": "string",
+      "minLength": 1,
+      "title": "Content"
+     },
+     "name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Name"
+     },
+     "tool_call_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Tool Call Id"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "role",
+     "content"
+    ],
+    "title": "MessageCreateReq"
+   },
+   "ObservabilitySummary": {
+    "properties": {
+     "window_s": {
+      "type": "integer",
+      "title": "Window S"
+     },
+     "total_requests": {
+      "type": "integer",
+      "title": "Total Requests"
+     },
+     "total_token_cost_usd": {
+      "type": "number",
+      "title": "Total Token Cost Usd"
+     },
+     "total_prompt_tokens": {
+      "type": "integer",
+      "title": "Total Prompt Tokens"
+     },
+     "total_completion_tokens": {
+      "type": "integer",
+      "title": "Total Completion Tokens"
+     },
+     "latency_p50_ms": {
+      "type": "integer",
+      "title": "Latency P50 Ms"
+     },
+     "latency_p95_ms": {
+      "type": "integer",
+      "title": "Latency P95 Ms"
+     },
+     "tools": {
+      "items": {
+       "$ref": "#/components/schemas/ToolTraceSummary"
+      },
+      "type": "array",
+      "title": "Tools"
+     },
+     "errors": {
+      "type": "integer",
+      "title": "Errors"
+     }
+    },
+    "type": "object",
+    "required": [
+     "window_s",
+     "total_requests",
+     "total_token_cost_usd",
+     "total_prompt_tokens",
+     "total_completion_tokens",
+     "latency_p50_ms",
+     "latency_p95_ms",
+     "tools",
+     "errors"
+    ],
+    "title": "ObservabilitySummary"
+   },
+   "PlanReq": {
+    "properties": {
+     "goal": {
+      "type": "string",
+      "minLength": 5,
+      "title": "Goal"
+     },
+     "seed": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Seed"
+     },
+     "conversation_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Conversation Id"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "goal"
+    ],
+    "title": "PlanReq"
+   },
+   "TokenPair": {
+    "properties": {
+     "access_token": {
+      "type": "string",
+      "title": "Access Token"
+     },
+     "refresh_token": {
+      "type": "string",
+      "title": "Refresh Token"
+     },
+     "token_type": {
+      "type": "string",
+      "title": "Token Type",
+      "default": "Bearer"
+     },
+     "expires_in_s": {
+      "type": "integer",
+      "title": "Expires In S"
+     }
+    },
+    "type": "object",
+    "required": [
+     "access_token",
+     "refresh_token",
+     "expires_in_s"
+    ],
+    "title": "TokenPair"
+   },
+   "ToolTraceSummary": {
+    "properties": {
+     "tool_name": {
+      "type": "string",
+      "title": "Tool Name"
+     },
+     "invocations": {
+      "type": "integer",
+      "title": "Invocations"
+     },
+     "p50_ms": {
+      "type": "integer",
+      "title": "P50 Ms"
+     },
+     "p95_ms": {
+      "type": "integer",
+      "title": "P95 Ms"
+     },
+     "total_ms": {
+      "type": "integer",
+      "title": "Total Ms"
+     },
+     "errors": {
+      "type": "integer",
+      "title": "Errors"
+     }
+    },
+    "type": "object",
+    "required": [
+     "tool_name",
+     "invocations",
+     "p50_ms",
+     "p95_ms",
+     "total_ms",
+     "errors"
+    ],
+    "title": "ToolTraceSummary"
+   },
+   "UAPEnvelopeSendReq": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "from": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "From"
+     },
+     "to": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "To"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind",
+      "default": "message"
+     },
+     "payload": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Payload"
+     }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "title": "UAPEnvelopeSendReq"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ }
+}
