@@ -182,101 +182,20 @@
       "samples": 1
     }
   ],
-  "humaneval_pass_at_1": 1.0,
-  "humaneval_buckets": [
-    {
-      "task_id": "HumanEval/2",
-      "codename": "2",
-      "pass_rate": 0.6,
-      "n_samples": 5,
-      "rank": 0
-    },
-    {
-      "task_id": "HumanEval/4",
-      "codename": "4",
-      "pass_rate": 0.6,
-      "n_samples": 5,
-      "rank": 1
-    },
-    {
-      "task_id": "HumanEval/1",
-      "codename": "1",
-      "pass_rate": 0.4,
-      "n_samples": 5,
-      "rank": 2
-    },
-    {
-      "task_id": "HumanEval/3",
-      "codename": "3",
-      "pass_rate": 0.4,
-      "n_samples": 5,
-      "rank": 3
-    },
-    {
-      "task_id": "HumanEval/0",
-      "codename": "0",
-      "pass_rate": 0.2,
-      "n_samples": 5,
-      "rank": 4
-    }
-  ],
+  "humaneval_pass_at_1": 0.0,
+  "humaneval_buckets": [],
   "mbpp_pass_at_1": 0.0,
-  "mbpp_buckets": [
-    {
-      "bucket": "difficulty_1",
-      "difficulty": 1,
-      "pass_at_1": 0.0,
-      "n_tasks": 1
-    },
-    {
-      "bucket": "difficulty_2",
-      "difficulty": 2,
-      "pass_at_1": 0.0,
-      "n_tasks": 1
-    },
-    {
-      "bucket": "difficulty_3",
-      "difficulty": 3,
-      "pass_at_1": 0.0,
-      "n_tasks": 1
-    },
-    {
-      "bucket": "difficulty_4",
-      "difficulty": 4,
-      "pass_at_1": 0.0,
-      "n_tasks": 1
-    },
-    {
-      "bucket": "difficulty_5",
-      "difficulty": 5,
-      "pass_at_1": 0.0,
-      "n_tasks": 1
-    }
-  ],
+  "mbpp_buckets": [],
   "ablation_table": {
     "variant_keys": [
       "baseline_nomem",
       "baseline_nomac",
       "full_noesis"
     ],
-    "rows": [
-      {
-        "metric": "OVERALL pass@1",
-        "baseline_nomem": 0.8200000000000001,
-        "baseline_nomac": 0.91,
-        "full_noesis": 1.0
-      },
-      {
-        "metric": "Rust_Systems",
-        "baseline_nomem": 0.8200000000000001,
-        "baseline_nomac": 0.91,
-        "full_noesis": 1.0
-      }
-    ],
+    "rows": [],
     "notes": {
-      "c1_gain_full_vs_nomem_pp": 18.0,
-      "c2_gain_full_vs_nomac_pp": 9.0,
-      "c3_mcnemar_note": "Use mcnemar_pvalue(b,c) on paired per-task correctness vectors."
+      "status": "placeholder",
+      "detail": "Populate by calling generate_ablation_tables() once 3-variant CSVs exist."
     }
   },
   "signoff_avg_conf": 0.9184052287581699

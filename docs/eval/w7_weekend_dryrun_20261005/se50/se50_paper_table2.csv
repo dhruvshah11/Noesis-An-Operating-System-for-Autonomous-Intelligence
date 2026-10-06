@@ -1,3 +1,3 @@
 category,difficulty,n_total,n_correct,pass_at_1,ci95_low,ci95_high,avg_duration_ms,min_duration_ms,max_duration_ms,promotion_sum_total
-Rust_Systems,EASY,6,6,1.0,0.609657,1.0,0.17,0,1,164
-Rust_Systems,MEDIUM,9,9,1.0,0.700847,1.0,0.0,0,0,245
+Rust_Systems,EASY,6,6,1.0,0.609657,1.0,1.0,0,6,164
+Rust_Systems,MEDIUM,3,3,1.0,0.438494,1.0,0.0,0,0,85

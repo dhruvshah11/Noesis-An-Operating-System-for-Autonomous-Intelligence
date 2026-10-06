@@ -1,17 +1,17 @@
 {
   "se50": {
     "overall_pass_at_1": 1.0,
-    "overall_ci_low": 0.5655085052479191,
+    "overall_ci_low": 0.43849391955098227,
     "overall_ci_high": 1.0,
-    "n_total": 5,
-    "n_correct": 5,
+    "n_total": 3,
+    "n_correct": 3,
     "per_category": [
       {
         "category": "Rust_Systems",
-        "n_total": 5,
-        "n_correct": 5,
+        "n_total": 3,
+        "n_correct": 3,
         "pass_at_1": 1.0,
-        "ci_low": 0.5655085052479191,
+        "ci_low": 0.43849391955098227,
         "ci_high": 1.0
       }
     ],
@@ -24,8 +24,8 @@
       },
       {
         "difficulty": "MEDIUM",
-        "n_total": 3,
-        "n_correct": 3,
+        "n_total": 1,
+        "n_correct": 1,
         "pass_at_1": 1.0
       }
     ]
@@ -36,7 +36,7 @@
       "category": "Rust_Systems",
       "difficulty": "easy",
       "tristate": "signoff",
-      "duration_ms": 1,
+      "duration_ms": 6,
       "plan_sha": "a7c66761abbf6007",
       "kriyakari_conf": 0.8972549019607843,
       "samples": 1
@@ -120,137 +120,112 @@
       "plan_sha": "294a4d60a81671ce",
       "kriyakari_conf": 0.9486274509803921,
       "samples": 1
-    },
-    {
-      "task_id": "R04",
-      "category": "Rust_Systems",
-      "difficulty": "medium",
-      "tristate": "signoff",
-      "duration_ms": 0,
-      "plan_sha": "97a4fd2cb3c2d38b",
-      "kriyakari_conf": 0.8960784313725491,
-      "samples": 1
-    },
-    {
-      "task_id": "R04",
-      "category": "Rust_Systems",
-      "difficulty": "medium",
-      "tristate": "signoff",
-      "duration_ms": 0,
-      "plan_sha": "1331881362489a83",
-      "kriyakari_conf": 0.9509803921568627,
-      "samples": 1
-    },
-    {
-      "task_id": "R04",
-      "category": "Rust_Systems",
-      "difficulty": "medium",
-      "tristate": "signoff",
-      "duration_ms": 0,
-      "plan_sha": "d1a2c3151bfc01f0",
-      "kriyakari_conf": 0.8972549019607843,
-      "samples": 1
-    },
-    {
-      "task_id": "R05",
-      "category": "Rust_Systems",
-      "difficulty": "medium",
-      "tristate": "signoff",
-      "duration_ms": 0,
-      "plan_sha": "1fc8888654128b34",
-      "kriyakari_conf": 0.8886274509803922,
-      "samples": 1
-    },
-    {
-      "task_id": "R05",
-      "category": "Rust_Systems",
-      "difficulty": "medium",
-      "tristate": "signoff",
-      "duration_ms": 0,
-      "plan_sha": "81467912a2db04d3",
-      "kriyakari_conf": 0.9043137254901961,
-      "samples": 1
-    },
-    {
-      "task_id": "R05",
-      "category": "Rust_Systems",
-      "difficulty": "medium",
-      "tristate": "signoff",
-      "duration_ms": 0,
-      "plan_sha": "6a2346237ce8bebd",
-      "kriyakari_conf": 0.903921568627451,
-      "samples": 1
     }
   ],
   "humaneval_pass_at_1": 1.0,
   "humaneval_buckets": [
     {
-      "task_id": "HumanEval/2",
-      "codename": "2",
-      "pass_rate": 0.6,
+      "task_id": "HumanEval/0",
+      "codename": "0",
+      "pass_rate": 1.0,
       "n_samples": 5,
       "rank": 0
     },
     {
-      "task_id": "HumanEval/4",
-      "codename": "4",
-      "pass_rate": 0.6,
+      "task_id": "HumanEval/1",
+      "codename": "1",
+      "pass_rate": 1.0,
       "n_samples": 5,
       "rank": 1
     },
     {
-      "task_id": "HumanEval/1",
-      "codename": "1",
-      "pass_rate": 0.4,
+      "task_id": "HumanEval/2",
+      "codename": "2",
+      "pass_rate": 1.0,
       "n_samples": 5,
       "rank": 2
     },
     {
       "task_id": "HumanEval/3",
       "codename": "3",
-      "pass_rate": 0.4,
+      "pass_rate": 1.0,
       "n_samples": 5,
       "rank": 3
     },
     {
-      "task_id": "HumanEval/0",
-      "codename": "0",
-      "pass_rate": 0.2,
+      "task_id": "HumanEval/4",
+      "codename": "4",
+      "pass_rate": 1.0,
       "n_samples": 5,
       "rank": 4
+    },
+    {
+      "task_id": "HumanEval/5",
+      "codename": "5",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 5
+    },
+    {
+      "task_id": "HumanEval/6",
+      "codename": "6",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 6
+    },
+    {
+      "task_id": "HumanEval/7",
+      "codename": "7",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 7
+    },
+    {
+      "task_id": "HumanEval/8",
+      "codename": "8",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 8
+    },
+    {
+      "task_id": "HumanEval/9",
+      "codename": "9",
+      "pass_rate": 1.0,
+      "n_samples": 5,
+      "rank": 9
     }
   ],
-  "mbpp_pass_at_1": 0.0,
+  "mbpp_pass_at_1": 1.0,
   "mbpp_buckets": [
     {
       "bucket": "difficulty_1",
       "difficulty": 1,
-      "pass_at_1": 0.0,
-      "n_tasks": 1
+      "pass_at_1": 1.0,
+      "n_tasks": 2
     },
     {
       "bucket": "difficulty_2",
       "difficulty": 2,
-      "pass_at_1": 0.0,
-      "n_tasks": 1
+      "pass_at_1": 1.0,
+      "n_tasks": 2
     },
     {
       "bucket": "difficulty_3",
       "difficulty": 3,
-      "pass_at_1": 0.0,
-      "n_tasks": 1
+      "pass_at_1": 1.0,
+      "n_tasks": 2
     },
     {
       "bucket": "difficulty_4",
       "difficulty": 4,
-      "pass_at_1": 0.0,
-      "n_tasks": 1
+      "pass_at_1": 1.0,
+      "n_tasks": 2
     },
     {
       "bucket": "difficulty_5",
       "difficulty": 5,
-      "pass_at_1": 0.0,
-      "n_tasks": 1
+      "pass_at_1": 1.0,
+      "n_tasks": 2
     }
   ],
   "ablation_table": {
@@ -279,5 +254,5 @@
       "c3_mcnemar_note": "Use mcnemar_pvalue(b,c) on paired per-task correctness vectors."
     }
   },
-  "signoff_avg_conf": 0.9184052287581699
+  "signoff_avg_conf": 0.9261002178649238
 }

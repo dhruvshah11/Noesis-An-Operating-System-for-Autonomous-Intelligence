@@ -1,0 +1,60 @@
+{
+  "se50": {
+    "overall_pass_at_1": 0.0,
+    "overall_ci_low": 0.0,
+    "overall_ci_high": 0.0,
+    "n_total": 0,
+    "n_correct": 0,
+    "per_category": [],
+    "per_difficulty": []
+  },
+  "se50_rows": [],
+  "humaneval_pass_at_1": 0.0,
+  "humaneval_buckets": [],
+  "mbpp_pass_at_1": 1.0,
+  "mbpp_buckets": [
+    {
+      "bucket": "difficulty_1",
+      "difficulty": 1,
+      "pass_at_1": 1.0,
+      "n_tasks": 2
+    },
+    {
+      "bucket": "difficulty_2",
+      "difficulty": 2,
+      "pass_at_1": 1.0,
+      "n_tasks": 2
+    },
+    {
+      "bucket": "difficulty_3",
+      "difficulty": 3,
+      "pass_at_1": 1.0,
+      "n_tasks": 2
+    },
+    {
+      "bucket": "difficulty_4",
+      "difficulty": 4,
+      "pass_at_1": 1.0,
+      "n_tasks": 2
+    },
+    {
+      "bucket": "difficulty_5",
+      "difficulty": 5,
+      "pass_at_1": 1.0,
+      "n_tasks": 2
+    }
+  ],
+  "ablation_table": {
+    "variant_keys": [
+      "baseline_nomem",
+      "baseline_nomac",
+      "full_noesis"
+    ],
+    "rows": [],
+    "notes": {
+      "status": "placeholder",
+      "detail": "Populate by calling generate_ablation_tables() once 3-variant CSVs exist."
+    }
+  },
+  "signoff_avg_conf": 0.85
+}

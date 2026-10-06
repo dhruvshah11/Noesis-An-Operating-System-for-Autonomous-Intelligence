@@ -1,0 +1,46 @@
+{
+  "aggregates": {
+    "avg_duration_ms": 0.07,
+    "pass_at_1": 1.0,
+    "pass_at_3": 1.0,
+    "signoff_rate": 1.0,
+    "signoff_total": 15
+  },
+  "base_seed": 42,
+  "corpus": "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\backend\\benchmarks\\noesis_se50\\corpus.json",
+  "csv": "C:\\Users\\dhruv\\Downloads\\ASTRAOS\\docs\\eval\\w7_weekend_real_Oct06_real\\se50\\se50_results.csv",
+  "generated_at": "2026-10-06T07:03:02Z",
+  "harness": "bench_se50_batch",
+  "mode": "adaptive",
+  "per_category": {
+    "Rust_Systems": {
+      "avg_duration_ms": 0.07,
+      "n": 15,
+      "pass_at_1": 1.0,
+      "pass_at_3": 1.0,
+      "signoffs": 15
+    }
+  },
+  "per_difficulty": {
+    "EASY": {
+      "avg_duration_ms": 0.17,
+      "n": 6,
+      "pass_at_1": 1.0,
+      "pass_at_3": 1.0,
+      "signoffs": 6
+    },
+    "MEDIUM": {
+      "avg_duration_ms": 0.0,
+      "n": 9,
+      "pass_at_1": 1.0,
+      "pass_at_3": 1.0,
+      "signoffs": 9
+    }
+  },
+  "provider": "OllamaProvider",
+  "rows_written": 15,
+  "runs_per_task": 3,
+  "tasks_total": 5,
+  "timeout_per_task_s": 600,
+  "wall_duration_ms": 97
+}
