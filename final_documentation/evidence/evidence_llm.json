@@ -1,0 +1,1996 @@
+{
+ "mode": "llm",
+ "python": "3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]",
+ "examples": [
+  {
+   "label": "root",
+   "method": "GET",
+   "path": "/",
+   "request": {},
+   "status": 200,
+   "ms": 27.28,
+   "response": {
+    "ok": true,
+    "name": "Noesis",
+    "version": "0.1.0",
+    "env": "development",
+    "docs": "/docs",
+    "health": "/v1/health",
+    "current_api_prefix": "/v1",
+    "request_id": "c23ce9460c52464db388ce0969c290ad"
+   }
+  },
+  {
+   "label": "livez",
+   "method": "GET",
+   "path": "/health/livez",
+   "request": {},
+   "status": 200,
+   "ms": 2.43,
+   "response": {
+    "ok": true,
+    "data": {
+     "status": "pass"
+    },
+    "error": null,
+    "request_id": "13e1b69d57a947e08645b683dc279479",
+    "meta": {}
+   }
+  },
+  {
+   "label": "readyz",
+   "method": "GET",
+   "path": "/health/readyz",
+   "request": {},
+   "status": 200,
+   "ms": 2035.34,
+   "response": {
+    "ok": true,
+    "data": {
+     "status": "warn",
+     "checks": {
+      "sql": {
+       "name": "sql",
+       "status": "pass",
+       "latency_ms": 7.75,
+       "error": null
+      },
+      "redis": {
+       "name": "redis",
+       "status": "warn",
+       "latency_ms": 0.0,
+       "error": "Error 22 connecting to 127.0.0.1:6379. The remote computer refused the network connection."
+      },
+      "qdrant": {
+       "name": "qdrant",
+       "status": "warn",
+       "latency_ms": 0.0,
+       "error": "No module named 'qdrant_client'"
+      }
+     }
+    },
+    "error": null,
+    "request_id": "87eec1aa59f146169a4eaf163dd9ba91",
+    "meta": {}
+   }
+  },
+  {
+   "label": "v1 health",
+   "method": "GET",
+   "path": "/v1/health",
+   "request": {},
+   "status": 200,
+   "ms": 2013.05,
+   "response": {
+    "ok": true,
+    "data": {
+     "status": "warn",
+     "checks": {
+      "sql": {
+       "name": "sql",
+       "status": "pass",
+       "latency_ms": 4.56,
+       "error": null
+      },
+      "redis": {
+       "name": "redis",
+       "status": "warn",
+       "latency_ms": 0.0,
+       "error": "Error 22 connecting to 127.0.0.1:6379. The remote computer refused the network connection."
+      },
+      "qdrant": {
+       "name": "qdrant",
+       "status": "warn",
+       "latency_ms": 0.0,
+       "error": "No module named 'qdrant_client'"
+      }
+     }
+    },
+    "error": null,
+    "request_id": "af436b4d36c94fe0ad0f233867e7f9d8",
+    "meta": {}
+   }
+  },
+  {
+   "label": "kernel state",
+   "method": "GET",
+   "path": "/v1/kernel/state",
+   "request": {},
+   "status": 200,
+   "ms": 2.04,
+   "response": {
+    "ok": true,
+    "data": {
+     "kernel_state": "running",
+     "uptime_s": 4.224,
+     "started_at": "2026-10-06T14:29:54.842127+00:00",
+     "agents_registered": 0,
+     "services_registered": [
+      "artifacts",
+      "conversations",
+      "documents",
+      "knowledge_objects",
+      "memories",
+      "messages",
+      "task_executions",
+      "users"
+     ],
+     "handlers_registered": [
+      "get_clock",
+      "memory_read",
+      "memory_write",
+      "model_chat",
+      "model_route",
+      "tool_invoke"
+     ],
+     "spans_captured": 0,
+     "spans_capacity": 10000,
+     "generated_at": "2026-10-06T14:29:59.066331Z"
+    },
+    "error": null,
+    "request_id": "ab40c1e19b2b40fc868f99a8004a89eb",
+    "meta": {}
+   }
+  },
+  {
+   "label": "kernel stats",
+   "method": "GET",
+   "path": "/v1/kernel/stats",
+   "request": {},
+   "status": 200,
+   "ms": 1.66,
+   "response": {
+    "__truncated__": true,
+    "preview": "{\"ok\": true, \"data\": {\"scheduler\": {\"tasks_queued\": 0, \"tasks_running\": 0, \"tasks_done\": 0, \"tasks_failed\": 0, \"tasks_cancelled\": 0, \"deadline_misses\": 0, \"per_agent_queued\": {}, \"per_priority_queued\": {}}, \"memory_allocator\": {\"zones\": {}, \"agents\": {}, \"active_leases\": 0, \"registered_agents\": 0}, \"model_router\": {\"profiles_registered\": 7, \"profiles\": [{\"provider\": \"openai\", \"model_id\": \"gpt-4o-mini\", \"model_class\": \"chat_fast\", \"input_cost_per_1k\": 0.00015, \"output_cost_per_1k\": 0.0006, \"context_tokens\": 128000, \"max_output_tokens\": 16384, \"quality\": 0.8, \"requires_gpu\": false, \"vram_gb_required\": 0.0, \"tags\": [\"default\"]}, {\"provider\": \"openai\", \"model_id\": \"gpt-4o\", \"model_class\": \"chat_balanced\", \"input_cost_per_1k\": 0.0025, \"output_cost_per_1k\": 0.01, \"context_tokens\": 128000, \"max_output_tokens\": 16384, \"quality\": 0.95, \"requires_gpu\": false, \"vram_gb_required\": 0.0, \"tags\": []}, {\"provider\": \"anthropic\", \"model_id\": \"claude-3-5-sonnet-latest\", \"model_class\": \"chat_balanced\", \"input_cost_per_1k\": 0.003, \"output_cost_per_1k\": 0.015, \"context_tokens\": 200000, \"max_output_tokens\": 8192, \"quality\": 0.94, \"requires_gpu\": false, \"vram_gb_required\": 0.0, \"tags\": []}, {\"provider\": \"anthropic\", \"model_id\": \"claude-3-opus-latest\", \"model_class\": \"chat_very_strong\", \"input_cost_per_1k\": 0.015, \"output_cost_per_1k\": 0.075, \"context_tokens\": 200000, \"max_output_tokens\": 8192, \"quality\": 0.99, \"requires_gpu\": false, \"vram_gb_required\": 0.0, \"tags\": []}, {\"provider\": \"gemini\", \"model_id\": \"gemini-1.5-pro\", \"model_class\": \"chat_balanced\", \"input_cost_per_1k\": 0.00125, \"output_cost_per_1k\": 0.00375, \"context_tokens\": 2000000, \"max_output_tokens\": 8192, \"quality\": 0.93, \"requires_gpu\": false, \"vram_gb_required\": 0.0, \"tags\": []}, {\"provider\": \"ollama\", \"model_id\": \"llama3.1:8b\", \"model_class\": \"chat_fast\", \"input_cost_per_1k\": 0.0, \"output_cost_per_1k\": 0.0, \"context_tokens\": 128000, \"max_output_tokens\": 8192, \"quality\": 0.7, \"requires_gpu\": true, \"vram_gb_required\": 16, \"tags\": [\"local\", \"on_prem\"]}, {\"provider\": \"openrouter\", \"model_id\": \"meta-llama/llama-3.1-405b-instruct\", \"model_class\": \"chat_strong\", \"input_cost_per_1k\": 0.0027, \"output_cost_per_1k\": 0.0027, \"context_tokens\": 128000, \"max_output_tokens\": 16384, \"quality\": 0.9, \"requires_gpu\": false, \"vram_gb_required\": 0.0, \"tags\": [\"open_source\"]}], \"outcomes_recorded\": 0, \"weights\": {\"quality\": 0.3, \"reasoning\": 0.15, \"tool_use\": 0.15, \"code\": 0.05, \"vision\": 0.05, \"multimodal\": 0.05, \"inverse_cost\": 0.15, \"i"
+   }
+  },
+  {
+   "label": "kernel traces",
+   "method": "GET",
+   "path": "/v1/kernel/traces",
+   "request": {
+    "params": {
+     "limit": 5
+    }
+   },
+   "status": 200,
+   "ms": 1.49,
+   "response": {
+    "ok": true,
+    "data": {
+     "limit": 5,
+     "returned": 0,
+     "spans": []
+    },
+    "error": null,
+    "request_id": "78b6f68ab02042c9a20d13b7e479998f",
+    "meta": {}
+   }
+  },
+  {
+   "label": "login ok",
+   "method": "POST",
+   "path": "/v1/auth/login",
+   "request": {
+    "json": {
+     "user_id": "demo",
+     "password": "Demo!12345678"
+    }
+   },
+   "status": 200,
+   "ms": 326.53,
+   "response": {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJub2VzaXM6ZGV2ZWxvcG1lbnQiLCJhdWQiOiJub2VzaXM6YXBpIiwic3ViIjoiZGVtbyIsImp0aSI6ImU3ODE2NzYyNDdmMTQ5ODVhODUzMWM5YjVlYTkzZjRhIiwiaWF0IjoxNzkxMjk2OTk5LCJuYmYiOjE3OTEyOTY5OTksImV4cCI6MTc5MTI5Nzg5OSwicm9sZXMiOlsidXNlciJdLCJ0b2tlbl91c2UiOiJhY2Nlc3MifQ.QPNIEczbOfsA-evJTXyLBp6mfZ6d9Cj4DEDZDHLKxPo",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJub2VzaXM6ZGV2ZWxvcG1lbnQiLCJhdWQiOiJub2VzaXM6YXBpIiwic3ViIjoiZGVtbyIsImp0aSI6IjBkYTgwYjRlMWZlMDRlN2M5ODA4ODNmYThjMGQ1M2Y2IiwiaWF0IjoxNzkxMjk2OTk5LCJuYmYiOjE3OTEyOTY5OTksImV4cCI6MTc5MjUwNjU5OSwicm9sZXMiOlsidXNlciJdLCJ0b2tlbl91c2UiOiJyZWZyZXNoIn0.88_2m1mWG8fWpdXcMA60zgkkkkt3eQwydb7-dMRQPck",
+    "token_type": "Bearer",
+    "expires_in_s": 900
+   }
+  },
+  {
+   "label": "me ok",
+   "method": "GET",
+   "path": "/v1/auth/me",
+   "request": {
+    "headers": {
+     "Authorization": "Bearer eyJhbGciOiJIUzI1N…"
+    }
+   },
+   "status": 200,
+   "ms": 4.14,
+   "response": {
+    "sub": "demo",
+    "roles": [
+     "user"
+    ],
+    "jti": "e781676247f14985a8531c9b5ea93f4a",
+    "issued_at": "2026-10-06T14:29:59Z",
+    "expires_at": "2026-10-06T14:44:59Z",
+    "token_use": "access"
+   }
+  },
+  {
+   "label": "me missing token",
+   "method": "GET",
+   "path": "/v1/auth/me",
+   "request": {},
+   "status": 401,
+   "ms": 2.53,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "missing bearer token",
+    "request_id": "2fcd81d4ff904b43ad4fd954e572eca7",
+    "meta": {}
+   }
+  },
+  {
+   "label": "me tampered token",
+   "method": "GET",
+   "path": "/v1/auth/me",
+   "request": {
+    "headers": {
+     "Authorization": "Bearer eyJhbGciOiJIUzI1N…"
+    }
+   },
+   "status": 401,
+   "ms": 2.93,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "jwt signature mismatch",
+    "request_id": "419b1bd2c6504906a04c1dd0bfdfadeb",
+    "meta": {}
+   }
+  },
+  {
+   "label": "me with refresh token (wrong use)",
+   "method": "GET",
+   "path": "/v1/auth/me",
+   "request": {
+    "headers": {
+     "Authorization": "Bearer eyJhbGciOiJIUzI1N…"
+    }
+   },
+   "status": 401,
+   "ms": 6.55,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "jwt token_use must be 'access'",
+    "request_id": "8cafedab01aa4eddb4a738096fccd0fb",
+    "meta": {}
+   }
+  },
+  {
+   "label": "refresh ok",
+   "method": "POST",
+   "path": "/v1/auth/refresh",
+   "request": {
+    "headers": {
+     "Authorization": "Bearer eyJhbGciOiJIUzI1N…"
+    }
+   },
+   "status": 200,
+   "ms": 3.41,
+   "response": {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJub2VzaXM6ZGV2ZWxvcG1lbnQiLCJhdWQiOiJub2VzaXM6YXBpIiwic3ViIjoiZGVtbyIsImp0aSI6IjZjMTIzYzgyNmE5ODQ0YTBhZTUwZmQzM2M1MDk2MjMyIiwiaWF0IjoxNzkxMjk2OTk5LCJuYmYiOjE3OTEyOTY5OTksImV4cCI6MTc5MTI5Nzg5OSwicm9sZXMiOlsidXNlciJdLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJyZWZyZXNoX2p0aSI6IjBkYTgwYjRlMWZlMDRlN2M5ODA4ODNmYThjMGQ1M2Y2In0.Eeufyope87w2HeqlhuIMIfXMXfXEiJfqJh1AVvwy_nE",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJub2VzaXM6ZGV2ZWxvcG1lbnQiLCJhdWQiOiJub2VzaXM6YXBpIiwic3ViIjoiZGVtbyIsImp0aSI6IjBkYTgwYjRlMWZlMDRlN2M5ODA4ODNmYThjMGQ1M2Y2IiwiaWF0IjoxNzkxMjk2OTk5LCJuYmYiOjE3OTEyOTY5OTksImV4cCI6MTc5MjUwNjU5OSwicm9sZXMiOlsidXNlciJdLCJ0b2tlbl91c2UiOiJyZWZyZXNoIn0.88_2m1mWG8fWpdXcMA60zgkkkkt3eQwydb7-dMRQPck",
+    "token_type": "Bearer",
+    "expires_in_s": 900
+   }
+  },
+  {
+   "label": "login bad password",
+   "method": "POST",
+   "path": "/v1/auth/login",
+   "request": {
+    "json": {
+     "user_id": "demo",
+     "password": "wrong-password-1"
+    }
+   },
+   "status": 401,
+   "ms": 289.1,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "invalid credentials",
+    "request_id": "208b98fa78fa4f1b8f5ee56470e52d06",
+    "meta": {}
+   }
+  },
+  {
+   "label": "login unknown user",
+   "method": "POST",
+   "path": "/v1/auth/login",
+   "request": {
+    "json": {
+     "user_id": "nobody",
+     "password": "whatever-123"
+    }
+   },
+   "status": 401,
+   "ms": 273.12,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "invalid credentials",
+    "request_id": "da842ca91c6545619ded398616532462",
+    "meta": {}
+   }
+  },
+  {
+   "label": "login validation error (short pw)",
+   "method": "POST",
+   "path": "/v1/auth/login",
+   "request": {
+    "json": {
+     "user_id": "demo",
+     "password": "x"
+    }
+   },
+   "status": 422,
+   "ms": 5.03,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "Request validation failed",
+    "request_id": "fdbdcb4b8a734799a9768c76a77f62ce",
+    "meta": {
+     "errors": [
+      {
+       "loc": [
+        "body",
+        "password"
+       ],
+       "msg": "String should have at least 8 characters",
+       "type": "string_too_short"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "label": "login rate limited (7th)",
+   "method": "POST",
+   "path": "/v1/auth/login",
+   "request": {
+    "json": {
+     "user_id": "ratelimit",
+     "password": "wrong-password-1"
+    }
+   },
+   "status": 429,
+   "ms": 3.47,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "HTTP 429",
+    "request_id": "94c930ff975f4e2ca4cdd18fec3fd894",
+    "meta": {
+     "retry_after_s": 59
+    }
+   }
+  },
+  {
+   "label": "observability summary",
+   "method": "GET",
+   "path": "/v1/observability/summary",
+   "request": {
+    "params": {
+     "window_s": 600
+    }
+   },
+   "status": 200,
+   "ms": 3.18,
+   "response": {
+    "window_s": 600,
+    "total_requests": 0,
+    "total_token_cost_usd": 0.0,
+    "total_prompt_tokens": 0,
+    "total_completion_tokens": 0,
+    "latency_p50_ms": 0,
+    "latency_p95_ms": 0,
+    "tools": [],
+    "errors": 0
+   }
+  },
+  {
+   "label": "agents list",
+   "method": "GET",
+   "path": "/v1/agents",
+   "request": {},
+   "status": 200,
+   "ms": 3.6,
+   "response": {
+    "ok": true,
+    "data": [
+     {
+      "name": "planner",
+      "agent_type": "planner",
+      "description": "Decompose a goal into a dependency-ordered ExecutionPlan (seeded deterministic).",
+      "required_capabilities": [
+       "rag_search:*"
+      ],
+      "report_type": "PlannerReport"
+     },
+     {
+      "name": "research",
+      "agent_type": "research",
+      "description": "Seed-URL-driven cross-source research report.",
+      "required_capabilities": [
+       "tool_invoke:web_fetch"
+      ],
+      "report_type": "ResearchReport"
+     },
+     {
+      "name": "coding",
+      "agent_type": "coding",
+      "description": "Instruction→patch-list alpha CodingAgent with dry-run diff.",
+      "required_capabilities": [
+       "tool_invoke:files",
+       "tool_invoke:shell"
+      ],
+      "report_type": "CodingPatchReport"
+     },
+     {
+      "name": "reflection",
+      "agent_type": "reflection",
+      "description": "Mistake-detector + confidence scorer + replan recommender.",
+      "required_capabilities": [
+       "memory_read:*"
+      ],
+      "report_type": "ReflectionReport"
+     },
+     {
+      "name": "memory",
+      "agent_type": "memory",
+      "description": "Placeholder — 6-tier memory curator (M2).",
+      "required_capabilities": [
+       "memory_write:*"
+      ],
+      "report_type": null
+     },
+     {
+      "name": "rag",
+      "agent_type": "rag",
+      "description": "Placeholder — document/RAG ingestion agent (M2).",
+      "required_capabilities": [
+       "rag_ingest:*"
+      ],
+      "report_type": null
+     },
+     {
+      "name": "tool",
+      "agent_type": "tool",
+      "description": "Placeholder — safe tool-invocation agent (M3).",
+      "required_capabilities": [
+       "tool_invoke:*"
+      ],
+      "report_type": null
+     }
+    ],
+    "error": null,
+    "request_id": "ed1afa125eab469abb37824888ab25a4",
+    "meta": {}
+   }
+  },
+  {
+   "label": "invoke planner",
+   "method": "POST",
+   "path": "/v1/agents/invoke",
+   "request": {
+    "json": {
+     "agent": "planner",
+     "state": {
+      "goal": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+      "seed": 42
+     }
+    }
+   },
+   "status": 200,
+   "ms": 6.3,
+   "response": {
+    "__truncated__": true,
+    "preview": "{\"ok\": true, \"data\": {\"goal\": \"Write a Python function parse_csv.py that parses CSV files and add unit tests\", \"seed\": 42, \"status_history\": [3], \"status\": 3, \"report\": {\"goal\": \"Write a Python function parse_csv.py that parses CSV files and add unit tests\", \"plan\": {\"id\": \"087b732a-c670-58bf-8a63-4745d0ec9dbf\", \"goal\": \"Write a Python function parse_csv.py that parses CSV files and add unit tests\", \"steps\": [{\"id\": \"948796c3-0b7b-5dda-a5cb-d6b48aea1b3b\", \"index\": 0, \"description\": \"Draft implementation for parse_csv\", \"assigned_agent\": \"coding\", \"dependencies\": [], \"tool_hints\": [\"files\", \"shell\"], \"rag_query\": null, \"status\": 3, \"confidence\": 0.95, \"result\": null, \"error\": null, \"started_at\": \"2026-01-01T00:00:00Z\", \"finished_at\": \"2026-01-01T00:00:00Z\"}, {\"id\": \"d2724279-8ec5-5e3d-85ad-e3041f26ee2e\", \"index\": 1, \"description\": \"Write unit tests covering unit\", \"assigned_agent\": \"coding\", \"dependencies\": [\"948796c3-0b7b-5dda-a5cb-d6b48aea1b3b\"], \"tool_hints\": [\"files\", \"shell\"], \"rag_query\": null, \"status\": 3, \"confidence\": 0.95, \"result\": null, \"error\": null, \"started_at\": \"2026-01-01T00:00:00Z\", \"finished_at\": \"2026-01-01T00:00:00Z\"}, {\"id\": \"4478416b-b433-5aa3-be11-97382adb17ef\", \"index\": 2, \"description\": \"Dry-run patch application for parses\", \"assigned_agent\": \"coding\", \"dependencies\": [\"d2724279-8ec5-5e3d-85ad-e3041f26ee2e\"], \"tool_hints\": [\"files\", \"shell\"], \"rag_query\": null, \"status\": 3, \"confidence\": 0.95, \"result\": null, \"error\": null, \"started_at\": \"2026-01-01T00:00:00Z\", \"finished_at\": \"2026-01-01T00:00:00Z\"}, {\"id\": \"9a663885-3acb-5aaf-a930-0b8c87848a2e\", \"index\": 3, \"description\": \"Draft implementation for write\", \"assigned_agent\": \"coding\", \"dependencies\": [\"4478416b-b433-5aa3-be11-97382adb17ef\"], \"tool_hints\": [\"files\", \"shell\"], \"rag_query\": null, \"status\": 3, \"confidence\": 0.95, \"result\": null, \"error\": null, \"started_at\": \"2026-01-01T00:00:00Z\", \"finished_at\": \"2026-01-01T00:00:00Z\"}, {\"id\": \"92d8b644-cf02-5af7-9bd5-7d8268d3eaad\", \"index\": 4, \"description\": \"Run reflection pass on aggregated outputs; sign-off or trigger replan.\", \"assigned_agent\": \"reflection\", \"dependencies\": [\"948796c3-0b7b-5dda-a5cb-d6b48aea1b3b\", \"d2724279-8ec5-5e3d-85ad-e3041f26ee2e\", \"4478416b-b433-5aa3-be11-97382adb17ef\", \"9a663885-3acb-5aaf-a930-0b8c87848a2e\"], \"tool_hints\": [], \"rag_query\": null, \"status\": 3, \"confidence\": 0.85, \"result\": null, \"error\": null, \"started_at\": \"2026-01-01T00:00:00Z\", \"finished_at\": \"2026-01-01T00:00:00Z\"}], \"reasoning\": \"Decompo"
+   }
+  },
+  {
+   "label": "invoke reflection",
+   "method": "POST",
+   "path": "/v1/agents/invoke",
+   "request": {
+    "json": {
+     "agent": "reflection",
+     "state": {
+      "answer": "The API is safe. The API is not safe. See docs."
+     }
+    }
+   },
+   "status": 200,
+   "ms": 4.46,
+   "response": {
+    "ok": true,
+    "data": {
+     "answer": "The API is safe. The API is not safe. See docs.",
+     "status_history": [
+      3
+     ],
+     "status": 3,
+     "report": {
+      "confidence": 0.62,
+      "overall": "Reflected on answer of 47 chars, 0 tool call(s), 2 mistake(s) detected, confidence=0.62.",
+      "mistakes": [
+       {
+        "kind": "missing_citations",
+        "severity": "medium",
+        "description": "Final answer contains multiple factual claims but zero citations were provided.",
+        "evidence": {
+         "sentence_count": 3
+        }
+       },
+       {
+        "kind": "internal_contradiction",
+        "severity": "high",
+        "description": "Answer both asserts and negates: 'is safe'",
+        "evidence": {
+         "snippet": "is safe"
+        }
+       }
+      ],
+      "replan_recommended": true,
+      "replan_steps": [
+       "Re-invoke ResearchAgent with seed URLs; inject citations into final answer.",
+       "Send final answer through a Judge-agent pass that resolves internal contradictions."
+      ]
+     },
+     "report_type": "ReflectionReport"
+    },
+    "error": null,
+    "request_id": "ef29b1ec45874939bc58c511eaede040",
+    "meta": {}
+   }
+  },
+  {
+   "label": "invoke research (no seeds)",
+   "method": "POST",
+   "path": "/v1/agents/invoke",
+   "request": {
+    "json": {
+     "agent": "research",
+     "state": {
+      "query": "capability based security"
+     }
+    }
+   },
+   "status": 200,
+   "ms": 3.95,
+   "response": {
+    "ok": true,
+    "data": {
+     "query": "capability based security",
+     "status_history": [
+      6
+     ],
+     "status": 6,
+     "report": {
+      "query": "capability based security",
+      "plan": [
+       "1. Expand query terms for 'capability based security'",
+       "2. Gather at least 2 independent sources",
+       "3. Cross-check facts across sources",
+       "4. List conflicts explicitly",
+       "5. Score confidence 0..1"
+      ],
+      "sources": [],
+      "summary": "No sources fetched for query 'capability based security'. Call this agent with state['seed_urls'] = [..] to enable cross-checks.",
+      "conflicts": [],
+      "confidence": 0.2
+     },
+     "report_type": "ResearchReport"
+    },
+    "error": null,
+    "request_id": "9fdc1b5a92544dd89fd08b2ad115979a",
+    "meta": {}
+   }
+  },
+  {
+   "label": "invoke unknown agent",
+   "method": "POST",
+   "path": "/v1/agents/invoke",
+   "request": {
+    "json": {
+     "agent": "judge",
+     "state": {}
+    }
+   },
+   "status": 400,
+   "ms": 3.33,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "Unknown agent 'judge'",
+    "request_id": "280a4331016d4f3db4d4bd72c1352167",
+    "meta": {}
+   }
+  },
+  {
+   "label": "runs plan",
+   "method": "POST",
+   "path": "/v1/runs/plan",
+   "request": {
+    "json": {
+     "goal": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+     "seed": 42
+    }
+   },
+   "status": 200,
+   "ms": 642.8,
+   "response": {
+    "__truncated__": true,
+    "preview": "{\"ok\": true, \"data\": {\"goal\": \"Write a Python function parse_csv.py that parses CSV files and add unit tests\", \"plan\": {\"id\": \"087b732a-c670-58bf-8a63-4745d0ec9dbf\", \"goal\": \"Write a Python function parse_csv.py that parses CSV files and add unit tests\", \"steps\": [{\"id\": \"948796c3-0b7b-5dda-a5cb-d6b48aea1b3b\", \"index\": 0, \"description\": \"Draft implementation for parse_csv\", \"assigned_agent\": \"coding\", \"dependencies\": [], \"tool_hints\": [\"files\", \"shell\"], \"rag_query\": null, \"status\": 3, \"confidence\": 0.95, \"result\": null, \"error\": null, \"started_at\": \"2026-01-01T00:00:00Z\", \"finished_at\": \"2026-01-01T00:00:00Z\"}, {\"id\": \"d2724279-8ec5-5e3d-85ad-e3041f26ee2e\", \"index\": 1, \"description\": \"Write unit tests covering unit\", \"assigned_agent\": \"coding\", \"dependencies\": [\"948796c3-0b7b-5dda-a5cb-d6b48aea1b3b\"], \"tool_hints\": [\"files\", \"shell\"], \"rag_query\": null, \"status\": 3, \"confidence\": 0.95, \"result\": null, \"error\": null, \"started_at\": \"2026-01-01T00:00:00Z\", \"finished_at\": \"2026-01-01T00:00:00Z\"}, {\"id\": \"4478416b-b433-5aa3-be11-97382adb17ef\", \"index\": 2, \"description\": \"Dry-run patch application for parses\", \"assigned_agent\": \"coding\", \"dependencies\": [\"d2724279-8ec5-5e3d-85ad-e3041f26ee2e\"], \"tool_hints\": [\"files\", \"shell\"], \"rag_query\": null, \"status\": 3, \"confidence\": 0.95, \"result\": null, \"error\": null, \"started_at\": \"2026-01-01T00:00:00Z\", \"finished_at\": \"2026-01-01T00:00:00Z\"}, {\"id\": \"9a663885-3acb-5aaf-a930-0b8c87848a2e\", \"index\": 3, \"description\": \"Draft implementation for write\", \"assigned_agent\": \"coding\", \"dependencies\": [\"4478416b-b433-5aa3-be11-97382adb17ef\"], \"tool_hints\": [\"files\", \"shell\"], \"rag_query\": null, \"status\": 3, \"confidence\": 0.95, \"result\": null, \"error\": null, \"started_at\": \"2026-01-01T00:00:00Z\", \"finished_at\": \"2026-01-01T00:00:00Z\"}, {\"id\": \"92d8b644-cf02-5af7-9bd5-7d8268d3eaad\", \"index\": 4, \"description\": \"Run reflection pass on aggregated outputs; sign-off or trigger replan.\", \"assigned_agent\": \"reflection\", \"dependencies\": [\"948796c3-0b7b-5dda-a5cb-d6b48aea1b3b\", \"d2724279-8ec5-5e3d-85ad-e3041f26ee2e\", \"4478416b-b433-5aa3-be11-97382adb17ef\", \"9a663885-3acb-5aaf-a930-0b8c87848a2e\"], \"tool_hints\": [], \"rag_query\": null, \"status\": 3, \"confidence\": 0.85, \"result\": null, \"error\": null, \"started_at\": \"2026-01-01T00:00:00Z\", \"finished_at\": \"2026-01-01T00:00:00Z\"}], \"reasoning\": \"Decomposed goal 'Write a Python function parse_csv.py that parses CSV files and add unit tests' into 4 steps:\\n  · Every step has explicit dependencies (DA"
+   }
+  },
+  {
+   "label": "runs execute",
+   "method": "POST",
+   "path": "/v1/runs/execute",
+   "request": {
+    "json": {
+     "plan": {
+      "id": "087b732a-c670-58bf-8a63-4745d0ec9dbf",
+      "goal": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+      "steps": [
+       {
+        "id": "948796c3-0b7b-5dda-a5cb-d6b48aea1b3b",
+        "index": 0,
+        "description": "Draft implementation for parse_csv",
+        "assigned_agent": "coding",
+        "dependencies": [],
+        "tool_hints": [
+         "files",
+         "shell"
+        ],
+        "rag_query": null,
+        "status": 3,
+        "confidence": 0.95,
+        "result": null,
+        "error": null,
+        "started_at": "2026-01-01T00:00:00Z",
+        "finished_at": "2026-01-01T00:00:00Z"
+       },
+       {
+        "id": "d2724279-8ec5-5e3d-85ad-e3041f26ee2e",
+        "index": 1,
+        "description": "Write unit tests covering unit",
+        "assigned_agent": "coding",
+        "dependencies": [
+         "948796c3-0b7b-5dda-a5cb-d6b48aea1b3b"
+        ],
+        "tool_hints": [
+         "files",
+         "shell"
+        ],
+        "rag_query": null,
+        "status": 3,
+        "confidence": 0.95,
+        "result": null,
+        "error": null,
+        "started_at": "2026-01-01T00:00:00Z",
+        "finished_at": "2026-01-01T00:00:00Z"
+       },
+       {
+        "id": "4478416b-b433-5aa3-be11-97382adb17ef",
+        "index": 2,
+        "description": "Dry-run patch application for parses",
+        "assigned_agent": "coding",
+        "dependencies": [
+         "d2724279-8ec5-5e3d-85ad-e3041f26ee2e"
+        ],
+        "tool_hints": [
+         "files",
+         "shell"
+        ],
+        "rag_query": null,
+        "status": 3,
+        "confidence": 0.95,
+        "result": null,
+        "error": null,
+        "started_at": "2026-01-01T00:00:00Z",
+        "finished_at": "2026-01-01T00:00:00Z"
+       },
+       {
+        "id": "9a663885-3acb-5aaf-a930-0b8c87848a2e",
+        "index": 3,
+        "description": "Draft implementation for write",
+        "assigned_agent": "coding",
+        "dependencies": [
+         "4478416b-b433-5aa3-be11-97382adb17ef"
+        ],
+        "tool_hints": [
+         "files",
+         "shell"
+        ],
+        "rag_query": null,
+        "status": 3,
+        "confidence": 0.95,
+        "result": null,
+        "error": null,
+        "started_at": "2026-01-01T00:00:00Z",
+        "finished_at": "2026-01-01T00:00:00Z"
+       },
+       {
+        "id": "92d8b644-cf02-5af7-9bd5-7d8268d3eaad",
+        "index": 4,
+        "description": "Run reflection pass on aggregated outputs; sign-off or trigger replan.",
+        "assigned_agent": "reflection",
+        "dependencies": [
+         "948796c3-0b7b-5dda-a5cb-d6b48aea1b3b",
+         "d2724279-8ec5-5e3d-85ad-e3041f26ee2e",
+         "4478416b-b433-5aa3-be11-97382adb17ef",
+         "9a663885-3acb-5aaf-a930-0b8c87848a2e"
+        ],
+        "tool_hints": [],
+        "rag_query": null,
+        "status": 3,
+        "confidence": 0.85,
+        "result": null,
+        "error": null,
+        "started_at": "2026-01-01T00:00:00Z",
+        "finished_at": "2026-01-01T00:00:00Z"
+       }
+      ],
+      "reasoning": "Decomposed goal 'Write a Python function parse_csv.py that parses CSV files and add unit tests' into 4 steps:\n  · Every step has explicit dependencies (DAG — no cycles).\n  · Worker step confidence is proportional to keyword clarity.\n  · Final step is always ReflectionAgent gate.",
+      "created_at": "2026-01-01T00:00:00Z",
+      "metadata": {
+       "promotion_report": {
+        "tier_counts": {
+         "T1": 6,
+         "T2": 0,
+         "T3": 0,
+         "T4": 0,
+         "T5": 0,
+         "T6": 0
+        },
+        "provenance_tail_sha": "0000000000000000000000000000000000000000000000000000000000000000",
+        "total_events": 0
+       }
+      }
+     }
+    }
+   },
+   "status": 200,
+   "ms": 60433.43,
+   "response": {
+    "__truncated__": true,
+    "preview": "{\"ok\": true, \"data\": {\"run_id\": \"6dd62f35-790a-42b5-819e-0b27c50e6286\", \"steps\": [{\"step_id\": \"948796c3-0b7b-5dda-a5cb-d6b48aea1b3b\", \"agent_type\": \"coding\", \"status\": \"SUCCESS\", \"status_code\": 3, \"duration_ms\": 25968.150799977593, \"tokens_in\": 316, \"tokens_out\": 477, \"cost_usd\": 0.0, \"result_preview\": \"coding: (no diff — patch empty)\\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4\", \"report_type\": \"CodingPatchReport\", \"report\": {\"target_file\": \"parse_csv.py\", \"plan_steps\": [\"1. Read the current source with FilesTool (read operation).\", \"2. Identify exact snippet(s) to replace (preserve surrounding context).\", \"3. Produce per-hunk PatchStep(s) with start_line_hint for line-number fidelity.\", \"3b. Add tests/unit/test_<feature>.py — at least 2 assertions per hunk.\", \"4. Draft unit tests matching naming: tests/unit/test_<feature>.py.\", \"5. Dry-run patch application (difflib equality check) before write.\"], \"patches\": [], \"tests_added\": [\"tests/unit/test_parse_csv.py (skeleton)\"], \"docs_added\": [], \"summary\": \"(no diff — patch empty)\\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4\", \"confidence\": 0.35, \"llm_rationale\": \"provider=<ProviderType.OLLAMA: 'ollama'> model='qwen2.5-coder:7b-instruct-q4_K_M' content='### CodingPatchReport\\\\n\\\\n**Summary:**\\\\n- Draft implementation for `parse_csv.py` that parses CSV files.\\\\n- Added a basic unit test for the `parse_csv` function.\\\\n\\\\n**Patches List:**\\\\n\\\\n1. **File: parse_csv.py**\\\\n   - **Patch Type:** Create\\\\n   - **Content:**\\\\n     ```python\\\\n     import csv\\\\n\\\\n     def parse_csv(file_path):\\\\n         \\\"\\\"\\\"\\\\n         Parses a CSV file and returns a list of dictionaries.\\\\n         Each dictionary represents a row in the CSV file.\\\\n         \\\"\\\"\\\"\\\\n         with open(file_path, mode=\\\\'r\\\\', newline=\\\\'\\\\') as file:\\\\n             reader = csv.DictReader(file)\\\\n             return list(reader)\\\\n     ```\\\\n\\\\n2. **File: test_parse_csv.py**\\\\n   - **Patch Type:** Create\\\\n   - **Content:**\\\\n     ```python\\\\n     import unittest\\\\n     from parse_csv import parse_csv\\\\n\\\\n     class TestParseCSV(unittest.TestCase):\\\\n         def test_parse_csv(self):\\\\n             data = parse_csv(\\\\'test_data.csv\\\\')\\\\n             expected = [\\\\n                 {\\\\'name\\\\': \\\\'Alice\\\\', \\\\'age\\\\': \\\\'30\\\\'},\\\\n                 {\\\\'name\\\\': \\\\'Bob\\\\', \\\\'age\\\\': \\\\'25\\\\'}\\\\n             ]\\\\n             self.assertEqual(data, expected)\\\\"
+   }
+  },
+  {
+   "label": "executions by run_id",
+   "method": "GET",
+   "path": "/v1/runs/6dd62f35-790a-42b5-819e-0b27c50e6286/executions",
+   "request": {},
+   "status": 200,
+   "ms": 24.58,
+   "response": {
+    "ok": true,
+    "data": [],
+    "error": null,
+    "request_id": "625258522aa74a49b49b086c9d28e0be",
+    "meta": {
+     "limit": 25,
+     "next_cursor": null,
+     "total": 0
+    }
+   }
+  },
+  {
+   "label": "execute invalid plan",
+   "method": "POST",
+   "path": "/v1/runs/execute",
+   "request": {
+    "json": {
+     "plan": {
+      "goal": "x"
+     }
+    }
+   },
+   "status": 500,
+   "ms": 876.7,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "Internal data validation error",
+    "request_id": "5124761577cc49a58515c20c0be60845",
+    "meta": {
+     "errors": [
+      {
+       "loc": [
+        "goal"
+       ],
+       "msg": "String should have at least 5 characters",
+       "type": "string_too_short"
+      },
+      {
+       "loc": [
+        "steps"
+       ],
+       "msg": "Field required",
+       "type": "missing"
+      },
+      {
+       "loc": [
+        "reasoning"
+       ],
+       "msg": "Field required",
+       "type": "missing"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "label": "conversation create",
+   "method": "POST",
+   "path": "/v1/conversations",
+   "request": {
+    "json": {
+     "title": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+     "agent": "orchestrator",
+     "tags": [
+      "audit"
+     ]
+    }
+   },
+   "status": 200,
+   "ms": 818.96,
+   "response": {
+    "ok": true,
+    "data": {
+     "id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+     "title": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+     "status": "active",
+     "agent": "orchestrator",
+     "preview": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+     "tags": [
+      "audit"
+     ],
+     "updated_at": "2026-10-06T14:31:04.218743Z",
+     "created_at": "2026-10-06T14:31:03.421439Z",
+     "message_count": 1,
+     "token_count": 0,
+     "cost_usd": 0.0,
+     "user_id": null
+    },
+    "error": null,
+    "request_id": "990a160d20b84375b53e720e1a6b2f87",
+    "meta": {
+     "plan_id": "f207bd06-d02e-5459-b9be-0a35a633adfb",
+     "run_id": "4212feb2-1d7f-4cf2-92fa-7ffd33410ff2"
+    }
+   }
+  },
+  {
+   "label": "conversation get",
+   "method": "GET",
+   "path": "/v1/conversations/efea2c20-3b84-4cad-865e-50373ef0b7b0",
+   "request": {
+    "params": {
+     "limit_messages": 3
+    }
+   },
+   "status": 200,
+   "ms": 7.75,
+   "response": {
+    "__truncated__": true,
+    "preview": "{\"ok\": true, \"data\": {\"id\": \"efea2c20-3b84-4cad-865e-50373ef0b7b0\", \"title\": \"Write a Python function parse_csv.py that parses CSV files and add unit tests\", \"status\": \"completed\", \"agent\": \"orchestrator\", \"preview\": \"[CODING:CodingPatchReport] coding: (no diff — patch empty)\\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4\", \"tags\": [\"audit\"], \"updated_at\": \"2026-10-06T14:31:53.443223\", \"created_at\": \"2026-10-06T14:31:03.421439\", \"message_count\": 3, \"token_count\": 2594, \"cost_usd\": 0.0, \"user_id\": null, \"messages\": [{\"id\": \"487ee743-113f-4005-8fa3-712c2e4e2777\", \"conversation_id\": \"efea2c20-3b84-4cad-865e-50373ef0b7b0\", \"role\": \"assistant\", \"content\": \"**Run complete** — 5 steps executed.\\nTokens: prompt=1382, completion=1212, total=2594.\\nEstimated cost: $0.000000.\\nStatus: 5 succeeded, 0 failed.\", \"name\": null, \"tool_call_id\": null, \"tool_calls\": [], \"prompt_tokens\": 0, \"completion_tokens\": 0, \"latency_ms\": null, \"created_at\": \"2026-10-06T14:31:53.430095\", \"metadata\": {\"kind\": \"run_summary\", \"run_id\": \"4212feb2-1d7f-4cf2-92fa-7ffd33410ff2\"}}, {\"id\": \"5570b4ec-ea1d-41a2-9a03-8e746b40eb6d\", \"conversation_id\": \"efea2c20-3b84-4cad-865e-50373ef0b7b0\", \"role\": \"assistant\", \"content\": \"[REFLECTION:ReflectionReport] reflection: Reflected on answer of 482 chars, 0 tool call(s), 0 mistake(s) detected, confidence=0.90.\", \"name\": null, \"tool_call_id\": null, \"tool_calls\": [], \"prompt_tokens\": 0, \"completion_tokens\": 0, \"latency_ms\": null, \"created_at\": \"2026-10-06T14:31:53.419591\", \"metadata\": {\"step_id\": \"54319aca-f750-5e0b-8d85-8903b9b20ba7\", \"run_id\": \"fcec9a15-420d-44c6-9d0f-313184782407\", \"tokens_in\": 690, \"tokens_out\": 189, \"cost_usd\": 0.0, \"status\": 3, \"report_type\": \"ReflectionReport\"}}, {\"id\": \"7b345c54-015d-41a7-a403-7a84284814b0\", \"conversation_id\": \"efea2c20-3b84-4cad-865e-50373ef0b7b0\", \"role\": \"assistant\", \"content\": \"[CODING:CodingPatchReport] coding: (no diff — patch empty)\\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4\", \"name\": null, \"tool_call_id\": null, \"tool_calls\": [], \"prompt_tokens\": 0, \"completion_tokens\": 0, \"latency_ms\": null, \"created_at\": \"2026-10-06T14:31:53.378201\", \"metadata\": {\"step_id\": \"0b649fc3-0eb7-5cd5-b91d-aaf2d4912040\", \"run_id\": \"fcec9a15-420d-44c6-9d0f-313184782407\", \"tokens_in\": 344, \"tokens_out\": 404, \"cost_usd\": 0.0, \"status\": 3, \"report_type\": \"CodingPatchReport\"}}]}, \"error\": null, \"request_id\": \"82b8f3d3509f42308b0629251dbb9557\", \"meta\": "
+   }
+  },
+  {
+   "label": "conversation list",
+   "method": "GET",
+   "path": "/v1/conversations",
+   "request": {
+    "params": {
+     "limit": 5
+    }
+   },
+   "status": 200,
+   "ms": 11.76,
+   "response": {
+    "ok": true,
+    "data": [
+     {
+      "id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+      "title": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+      "status": "completed",
+      "agent": "orchestrator",
+      "preview": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+      "tags": [
+       "audit"
+      ],
+      "updated_at": "2026-10-06T14:31:53.443223",
+      "created_at": "2026-10-06T14:31:03.421439",
+      "message_count": 7,
+      "token_count": 2594,
+      "cost_usd": 0.0,
+      "user_id": null
+     }
+    ],
+    "error": null,
+    "request_id": "daae6cdf3dbd40aeb95961283326c5fe",
+    "meta": {
+     "limit": 5,
+     "next_cursor": null,
+     "total": 1
+    }
+   }
+  },
+  {
+   "label": "conversation patch",
+   "method": "PATCH",
+   "path": "/v1/conversations/efea2c20-3b84-4cad-865e-50373ef0b7b0",
+   "request": {
+    "json": {
+     "title": "Renamed audit thread",
+     "tags": [
+      "audit",
+      "doc"
+     ]
+    }
+   },
+   "status": 200,
+   "ms": 18.29,
+   "response": {
+    "ok": true,
+    "data": {
+     "id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+     "title": "Renamed audit thread",
+     "status": "completed",
+     "agent": "orchestrator",
+     "preview": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+     "tags": [
+      "audit",
+      "doc"
+     ],
+     "updated_at": "2026-10-06T14:31:53.725453Z",
+     "created_at": "2026-10-06T14:31:03.421439",
+     "message_count": 7,
+     "token_count": 2594,
+     "cost_usd": 0.0,
+     "user_id": null
+    },
+    "error": null,
+    "request_id": "d756fbcef493470b9b648412932ba967",
+    "meta": {}
+   }
+  },
+  {
+   "label": "message append",
+   "method": "POST",
+   "path": "/v1/conversations/efea2c20-3b84-4cad-865e-50373ef0b7b0/messages",
+   "request": {
+    "json": {
+     "role": "user",
+     "content": "Please also document edge cases."
+    }
+   },
+   "status": 200,
+   "ms": 22.2,
+   "response": {
+    "ok": true,
+    "data": {
+     "id": "e523c5b3-e9f6-4879-b6c3-060c7be87116",
+     "conversation_id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+     "role": "user",
+     "content": "Please also document edge cases.",
+     "name": null,
+     "tool_call_id": null,
+     "tool_calls": [],
+     "prompt_tokens": 0,
+     "completion_tokens": 0,
+     "latency_ms": null,
+     "created_at": "2026-10-06T14:31:53.743318Z",
+     "metadata": {}
+    },
+    "error": null,
+    "request_id": "02abf6bacfe14b0d9aa74221a0ca33d1",
+    "meta": {}
+   }
+  },
+  {
+   "label": "messages list",
+   "method": "GET",
+   "path": "/v1/conversations/efea2c20-3b84-4cad-865e-50373ef0b7b0/messages",
+   "request": {
+    "params": {
+     "limit": 2
+    }
+   },
+   "status": 200,
+   "ms": 6.35,
+   "response": {
+    "ok": true,
+    "data": [
+     {
+      "id": "487ee743-113f-4005-8fa3-712c2e4e2777",
+      "conversation_id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+      "role": "assistant",
+      "content": "**Run complete** — 5 steps executed.\nTokens: prompt=1382, completion=1212, total=2594.\nEstimated cost: $0.000000.\nStatus: 5 succeeded, 0 failed.",
+      "name": null,
+      "tool_call_id": null,
+      "tool_calls": [],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": null,
+      "created_at": "2026-10-06T14:31:53.430095",
+      "metadata": {
+       "kind": "run_summary",
+       "run_id": "4212feb2-1d7f-4cf2-92fa-7ffd33410ff2"
+      }
+     },
+     {
+      "id": "5570b4ec-ea1d-41a2-9a03-8e746b40eb6d",
+      "conversation_id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+      "role": "assistant",
+      "content": "[REFLECTION:ReflectionReport] reflection: Reflected on answer of 482 chars, 0 tool call(s), 0 mistake(s) detected, confidence=0.90.",
+      "name": null,
+      "tool_call_id": null,
+      "tool_calls": [],
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "latency_ms": null,
+      "created_at": "2026-10-06T14:31:53.419591",
+      "metadata": {
+       "step_id": "54319aca-f750-5e0b-8d85-8903b9b20ba7",
+       "run_id": "fcec9a15-420d-44c6-9d0f-313184782407",
+       "tokens_in": 690,
+       "tokens_out": 189,
+       "cost_usd": 0.0,
+       "status": 3,
+       "report_type": "ReflectionReport"
+      }
+     }
+    ],
+    "error": null,
+    "request_id": "546bd924beb64d33ae0150862009f5c7",
+    "meta": {
+     "limit": 2,
+     "next_cursor": "5570b4ec-ea1d-41a2-9a03-8e746b40eb6d",
+     "total": 3
+    }
+   }
+  },
+  {
+   "label": "conversation 404",
+   "method": "GET",
+   "path": "/v1/conversations/00000000-0000-0000-0000-000000000000",
+   "request": {},
+   "status": 404,
+   "ms": 3.69,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "Conversation 00000000-0000-0000-0000-000000000000 not found",
+    "request_id": "1aeeccb6384941fb82ec7402a2b10acc",
+    "meta": {}
+   }
+  },
+  {
+   "label": "conversation 422",
+   "method": "POST",
+   "path": "/v1/conversations",
+   "request": {
+    "json": {}
+   },
+   "status": 422,
+   "ms": 2.01,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "Request validation failed",
+    "request_id": "2c39dd74f0ac44cf97fa06accf917dda",
+    "meta": {
+     "errors": [
+      {
+       "loc": [
+        "body",
+        "title"
+       ],
+       "msg": "Field required",
+       "type": "missing"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "label": "executions by conversation id",
+   "method": "GET",
+   "path": "/v1/runs/efea2c20-3b84-4cad-865e-50373ef0b7b0/executions",
+   "request": {},
+   "status": 200,
+   "ms": 6.83,
+   "response": {
+    "__truncated__": true,
+    "preview": "{\"ok\": true, \"data\": [{\"id\": \"4719ebb7-d2db-4575-801e-4ae8f750f5b0\", \"conversation_id\": \"efea2c20-3b84-4cad-865e-50373ef0b7b0\", \"run_id\": null, \"plan_step_id\": \"0b649fc3-0eb7-5cd5-b91d-aaf2d4912040\", \"agent_type\": \"coding\", \"description\": \"Draft implementation for parse_csv\", \"status\": 3, \"input_tokens\": 344, \"output_tokens\": 404, \"cost_usd\": 0.0, \"duration_ms\": 16820.070100016892, \"error\": null, \"result_preview\": \"coding: (no diff — patch empty)\\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4\", \"metadata\": {\"step_index\": 0, \"dependencies\": [], \"report_type\": \"CodingPatchReport\", \"user_id\": null, \"mode\": \"deterministic\", \"model_used\": \"\", \"tokens_in\": 344, \"tokens_out\": 404, \"cost_usd\": 0.0, \"patch_count\": 0}, \"created_at\": \"2026-10-06T14:31:21.058026\"}, {\"id\": \"73b18eb2-27f8-484e-bcd8-02538d62d5b9\", \"conversation_id\": \"efea2c20-3b84-4cad-865e-50373ef0b7b0\", \"run_id\": null, \"plan_step_id\": \"54319aca-f750-5e0b-8d85-8903b9b20ba7\", \"agent_type\": \"reflection\", \"description\": \"Run reflection pass on aggregated outputs; sign-off or trigger replan.\", \"status\": 3, \"input_tokens\": 690, \"output_tokens\": 189, \"cost_usd\": 0.0, \"duration_ms\": 8398.187400016468, \"error\": null, \"result_preview\": \"reflection: Reflected on answer of 482 chars, 0 tool call(s), 0 mistake(s) detected, confidence=0.90.\", \"metadata\": {\"step_index\": 4, \"dependencies\": [\"0b649fc3-0eb7-5cd5-b91d-aaf2d4912040\", \"6451bd14-9d1c-59b9-a233-88486918c00d\", \"5e80bbc5-4234-5709-a32f-6767cea79d86\", \"947060e0-943d-5619-b567-bdc1f6ac423f\"], \"report_type\": \"ReflectionReport\", \"user_id\": null, \"mode\": \"deterministic\", \"model_used\": \"\", \"tokens_in\": 690, \"tokens_out\": 189, \"cost_usd\": 0.0}, \"created_at\": \"2026-10-06T14:31:53.366671\"}, {\"id\": \"99c99c20-d982-479f-88f7-fb32dcf5673c\", \"conversation_id\": \"efea2c20-3b84-4cad-865e-50373ef0b7b0\", \"run_id\": null, \"plan_step_id\": \"6451bd14-9d1c-59b9-a233-88486918c00d\", \"agent_type\": \"coding\", \"description\": \"Write unit tests covering unit\", \"status\": 3, \"input_tokens\": 0, \"output_tokens\": 0, \"cost_usd\": 0.0, \"duration_ms\": 5.31739997677505, \"error\": null, \"result_preview\": \"coding: (no diff — patch empty)\\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4\", \"metadata\": {\"step_index\": 1, \"dependencies\": [\"0b649fc3-0eb7-5cd5-b91d-aaf2d4912040\"], \"report_type\": \"CodingPatchReport\", \"user_id\": null, \"mode\": \"deterministic\", \"model_used\": \"\", \"patch_count\": 0}, \"created_at\": \"2026-10-06T14:31:21.073"
+   }
+  },
+  {
+   "label": "document create",
+   "method": "POST",
+   "path": "/v1/documents",
+   "request": {
+    "json": {
+     "title": "Design notes",
+     "source_uri": "file:///notes.md",
+     "mime_type": "text/markdown"
+    }
+   },
+   "status": 200,
+   "ms": 8.98,
+   "response": {
+    "ok": true,
+    "data": {
+     "id": "4a91cb39-a436-402e-92e9-946a27503ecb",
+     "user_id": null,
+     "title": "Design notes",
+     "source_uri": "file:///notes.md",
+     "mime_type": "text/markdown",
+     "byte_size": 0,
+     "chunk_count": 0,
+     "ingestion_status": "pending",
+     "metadata": {},
+     "created_at": "2026-10-06T14:31:53.782520Z"
+    },
+    "error": null,
+    "request_id": "10f06c7061f84708acaff34646d7dbc5",
+    "meta": {}
+   }
+  },
+  {
+   "label": "documents list",
+   "method": "GET",
+   "path": "/v1/documents",
+   "request": {},
+   "status": 200,
+   "ms": 7.42,
+   "response": {
+    "ok": true,
+    "data": [
+     {
+      "id": "4a91cb39-a436-402e-92e9-946a27503ecb",
+      "user_id": null,
+      "title": "Design notes",
+      "source_uri": "file:///notes.md",
+      "mime_type": "text/markdown",
+      "byte_size": 0,
+      "chunk_count": 0,
+      "ingestion_status": "pending",
+      "metadata": {},
+      "created_at": "2026-10-06T14:31:53.782520"
+     }
+    ],
+    "error": null,
+    "request_id": "521dca8423534999bf4e12d9c57e81f9",
+    "meta": {
+     "limit": 25,
+     "next_cursor": null,
+     "total": 1
+    }
+   }
+  },
+  {
+   "label": "document get",
+   "method": "GET",
+   "path": "/v1/documents/4a91cb39-a436-402e-92e9-946a27503ecb",
+   "request": {},
+   "status": 200,
+   "ms": 4.94,
+   "response": {
+    "ok": true,
+    "data": {
+     "id": "4a91cb39-a436-402e-92e9-946a27503ecb",
+     "user_id": null,
+     "title": "Design notes",
+     "source_uri": "file:///notes.md",
+     "mime_type": "text/markdown",
+     "byte_size": 0,
+     "chunk_count": 0,
+     "ingestion_status": "pending",
+     "metadata": {},
+     "created_at": "2026-10-06T14:31:53.782520"
+    },
+    "error": null,
+    "request_id": "84c6de285db140dab05897504a70d91b",
+    "meta": {}
+   }
+  },
+  {
+   "label": "document upload",
+   "method": "POST",
+   "path": "/v1/documents/upload",
+   "request": {
+    "data": {
+     "title": "Audit upload"
+    }
+   },
+   "status": 200,
+   "ms": 15.63,
+   "response": {
+    "ok": true,
+    "data": {
+     "id": "5baf023e-08cf-46a6-a50b-5e95bbe1eb8e",
+     "user_id": null,
+     "title": "Audit upload",
+     "source_uri": "upload://e5064f9afd4740ff95e2e9bfeca5f4d0/audit.txt",
+     "mime_type": "text/plain",
+     "byte_size": 6300,
+     "chunk_count": 3,
+     "ingestion_status": "ready",
+     "metadata": {
+      "filename": "audit.txt",
+      "uploaded_at": "2026-10-06T14:31:53.804443+00:00"
+     },
+     "created_at": "2026-10-06T14:31:53.804451Z"
+    },
+    "error": null,
+    "request_id": "e5064f9afd4740ff95e2e9bfeca5f4d0",
+    "meta": {}
+   }
+  },
+  {
+   "label": "document delete",
+   "method": "DELETE",
+   "path": "/v1/documents/4a91cb39-a436-402e-92e9-946a27503ecb",
+   "request": {},
+   "status": 200,
+   "ms": 10.04,
+   "response": {
+    "ok": true,
+    "data": {
+     "deleted": true
+    },
+    "error": null,
+    "request_id": "cd0e413088474cabaf01c219706b7a22",
+    "meta": {}
+   }
+  },
+  {
+   "label": "document delete again (404)",
+   "method": "DELETE",
+   "path": "/v1/documents/4a91cb39-a436-402e-92e9-946a27503ecb",
+   "request": {},
+   "status": 404,
+   "ms": 4.01,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "Document 4a91cb39-a436-402e-92e9-946a27503ecb not found",
+    "request_id": "c9903e803bd04bb184a6fca8ed615d3f",
+    "meta": {}
+   }
+  },
+  {
+   "label": "memory list",
+   "method": "GET",
+   "path": "/v1/memory",
+   "request": {},
+   "status": 200,
+   "ms": 7.53,
+   "response": {
+    "ok": true,
+    "data": [],
+    "error": null,
+    "request_id": "c1558cb2bfd24ab3b2fb7ba2cd2e4a53",
+    "meta": {
+     "limit": 25,
+     "next_cursor": null,
+     "total": 0
+    }
+   }
+  },
+  {
+   "label": "memory query",
+   "method": "POST",
+   "path": "/v1/memory/query",
+   "request": {
+    "json": {
+     "content": "csv parsing tests",
+     "top_k": 5
+    }
+   },
+   "status": 200,
+   "ms": 7.33,
+   "response": {
+    "ok": true,
+    "data": [],
+    "error": null,
+    "request_id": "1b0934843441450e86001d37eb8a2770",
+    "meta": {}
+   }
+  },
+  {
+   "label": "memory compress",
+   "method": "POST",
+   "path": "/v1/memory/compress",
+   "request": {
+    "json": {
+     "older_than_days": 30
+    }
+   },
+   "status": 200,
+   "ms": 6.08,
+   "response": {
+    "ok": true,
+    "data": {
+     "compressed_count": 0,
+     "ids": []
+    },
+    "error": null,
+    "request_id": "417fd98bfc03493cb7e1404047a831df",
+    "meta": {}
+   }
+  },
+  {
+   "label": "uap transports",
+   "method": "GET",
+   "path": "/v1/uap/transports",
+   "request": {},
+   "status": 200,
+   "ms": 1.96,
+   "response": {
+    "ok": true,
+    "data": [
+     {
+      "id": "inproc",
+      "scheme": "memory",
+      "endpoint": "astra.uap.inproc",
+      "state": "available"
+     },
+     {
+      "id": "http",
+      "scheme": "https",
+      "endpoint": "/v1/uap/envelope/send",
+      "state": "available"
+     }
+    ],
+    "error": null,
+    "request_id": "d214d57be2f94320b57ae9b60dc028bb",
+    "meta": {}
+   }
+  },
+  {
+   "label": "uap bind inproc",
+   "method": "POST",
+   "path": "/v1/uap/transports/inproc",
+   "request": {
+    "json": {
+     "actor_id": "audit-actor",
+     "capabilities": [
+      "send_message"
+     ]
+    }
+   },
+   "status": 200,
+   "ms": 2.25,
+   "response": {
+    "ok": true,
+    "data": {
+     "transport_id": "inproc",
+     "actor_id": "audit-actor",
+     "token": "uap.023235f7726244dea927a8a6f8fb8f65.1791297113",
+     "capabilities": [
+      "send_message"
+     ],
+     "send_url": "/v1/uap/envelope/send",
+     "created_at": "2026-10-06T14:31:53.856482+00:00"
+    },
+    "error": null,
+    "request_id": "bc5fe476a4154e00aba7bd894f18803e",
+    "meta": {}
+   }
+  },
+  {
+   "label": "uap envelope send",
+   "method": "POST",
+   "path": "/v1/uap/envelope/send",
+   "request": {
+    "json": {
+     "from": "a",
+     "to": "b",
+     "kind": "message",
+     "payload": {
+      "x": 1
+     }
+    }
+   },
+   "status": 200,
+   "ms": 2.41,
+   "response": {
+    "ok": true,
+    "data": {
+     "accepted": true,
+     "envelope_id": "b8be5317db1e4de2ba24ee6e56f7e81e",
+     "routed_to": "b",
+     "payload_sha256": "9173335d6fdd7444c3006dbfd621acb01b9fcc420660321ccdd2009e912c7f10",
+     "request_id": "2a33c20a023542c7ac070502ffbbeb28",
+     "received_at": "2026-10-06T14:31:53.858891+00:00"
+    },
+    "error": null,
+    "request_id": "2a33c20a023542c7ac070502ffbbeb28",
+    "meta": {}
+   }
+  },
+  {
+   "label": "metrics json",
+   "method": "GET",
+   "path": "/v1/metrics_json",
+   "request": {},
+   "status": 200,
+   "ms": 3.88,
+   "response": {
+    "__truncated__": true,
+    "preview": "{\"ok\": true, \"data\": {\"counters\": {\"python_gc_objects_collected\": {\"generation=0\": 18547, \"generation=1\": 2518, \"generation=2\": 134}, \"python_gc_objects_uncollectable\": {\"generation=0\": 0, \"generation=1\": 0, \"generation=2\": 0}, \"python_gc_collections\": {\"generation=0\": 142, \"generation=1\": 12, \"generation=2\": 1}, \"backend_http_requests\": {\"method=GET,route=/,status=200\": 1.0, \"method=GET,route=/health/livez,status=200\": 1.0, \"method=GET,route=/health/readyz,status=200\": 1.0, \"method=GET,route=/v1/health,status=200\": 1.0, \"method=GET,route=/v1/kernel/state,status=200\": 1.0, \"method=GET,route=/v1/kernel/stats,status=200\": 1.0, \"method=GET,route=/v1/kernel/traces,status=200\": 1.0, \"method=POST,route=/v1/auth/login,status=200\": 1.0, \"method=GET,route=/v1/auth/me,status=200\": 1.0, \"method=GET,route=/v1/auth/me,status=401\": 3.0, \"method=POST,route=/v1/auth/refresh,status=200\": 1.0, \"method=POST,route=/v1/auth/login,status=401\": 7.0, \"method=POST,route=/v1/auth/login,status=422\": 1.0, \"method=POST,route=/v1/auth/login,status=429\": 2.0, \"method=GET,route=/v1/observability/summary,status=200\": 1.0, \"method=GET,route=/v1/agents,status=200\": 1.0, \"method=POST,route=/v1/agents/invoke,status=200\": 3.0, \"method=POST,route=/v1/agents/invoke,status=400\": 1.0, \"method=POST,route=/v1/runs/plan,status=200\": 1.0, \"method=POST,route=/v1/runs/execute,status=200\": 1.0, \"method=GET,route=/v1/runs/6dd62f35-790a-42b5-819e-0b27c50e6286/executions,status=200\": 1.0, \"method=POST,route=/v1/runs/execute,status=500\": 1.0, \"method=POST,route=/v1/conversations,status=200\": 1.0, \"method=GET,route=/v1/conversations/efea2c20-3b84-4cad-865e-50373ef0b7b0,status=200\": 96.0, \"method=GET,route=/v1/conversations,status=200\": 1.0, \"method=PATCH,route=/v1/conversations/efea2c20-3b84-4cad-865e-50373ef0b7b0,status=200\": 1.0, \"method=POST,route=/v1/conversations/efea2c20-3b84-4cad-865e-50373ef0b7b0/messages,status=200\": 1.0, \"method=GET,route=/v1/conversations/efea2c20-3b84-4cad-865e-50373ef0b7b0/messages,status=200\": 1.0, \"method=GET,route=/v1/conversations/00000000-0000-0000-0000-000000000000,status=404\": 1.0, \"method=POST,route=/v1/conversations,status=422\": 1.0, \"method=GET,route=/v1/runs/efea2c20-3b84-4cad-865e-50373ef0b7b0/executions,status=200\": 1.0, \"method=POST,route=/v1/documents,status=200\": 1.0, \"method=GET,route=/v1/documents,status=200\": 1.0, \"method=GET,route=/v1/documents/4a91cb39-a436-402e-92e9-946a27503ecb,status=200\": 1.0, \"method=POST,route=/v1/documents/upload,status=200\": 1.0, \"met"
+   }
+  },
+  {
+   "label": "llm benchmark no token",
+   "method": "GET",
+   "path": "/llm/benchmark",
+   "request": {},
+   "status": 403,
+   "ms": 3.74,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "C1_DENY_MISSING_CAP: missing X-Noesis-Capability-Token header (MAC-gated endpoint requires a signed capability token)",
+    "request_id": "214c5a41f94040cbae20f42fc9a1393a",
+    "meta": {}
+   }
+  },
+  {
+   "label": "llm benchmark malformed token",
+   "method": "GET",
+   "path": "/llm/benchmark",
+   "request": {
+    "headers": {
+     "X-Noesis-Capability-Token": "not-a-token"
+    }
+   },
+   "status": 403,
+   "ms": 2.02,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "C1_DENY_MAC: malformed capability token (expected b64payload.b64mac)",
+    "request_id": "f3a56cfd2f9d42399899ffa523dce095",
+    "meta": {}
+   }
+  },
+  {
+   "label": "llm benchmark wrong secret",
+   "method": "GET",
+   "path": "/llm/benchmark",
+   "request": {
+    "headers": {
+     "X-Noesis-Capability-Token": "eyJjYXBhYmlsaXRpZXMiOiBb…"
+    }
+   },
+   "status": 403,
+   "ms": 1.91,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "C1_DENY_MAC: capability token HMAC signature verification failed",
+    "request_id": "7801e938bb5a4f5da03b4c3de6204e0a",
+    "meta": {}
+   }
+  },
+  {
+   "label": "llm benchmark expired",
+   "method": "GET",
+   "path": "/llm/benchmark",
+   "request": {
+    "headers": {
+     "X-Noesis-Capability-Token": "eyJjYXBhYmlsaXRpZXMiOiBb…"
+    }
+   },
+   "status": 403,
+   "ms": 1.8,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "C1_DENY_EXPIRED: capability token expired at unix_ts=1791297103",
+    "request_id": "1d1b7c1acfbf478e883ba526760b9370",
+    "meta": {}
+   }
+  },
+  {
+   "label": "llm benchmark missing cap",
+   "method": "GET",
+   "path": "/llm/benchmark",
+   "request": {
+    "headers": {
+     "X-Noesis-Capability-Token": "eyJjYXBhYmlsaXRpZXMiOiBb…"
+    }
+   },
+   "status": 403,
+   "ms": 1.72,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "C1_DENY_MISSING_CAP: caller lacks required capability 'llm.benchmark.read' (capabilities on token: bench.results.read)",
+    "request_id": "686639819a5f4bb88c8922c2bf5ef593",
+    "meta": {}
+   }
+  },
+  {
+   "label": "llm benchmark deny mask",
+   "method": "GET",
+   "path": "/llm/benchmark",
+   "request": {
+    "headers": {
+     "X-Noesis-Capability-Token": "eyJjYXBhYmlsaXRpZXMiOiBb…"
+    }
+   },
+   "status": 403,
+   "ms": 1.78,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "C1_DENY_MASK: deny mask 'llm.*' matched required capability 'llm.benchmark.read' (negative capability precedence: deny always wins)",
+    "request_id": "c7506b1b6deb459580ae4a7ed9e2d06a",
+    "meta": {}
+   }
+  },
+  {
+   "label": "llm benchmark ok",
+   "method": "GET",
+   "path": "/llm/benchmark",
+   "request": {
+    "headers": {
+     "X-Noesis-Capability-Token": "eyJjYXBhYmlsaXRpZXMiOiBb…"
+    },
+    "params": {
+     "prompt_tokens": 64
+    }
+   },
+   "status": 200,
+   "ms": 1061.2,
+   "response": {
+    "ok": true,
+    "data": {
+     "provider": "ollama",
+     "model": "gpt-4o-mini",
+     "reachable": true,
+     "used_mock": true,
+     "prompt_tokens": 64,
+     "completion_tokens": 32,
+     "total_tokens": 96,
+     "latency_ms": 532.34,
+     "first_token_latency_ms": 186.32,
+     "prompt_tokens_per_sec": 120.22,
+     "completion_tokens_per_sec": 60.11,
+     "fallback_provider": "ollama",
+     "error": "HTTPStatusError: Client error '404 Not Found' for url 'http://localhost:11434/api/chat'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
+    },
+    "error": null,
+    "request_id": "0245e96d871a4c2baf62af1d4631f065",
+    "meta": {}
+   }
+  },
+  {
+   "label": "bench results ok",
+   "method": "GET",
+   "path": "/api/bench/results",
+   "request": {
+    "headers": {
+     "X-Noesis-Capability-Token": "eyJjYXBhYmlsaXRpZXMiOiBb…"
+    }
+   },
+   "status": 200,
+   "ms": 7.68,
+   "response": {
+    "__truncated__": true,
+    "preview": "{\"ok\": true, \"data\": {\"se50\": {\"overall_pass_at_1\": 1.0, \"overall_ci_low\": 0.5655085052479191, \"overall_ci_high\": 1.0, \"n_total\": 5, \"n_correct\": 5, \"per_category\": [{\"category\": \"Rust_Systems\", \"n_total\": 5, \"n_correct\": 5, \"pass_at_1\": 1.0, \"ci_low\": 0.5655085052479191, \"ci_high\": 1.0}], \"per_difficulty\": [{\"difficulty\": \"EASY\", \"n_total\": 2, \"n_correct\": 2, \"pass_at_1\": 1.0}, {\"difficulty\": \"MEDIUM\", \"n_total\": 3, \"n_correct\": 3, \"pass_at_1\": 1.0}]}, \"se50_rows\": [{\"task_id\": \"R01\", \"category\": \"Rust_Systems\", \"difficulty\": \"easy\", \"tristate\": \"signoff\", \"duration_ms\": 1, \"plan_sha\": \"a7c66761abbf6007\", \"kriyakari_conf\": 0.8972549019607843, \"samples\": 1}, {\"task_id\": \"R01\", \"category\": \"Rust_Systems\", \"difficulty\": \"easy\", \"tristate\": \"signoff\", \"duration_ms\": 0, \"plan_sha\": \"b786f8a8da7762c2\", \"kriyakari_conf\": 0.8811764705882353, \"samples\": 1}, {\"task_id\": \"R01\", \"category\": \"Rust_Systems\", \"difficulty\": \"easy\", \"tristate\": \"signoff\", \"duration_ms\": 0, \"plan_sha\": \"4419eefb71afbc43\", \"kriyakari_conf\": 0.9396078431372549, \"samples\": 1}, {\"task_id\": \"R02\", \"category\": \"Rust_Systems\", \"difficulty\": \"easy\", \"tristate\": \"signoff\", \"duration_ms\": 0, \"plan_sha\": \"d2edfe3c0607088f\", \"kriyakari_conf\": 0.9647058823529412, \"samples\": 1}, {\"task_id\": \"R02\", \"category\": \"Rust_Systems\", \"difficulty\": \"easy\", \"tristate\": \"signoff\", \"duration_ms\": 0, \"plan_sha\": \"1cccf92dff4f66a9\", \"kriyakari_conf\": 0.9243137254901961, \"samples\": 1}, {\"task_id\": \"R02\", \"category\": \"Rust_Systems\", \"difficulty\": \"easy\", \"tristate\": \"signoff\", \"duration_ms\": 0, \"plan_sha\": \"1cd4bb644a13c5b5\", \"kriyakari_conf\": 0.9258823529411765, \"samples\": 1}, {\"task_id\": \"R03\", \"category\": \"Rust_Systems\", \"difficulty\": \"medium\", \"tristate\": \"signoff\", \"duration_ms\": 0, \"plan_sha\": \"240bafe92dde4fbd\", \"kriyakari_conf\": 0.9203921568627451, \"samples\": 1}, {\"task_id\": \"R03\", \"category\": \"Rust_Systems\", \"difficulty\": \"medium\", \"tristate\": \"signoff\", \"duration_ms\": 0, \"plan_sha\": \"54d16f98bd9cc83a\", \"kriyakari_conf\": 0.9329411764705883, \"samples\": 1}, {\"task_id\": \"R03\", \"category\": \"Rust_Systems\", \"difficulty\": \"medium\", \"tristate\": \"signoff\", \"duration_ms\": 0, \"plan_sha\": \"294a4d60a81671ce\", \"kriyakari_conf\": 0.9486274509803921, \"samples\": 1}, {\"task_id\": \"R04\", \"category\": \"Rust_Systems\", \"difficulty\": \"medium\", \"tristate\": \"signoff\", \"duration_ms\": 0, \"plan_sha\": \"97a4fd2cb3c2d38b\", \"kriyakari_conf\": 0.8960784313725491, \"samples\": 1}, {\"task_id\": \"R04\", \"category\": \"Rust_Systems\", \"difficulty\": \"medium\","
+   }
+  },
+  {
+   "label": "bench results no token",
+   "method": "GET",
+   "path": "/api/bench/results",
+   "request": {},
+   "status": 403,
+   "ms": 1.52,
+   "response": {
+    "ok": false,
+    "data": null,
+    "error": "C1_DENY_MISSING_CAP: missing X-Noesis-Capability-Token header (MAC-gated endpoint requires a signed capability token)",
+    "request_id": "c7ac1475735e4ae1a17873d6cab3d776",
+    "meta": {}
+   }
+  }
+ ],
+ "latency": {},
+ "notes": [],
+ "rate_limit_login_statuses": [
+  401,
+  401,
+  401,
+  401,
+  401,
+  429
+ ],
+ "execute_wall_ms": 60434.2,
+ "execute_steps": [
+  {
+   "agent_type": "coding",
+   "status": "SUCCESS",
+   "duration_ms": 25968.150799977593,
+   "tokens_in": 316,
+   "tokens_out": 477,
+   "report_type": "CodingPatchReport",
+   "result_preview": "coding: (no diff — patch empty)\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4"
+  },
+  {
+   "agent_type": "coding",
+   "status": "SUCCESS",
+   "duration_ms": 5.30999997863546,
+   "tokens_in": 0,
+   "tokens_out": 0,
+   "report_type": "CodingPatchReport",
+   "result_preview": "coding: (no diff — patch empty)\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4"
+  },
+  {
+   "agent_type": "coding",
+   "status": "SUCCESS",
+   "duration_ms": 20794.90999999689,
+   "tokens_in": 318,
+   "tokens_out": 534,
+   "report_type": "CodingPatchReport",
+   "result_preview": "coding: (no diff — patch empty)\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4"
+  },
+  {
+   "agent_type": "coding",
+   "status": "SUCCESS",
+   "duration_ms": 6.291500001680106,
+   "tokens_in": 0,
+   "tokens_out": 0,
+   "report_type": "CodingPatchReport",
+   "result_preview": "coding: (no diff — patch empty)\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4"
+  },
+  {
+   "agent_type": "reflection",
+   "status": "SUCCESS",
+   "duration_ms": 12881.900600041263,
+   "tokens_in": 661,
+   "tokens_out": 318,
+   "report_type": "ReflectionReport",
+   "result_preview": "reflection: Reflected on answer of 482 chars, 0 tool call(s), 0 mistake(s) detected, confidence=0.90."
+  }
+ ],
+ "conversation_bg_run_wall_s": 49.46,
+ "conversation_final": {
+  "id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+  "title": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+  "status": "completed",
+  "agent": "orchestrator",
+  "preview": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+  "tags": [
+   "audit"
+  ],
+  "updated_at": "2026-10-06T14:31:53.443223",
+  "created_at": "2026-10-06T14:31:03.421439",
+  "message_count": 7,
+  "token_count": 2594,
+  "cost_usd": 0.0,
+  "user_id": null,
+  "messages": [
+   {
+    "id": "487ee743-113f-4005-8fa3-712c2e4e2777",
+    "conversation_id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+    "role": "assistant",
+    "content": "**Run complete** — 5 steps executed.\nTokens: prompt=1382, completion=1212, total=2594.\nEstimated cost: $0.000000.\nStatus: 5 succeeded, 0 failed.",
+    "name": null,
+    "tool_call_id": null,
+    "tool_calls": [],
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "latency_ms": null,
+    "created_at": "2026-10-06T14:31:53.430095",
+    "metadata": {
+     "kind": "run_summary",
+     "run_id": "4212feb2-1d7f-4cf2-92fa-7ffd33410ff2"
+    }
+   },
+   {
+    "id": "5570b4ec-ea1d-41a2-9a03-8e746b40eb6d",
+    "conversation_id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+    "role": "assistant",
+    "content": "[REFLECTION:ReflectionReport] reflection: Reflected on answer of 482 chars, 0 tool call(s), 0 mistake(s) detected, confidence=0.90.",
+    "name": null,
+    "tool_call_id": null,
+    "tool_calls": [],
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "latency_ms": null,
+    "created_at": "2026-10-06T14:31:53.419591",
+    "metadata": {
+     "step_id": "54319aca-f750-5e0b-8d85-8903b9b20ba7",
+     "run_id": "fcec9a15-420d-44c6-9d0f-313184782407",
+     "tokens_in": 690,
+     "tokens_out": 189,
+     "cost_usd": 0.0,
+     "status": 3,
+     "report_type": "ReflectionReport"
+    }
+   },
+   {
+    "id": "7b345c54-015d-41a7-a403-7a84284814b0",
+    "conversation_id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+    "role": "assistant",
+    "content": "[CODING:CodingPatchReport] coding: (no diff — patch empty)\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4",
+    "name": null,
+    "tool_call_id": null,
+    "tool_calls": [],
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "latency_ms": null,
+    "created_at": "2026-10-06T14:31:53.378201",
+    "metadata": {
+     "step_id": "0b649fc3-0eb7-5cd5-b91d-aaf2d4912040",
+     "run_id": "fcec9a15-420d-44c6-9d0f-313184782407",
+     "tokens_in": 344,
+     "tokens_out": 404,
+     "cost_usd": 0.0,
+     "status": 3,
+     "report_type": "CodingPatchReport"
+    }
+   },
+   {
+    "id": "90d94c66-cf36-4eca-beae-5e4821ce7c0c",
+    "conversation_id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+    "role": "assistant",
+    "content": "[CODING:CodingPatchReport] coding: (no diff — patch empty)\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4",
+    "name": null,
+    "tool_call_id": null,
+    "tool_calls": [],
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "latency_ms": null,
+    "created_at": "2026-10-06T14:31:53.409476",
+    "metadata": {
+     "step_id": "947060e0-943d-5619-b567-bdc1f6ac423f",
+     "run_id": "fcec9a15-420d-44c6-9d0f-313184782407",
+     "tokens_in": 0,
+     "tokens_out": 0,
+     "cost_usd": 0.0,
+     "status": 3,
+     "report_type": "CodingPatchReport"
+    }
+   },
+   {
+    "id": "b5318c7a-7264-460a-ba9b-442fce5ed223",
+    "conversation_id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+    "role": "assistant",
+    "content": "[CODING:CodingPatchReport] coding: (no diff — patch empty)\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4",
+    "name": null,
+    "tool_call_id": null,
+    "tool_calls": [],
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "latency_ms": null,
+    "created_at": "2026-10-06T14:31:53.398691",
+    "metadata": {
+     "step_id": "5e80bbc5-4234-5709-a32f-6767cea79d86",
+     "run_id": "fcec9a15-420d-44c6-9d0f-313184782407",
+     "tokens_in": 348,
+     "tokens_out": 619,
+     "cost_usd": 0.0,
+     "status": 3,
+     "report_type": "CodingPatchReport"
+    }
+   },
+   {
+    "id": "d6d74c90-3cad-47e4-96d4-c6206b1ded03",
+    "conversation_id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+    "role": "assistant",
+    "content": "[CODING:CodingPatchReport] coding: (no diff — patch empty)\npatched_content_sha256=0694726448f07cd3a7ff347b3a829cfc9cbd45451ac04b6ba2a918c2437187b4",
+    "name": null,
+    "tool_call_id": null,
+    "tool_calls": [],
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "latency_ms": null,
+    "created_at": "2026-10-06T14:31:53.389330",
+    "metadata": {
+     "step_id": "6451bd14-9d1c-59b9-a233-88486918c00d",
+     "run_id": "fcec9a15-420d-44c6-9d0f-313184782407",
+     "tokens_in": 0,
+     "tokens_out": 0,
+     "cost_usd": 0.0,
+     "status": 3,
+     "report_type": "CodingPatchReport"
+    }
+   },
+   {
+    "id": "e082de74-3043-4a54-bd68-64e9ca59879b",
+    "conversation_id": "efea2c20-3b84-4cad-865e-50373ef0b7b0",
+    "role": "user",
+    "content": "Write a Python function parse_csv.py that parses CSV files and add unit tests",
+    "name": null,
+    "tool_call_id": null,
+    "tool_calls": [],
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "latency_ms": 0.0,
+    "created_at": "2026-10-06T14:31:03.421439",
+    "metadata": {
+     "kind": "user_goal",
+     "title": "Write a Python function parse_csv.py that parses CSV files and add unit tests"
+    }
+   }
+  ]
+ },
+ "metrics_text_preview": "# HELP python_gc_objects_collected_total Objects collected during gc\n# TYPE python_gc_objects_collected_total counter\npython_gc_objects_collected_total{generation=\"0\"} 18547.0\npython_gc_objects_collected_total{generation=\"1\"} 2518.0\npython_gc_objects_collected_total{generation=\"2\"} 134.0\n# HELP python_gc_objects_uncollectable_total Uncollectable objects found during GC\n# TYPE python_gc_objects_uncollectable_total counter\npython_gc_objects_uncollectable_total{generation=\"0\"} 0.0\npython_gc_objects_uncollectable_total{generation=\"1\"} 0.0\npython_gc_objects_uncollectable_total{generation=\"2\"} 0.0\n# HELP python_gc_collections_total Number of times this generation was collected\n# TYPE python_gc_collections_total counter\npython_gc_collections_total{generation=\"0\"} 142.0\npython_gc_collections_total{generation=\"1\"} 12.0\npython_gc_collections_total{generation=\"2\"} 1.0\n# HELP python_info Python platform information\n# TYPE python_info gauge\npython_info{implementation=\"CPython\",major=\"3\",minor=\"13\",patchlevel=\"2\",version=\"3.13.2\"} 1.0\n# HELP backend_http_requests_total Total HTTP requests handled by the backend v1 API.\n# TYPE backend_http_requests_total counter\nbackend_http_requests_total{method=\"GET\",route=\"/\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"GET\",route=\"/health/livez\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"GET\",route=\"/health/readyz\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"GET\",route=\"/v1/health\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"GET\",route=\"/v1/kernel/state\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"GET\",route=\"/v1/kernel/stats\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"GET\",route=\"/v1/kernel/traces\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"POST\",route=\"/v1/auth/login\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"GET\",route=\"/v1/auth/me\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"GET\",route=\"/v1/auth/me\",status=\"401\"} 3.0\nbackend_http_requests_total{method=\"POST\",route=\"/v1/auth/refresh\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"POST\",route=\"/v1/auth/login\",status=\"401\"} 7.0\nbackend_http_requests_total{method=\"POST\",route=\"/v1/auth/login\",status=\"422\"} 1.0\nbackend_http_requests_total{method=\"POST\",route=\"/v1/auth/login\",status=\"429\"} 2.0\nbackend_http_requests_total{method=\"GET\",route=\"/v1/observability/summary\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"GET\",route=\"/v1/agents\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"POST\",route=\"/v1/agents/invoke\",status=\"200\"} 3.0\nbackend_http_requests_total{method=\"POST\",route=\"/v1/agents/invoke\",status=\"400\"} 1.0\nbackend_http_requests_total{method=\"POST\",route=\"/v1/runs/plan\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"POST\",route=\"/v1/runs/execute\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"GET\",route=\"/v1/runs/6dd62f35-790a-42b5-819e-0b27c50e6286/executions\",status=\"200\"} 1.0\nbackend_http_requests_total{method=\"POST\",route=\"/v1/runs/exec",
+ "metrics_content_type": "text/plain; version=1.0.0; charset=utf-8",
+ "llm_benchmark_runs": [
+  {
+   "provider": "ollama",
+   "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+   "reachable": true,
+   "used_mock": false,
+   "prompt_tokens": 191,
+   "completion_tokens": 150,
+   "total_tokens": 341,
+   "latency_ms": 6660.73,
+   "first_token_latency_ms": 1665.18,
+   "prompt_tokens_per_sec": 28.68,
+   "completion_tokens_per_sec": 22.52,
+   "fallback_provider": "ollama",
+   "error": null
+  },
+  {
+   "provider": "ollama",
+   "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+   "reachable": true,
+   "used_mock": false,
+   "prompt_tokens": 191,
+   "completion_tokens": 150,
+   "total_tokens": 341,
+   "latency_ms": 6276.2,
+   "first_token_latency_ms": 1569.05,
+   "prompt_tokens_per_sec": 30.43,
+   "completion_tokens_per_sec": 23.9,
+   "fallback_provider": "ollama",
+   "error": null
+  },
+  {
+   "provider": "ollama",
+   "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+   "reachable": true,
+   "used_mock": false,
+   "prompt_tokens": 191,
+   "completion_tokens": 150,
+   "total_tokens": 341,
+   "latency_ms": 6379.34,
+   "first_token_latency_ms": 1594.84,
+   "prompt_tokens_per_sec": 29.94,
+   "completion_tokens_per_sec": 23.51,
+   "fallback_provider": "ollama",
+   "error": null
+  },
+  {
+   "provider": "ollama",
+   "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+   "reachable": true,
+   "used_mock": false,
+   "prompt_tokens": 912,
+   "completion_tokens": 871,
+   "total_tokens": 1783,
+   "latency_ms": 37629.73,
+   "first_token_latency_ms": 9407.43,
+   "prompt_tokens_per_sec": 24.24,
+   "completion_tokens_per_sec": 23.15,
+   "fallback_provider": "ollama",
+   "error": null
+  },
+  {
+   "provider": "ollama",
+   "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+   "reachable": true,
+   "used_mock": false,
+   "prompt_tokens": 912,
+   "completion_tokens": 871,
+   "total_tokens": 1783,
+   "latency_ms": 35911.4,
+   "first_token_latency_ms": 8977.85,
+   "prompt_tokens_per_sec": 25.4,
+   "completion_tokens_per_sec": 24.25,
+   "fallback_provider": "ollama",
+   "error": null
+  },
+  {
+   "provider": "ollama",
+   "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+   "reachable": true,
+   "used_mock": false,
+   "prompt_tokens": 912,
+   "completion_tokens": 871,
+   "total_tokens": 1783,
+   "latency_ms": 35793.15,
+   "first_token_latency_ms": 8948.29,
+   "prompt_tokens_per_sec": 25.48,
+   "completion_tokens_per_sec": 24.33,
+   "fallback_provider": "ollama",
+   "error": null
+  },
+  {
+   "provider": "ollama",
+   "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+   "reachable": true,
+   "used_mock": true,
+   "prompt_tokens": 1024,
+   "completion_tokens": 128,
+   "total_tokens": 1152,
+   "latency_ms": 120025.26,
+   "first_token_latency_ms": 42008.84,
+   "prompt_tokens_per_sec": 8.53,
+   "completion_tokens_per_sec": 1.07,
+   "fallback_provider": "ollama",
+   "error": "TimeoutError: "
+  },
+  {
+   "provider": "ollama",
+   "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+   "reachable": true,
+   "used_mock": true,
+   "prompt_tokens": 1024,
+   "completion_tokens": 128,
+   "total_tokens": 1152,
+   "latency_ms": 120028.4,
+   "first_token_latency_ms": 42009.94,
+   "prompt_tokens_per_sec": 8.53,
+   "completion_tokens_per_sec": 1.07,
+   "fallback_provider": "ollama",
+   "error": "TimeoutError: "
+  },
+  {
+   "provider": "ollama",
+   "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+   "reachable": true,
+   "used_mock": true,
+   "prompt_tokens": 1024,
+   "completion_tokens": 128,
+   "total_tokens": 1152,
+   "latency_ms": 120024.97,
+   "first_token_latency_ms": 42008.74,
+   "prompt_tokens_per_sec": 8.53,
+   "completion_tokens_per_sec": 1.07,
+   "fallback_provider": "ollama",
+   "error": "TimeoutError: "
+  }
+ ]
+}
